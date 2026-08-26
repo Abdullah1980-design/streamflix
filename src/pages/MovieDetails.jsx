@@ -38,11 +38,7 @@ function MovieDetails({ addToWatchlist }) {
   }, [title]);
 
   if (loading) {
-    return (
-      <h1 className="loading">
-        Movie Loading...
-      </h1>
-    );
+    return <div className="loading">Movie Loading...</div>;
   }
 
   if (!movie) {
@@ -51,86 +47,99 @@ function MovieDetails({ addToWatchlist }) {
         <h1>Movie Not Found</h1>
 
         <Link to="/">
-          <button className="back-btn">
-            ← Back Home
-          </button>
+          <button className="back-btn">← Back Home</button>
         </Link>
       </div>
     );
   }
 
   return (
-    <div className="movie-details">
+    <div className="movie-details-page">
 
-      <div className="details-poster">
-        <img
-          src={movie.poster}
-          alt={movie.title}
-        />
-      </div>
+      {/* MOVIE DETAILS */}
+      <div className="movie-details">
 
-      <div className="details-info">
-
-        <h1>{movie.title}</h1>
-
-        <div className="details-meta">
-          <span>⭐ {movie.rating}</span>
-          <span>{movie.category}</span>
+        <div className="details-poster">
+          <img
+            src={movie.poster}
+            alt={movie.title}
+            onError={(e) => {
+              e.currentTarget.style.display = "none";
+            }}
+          />
         </div>
 
-        <p>
-          {movie.description}
-        </p>
+        <div className="details-info">
 
-        <div className="details-buttons">
+          <h1>{movie.title}</h1>
 
-          <button
-            className="play-btn"
-            onClick={() => setShowPlayer(true)}
-          >
-            ▶ Watch Now
-          </button>
+          <div className="details-meta">
+            <span>⭐ {movie.rating}</span>
+            <span>{movie.category}</span>
+          </div>
 
-          {addToWatchlist && (
+          <p>{movie.description}</p>
+
+          {/* ACTION BUTTONS */}
+          <div className="details-buttons">
+
             <button
-              className="back-btn"
-              onClick={() => addToWatchlist(movie)}
+              className="watch-now-btn"
+              onClick={() => setShowPlayer(true)}
             >
-              + Watchlist
+              ▶ Watch Now
             </button>
-          )}
+
+            {addToWatchlist && (
+              <button
+                className="watchlist-btn"
+                onClick={() => addToWatchlist(movie)}
+              >
+                + Watchlist
+              </button>
+            )}
+
+          </div>
+
+          {/* BACK BUTTON */}
+          <Link to="/" className="back-link">
+            ← Back Home
+          </Link>
 
         </div>
-
-        <Link to="/">
-          <button className="back-btn">
-            ← Back Home
-          </button>
-        </Link>
-
       </div>
 
+      {/* VIDEO PLAYER */}
       {showPlayer && (
-        <div className="video-player">
-          <button
-            className="back-btn"
-            onClick={() => setShowPlayer(false)}
-          >
-            ✕ Close
-          </button>
+        <div className="player-section">
+
+          <div className="player-header">
+
+            <h2>▶ {movie.title}</h2>
+
+            <button
+              className="close-player-btn"
+              onClick={() => setShowPlayer(false)}
+            >
+              ✕ Close Player
+            </button>
+
+          </div>
 
           {movie.videoUrl && movie.videoUrl !== "#" ? (
             <video
+              className="main-video-player"
               controls
               autoPlay
               src={movie.videoUrl}
-              width="100%"
             />
           ) : (
-            <p>
-              Video is not available yet.
-            </p>
+            <div className="video-unavailable">
+              <h3>Video Not Available</h3>
+              <p>This movie doesn't have a video yet.</p>
+            </div>
           )}
+
         </div>
       )}
 

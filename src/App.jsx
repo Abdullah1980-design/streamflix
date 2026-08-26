@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-
+import SplashScreen from "./components/SplashScreen";
 import Nav from "./components/Nav";
 import Footer from "./components/footer";
 
@@ -67,16 +67,17 @@ function App() {
   };
 
   return (
-    <BrowserRouter>
+  <BrowserRouter>
 
-      <Nav
-        search={search}
-        setSearch={setSearch}
-        watchlist={watchlist}
-        isLoggedIn={isLoggedIn}
-        setIsLoggedIn={setIsLoggedIn}
-      />
+    <SplashScreen />
 
+    <Nav
+      search={search}
+      setSearch={setSearch}
+      watchlist={watchlist}
+      isLoggedIn={isLoggedIn}
+      setIsLoggedIn={setIsLoggedIn}
+    />
       <Routes>
 
         <Route
