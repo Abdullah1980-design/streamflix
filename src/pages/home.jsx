@@ -6,16 +6,23 @@ import axios from "axios";
 
 function Home({ search }) {
   const [movies, setMovies] = useState([]);
+  const [trending, setTrending] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchMovies = async () => {
       try {
-        const res = await axios.get(
-          "https://streamflix-production-30f2.up.railway.app/api/movies"
-        );
+        const [moviesRes, trendingRes] = await Promise.all([
+          axios.get(
+            "https://streamflix-production-30f2.up.railway.app/api/movies"
+          ),
+          axios.get(
+            "https://streamflix-production-30f2.up.railway.app/api/movies/trending"
+          ),
+        ]);
 
-        setMovies(res.data);
+        setMovies(moviesRes.data);
+        setTrending(trendingRes.data);
       } catch (err) {
         console.log("HOME MOVIES ERROR:", err);
       } finally {
@@ -26,63 +33,52 @@ function Home({ search }) {
     fetchMovies();
   }, []);
 
-  const filteredMovies = movies.filter((movie) =>
-    movie.title
-      ?.toLowerCase()
-      .includes((search || "").toLowerCase())
-  );
+  const matchesSearch = (movie) =>
+    movie.title?.toLowerCase().includes((search || "").toLowerCase());
+
+  const popularMovies = movies
+    .filter(
+      (movie) => movie.category === "Movie" && matchesSearch(movie)
+    )
+    .slice(0, 10);
+
+  const trendingMovies = trending.filter(matchesSearch);
 
   return (
     <div className="home">
-
       <Hero />
 
-      <section>
+      {loading ? (
+        <p>Loading movies...</p>
+      ) : (
+        <>
+          <section>
+            <h2>🔥 Trending</h2>
 
-        <h2>🔥 Trending Movies</h2>
+            <div className="movie-grid">
+              {trendingMovies.map((movie) => (
+                <MovieCard
+                  key={movie._id}
+                  movie={movie}
+                />
+              ))}
+            </div>
+          </section>
 
-        {loading ? (
-          <p>Loading movies...</p>
-        ) : filteredMovies.length === 0 ? (
-          <p>No movies found 🔍</p>
-        ) : (
-          <div className="movie-grid">
+          <section>
+            <h2>🎬 Popular Movies</h2>
 
-            {filteredMovies.map((movie) => (
-              <MovieCard
-                key={movie._id}
-                movie={movie}
-              />
-            ))}
-
-          </div>
-        )}
-
-      </section>
-
-      <section>
-
-        <h2>🎬 Popular Movies</h2>
-
-        <div className="movie-grid">
-
-          {movies
-            .filter(
-              (movie) =>
-                movie.category === "Movie"
-            )
-            .slice(0, 5)
-            .map((movie) => (
-              <MovieCard
-                key={movie._id}
-                movie={movie}
-              />
-            ))}
-
-        </div>
-
-      </section>
-
+            <div className="movie-grid">
+              {popularMovies.map((movie) => (
+                <MovieCard
+                  key={movie._id}
+                  movie={movie}
+                />
+              ))}
+            </div>
+          </section>
+        </>
+      )}
     </div>
   );
 }

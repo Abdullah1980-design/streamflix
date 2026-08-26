@@ -62,98 +62,75 @@ function MovieDetails({ addToWatchlist }) {
   return (
     <div className="movie-details">
 
-      <div
-        className="backdrop"
-        style={{
-          backgroundImage: `
-            linear-gradient(
-              to right,
-              rgba(0,0,0,.95),
-              rgba(0,0,0,.4)
-            ),
-            url(${movie.poster})
-          `,
-        }}
-      >
+      <div className="details-poster">
+        <img
+          src={movie.poster}
+          alt={movie.title}
+        />
+      </div>
 
-        <div className="details-content">
+      <div className="details-info">
 
-          <img
-            src={movie.poster}
-            alt={movie.title}
-            className="detail-poster"
-          />
+        <h1>{movie.title}</h1>
 
-          <div className="info">
+        <div className="details-meta">
+          <span>⭐ {movie.rating}</span>
+          <span>{movie.category}</span>
+        </div>
 
-            <h1>{movie.title}</h1>
+        <p>
+          {movie.description}
+        </p>
 
-            <div className="tags">
+        <div className="details-buttons">
 
-              <span>
-                ⭐ {movie.rating || "N/A"}
-              </span>
+          <button
+            className="play-btn"
+            onClick={() => setShowPlayer(true)}
+          >
+            ▶ Watch Now
+          </button>
 
-              <span>
-                {movie.category || "Movie"}
-              </span>
-
-            </div>
-
-            <p>
-              {movie.description}
-            </p>
-
+          {addToWatchlist && (
             <button
-              className="watch-btn"
-              onClick={() => setShowPlayer(true)}
+              className="back-btn"
+              onClick={() => addToWatchlist(movie)}
             >
-              ▶ Watch Now
+              + Watchlist
             </button>
-
-            <button
-  className="list-btn"
-  onClick={() => addToWatchlist(movie)}
->
-  + Add to Watchlist
-</button>
-
-            <Link to="/">
-              <button className="back-btn">
-                ← Back
-              </button>
-            </Link>
-
-          </div>
+          )}
 
         </div>
+
+        <Link to="/">
+          <button className="back-btn">
+            ← Back Home
+          </button>
+        </Link>
 
       </div>
 
       {showPlayer && (
-        <div className="video-section">
-
-          <h2>
-            🎬 {movie.title}
-          </h2>
+        <div className="video-player">
+          <button
+            className="back-btn"
+            onClick={() => setShowPlayer(false)}
+          >
+            ✕ Close
+          </button>
 
           {movie.videoUrl && movie.videoUrl !== "#" ? (
             <video
-              className="video-player"
               controls
+              autoPlay
               src={movie.videoUrl}
-            >
-              Your browser does not support video playback.
-            </video>
+              width="100%"
+            />
           ) : (
-            <div className="video-unavailable">
-              <h3>🎬 Video Not Available</h3>
-              <p>
-                This movie does not have a playable video yet.
-              </p>
-            </div>
+            <p>
+              Video is not available yet.
+            </p>
           )}
-
         </div>
       )}
 

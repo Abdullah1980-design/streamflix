@@ -2,31 +2,22 @@ import { Link } from "react-router-dom";
 
 function MovieCard({ movie }) {
   return (
-   <Link
-  to={`/movie/${encodeURIComponent(movie.title)}`}
-  className="card-link"
->
-      <div className="movie-card">
-        <img
-          src={movie.poster}
-          alt={movie.title}
-        />
+    <Link
+      to={`/movie/${encodeURIComponent(movie.title)}`}
+      className="movie-card"
+    >
+      <img
+        src={movie.poster}
+        alt={movie.title}
+        className="movie-poster"
+        onError={(e) => {
+          e.currentTarget.style.display = "none";
+        }}
+      />
 
-        <div className="card-overlay">
-          <button
-            className="play-btn"
-            onClick={(e) => e.preventDefault()}
-          >
-            ▶
-          </button>
-
-          <h3>{movie.title}</h3>
-
-          <div className="meta">
-            <span>⭐ {movie.rating || "8.5"}</span>
-            <span>{movie.category || "Movie"}</span>
-          </div>
-        </div>
+      <div className="movie-info">
+        <h3>{movie.title}</h3>
+        <p>⭐ {movie.rating}</p>
       </div>
     </Link>
   );
