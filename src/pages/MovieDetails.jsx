@@ -16,7 +16,7 @@ function MovieDetails({ addToWatchlist }) {
         const movieTitle = decodeURIComponent(title);
 
         const res = await axios.get(
-          "http://localhost:5000/api/movies/search",
+          "https://streamflix-production-30f2.up.railway.app/api/movies/search",
           {
             params: {
               title: movieTitle,

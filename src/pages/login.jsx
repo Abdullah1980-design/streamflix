@@ -33,8 +33,8 @@ function Login({ setIsLoggedIn }) {
       setLoading(true);
 
       const endpoint = isSignup
-        ? "http://localhost:5000/api/auth/signup"
-        : "http://localhost:5000/api/auth/login";
+        ? "https://streamflix-production-30f2.up.railway.app/api/auth/signup"
+        : "https://streamflix-production-30f2.up.railway.app/api/auth/login";
 
       const res = await axios.post(endpoint, {
         ...(isSignup && { name }),

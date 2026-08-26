@@ -11,7 +11,7 @@ function Movies({ addToWatchlist }) {
     const fetchMovies = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:5000/api/movies/category/Movie"
+          "https://streamflix-production-30f2.up.railway.app/api/movies/category/Movie"
         );
 
         console.log("MOVIES PAGE RESPONSE:", res.data);

@@ -10,7 +10,7 @@ function Anime({ addToWatchlist }) {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/movies/category/Anime")
+      .get("https://streamflix-production-30f2.up.railway.app/api/movies/category/Anime")
       .then((res) => {
         console.log("ANIME API RESPONSE:", res.data);
         setAnime(res.data);

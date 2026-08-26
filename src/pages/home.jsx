@@ -12,7 +12,7 @@ function Home({ search }) {
     const fetchMovies = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:5000/api/movies"
+          "https://streamflix-production-30f2.up.railway.app/api/movies"
         );
 
         setMovies(res.data);

@@ -22,7 +22,7 @@ function Profile({ watchlist }) {
         }
 
         const res = await axios.get(
-          "http://localhost:5000/api/auth/profile",
+          "https://streamflix-production-30f2.up.railway.app/api/auth/profile",
           {
             headers: {
               Authorization: `Bearer ${token}`

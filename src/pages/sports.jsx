@@ -10,7 +10,7 @@ function Sports({ addToWatchlist }) {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/movies/category/Sports")
+      .get("https://streamflix-production-30f2.up.railway.app/api/movies/category/Sports")
       .then((res) => {
         console.log("SPORTS API RESPONSE:", res.data);
         setSports(res.data);
