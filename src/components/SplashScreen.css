@@ -1,12 +1,40 @@
+/* =====================================================
+   STREAMFLIX — CINEMATIC PREMIUM INTRO
+   TOTAL: ~4.2 SECONDS
 
-/* =========================================================
-   STREAMFLIX — CINEMATIC SPLASH SCREEN
-   Premium TV + Glow + Stars + Screen FX
-========================================================= */
+   FLOW:
+
+   BLACK
+      ↓
+   TV ENTERS CENTER
+      ↓
+   TV MOVES LEFT
+      ↓
+   SCREEN STARTUP
+      ↓
+   S LOGO APPEARS
+      ↓
+   LIGHT SWEEP
+      ↓
+   STREAMFLIX COMES OUT OF TV
+      ↓
+   ENTERTAINMENT LINES FADE IN
+      ↓
+   FINAL FADE
+===================================================== */
+
+
+/* =====================================================
+   MAIN SPLASH
+===================================================== */
 
 .splash-screen {
   position: fixed;
   inset: 0;
+
+  width: 100%;
+  height: 100%;
+
   z-index: 99999;
 
   display: flex;
@@ -17,909 +45,1359 @@
 
   background:
     radial-gradient(
-      circle at 50% 45%,
-      #171717 0%,
-      #090909 38%,
-      #020202 72%,
+      circle at 50% 48%,
+      #210507 0%,
+      #0d0203 34%,
+      #050505 70%,
       #000 100%
     );
 
-  animation: splashFadeOut 1.15s ease 5.8s forwards;
-
-  isolation: isolate;
+  animation:
+    splashExit .5s cubic-bezier(.4, 0, .2, 1) 3.75s forwards;
 }
 
 
-/* =========================================================
-   CINEMATIC ATMOSPHERE
-========================================================= */
+/* =====================================================
+   CINEMATIC RED LIGHT
+===================================================== */
 
-.splash-screen::before {
-  content: "";
-  position: absolute;
-  inset: -20%;
-
-  background:
-    radial-gradient(
-      ellipse at center,
-      rgba(229, 9, 20, 0.08),
-      transparent 55%
-    );
-
-  filter: blur(35px);
-
-  animation: atmospherePulse 3.5s ease-in-out infinite;
-}
-
-.splash-screen::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-
-  background:
-    linear-gradient(
-      rgba(255,255,255,0.018) 1px,
-      transparent 1px
-    );
-
-  background-size: 100% 5px;
-
-  opacity: 0.18;
-
-  pointer-events: none;
-
-  z-index: 50;
-}
-
-
-/* =========================================================
-   STARS
-========================================================= */
-
-.stars {
-  position: absolute;
-  inset: 0;
-
-  overflow: hidden;
-
-  z-index: 1;
-}
-
-.star {
+.splash-light {
   position: absolute;
 
-  width: 3px;
-  height: 3px;
+  width: 620px;
+  height: 340px;
+
+  left: 50%;
+  top: 50%;
+
+  transform:
+    translate(-50%, -50%)
+    scale(.5);
 
   border-radius: 50%;
 
-  background: white;
+  background: #e50914;
+
+  filter: blur(145px);
 
   opacity: 0;
 
-  box-shadow:
-    0 0 5px rgba(255,255,255,.8),
-    0 0 12px rgba(255,255,255,.35);
+  pointer-events: none;
 
   animation:
-    starAppear 1.4s ease forwards,
-    starTwinkle 2.4s ease-in-out infinite;
+    lightAppear .9s cubic-bezier(.16, 1, .3, 1) .1s forwards,
+    lightPulse 2.5s ease-in-out 1.2s infinite;
 }
 
 
-/* STAR POSITIONS */
+/* =====================================================
+   STAGE
+===================================================== */
 
-.star:nth-child(1)  { left: 8%;  top: 15%; animation-delay: .2s; }
-.star:nth-child(2)  { left: 17%; top: 35%; animation-delay: .5s; }
-.star:nth-child(3)  { left: 28%; top: 12%; animation-delay: .8s; }
-.star:nth-child(4)  { left: 39%; top: 25%; animation-delay: .3s; }
-.star:nth-child(5)  { left: 51%; top: 10%; animation-delay: .7s; }
-.star:nth-child(6)  { left: 63%; top: 30%; animation-delay: .4s; }
-.star:nth-child(7)  { left: 74%; top: 17%; animation-delay: .9s; }
-.star:nth-child(8)  { left: 86%; top: 35%; animation-delay: .6s; }
-.star:nth-child(9)  { left: 94%; top: 12%; animation-delay: .2s; }
-
-.star:nth-child(10) { left: 12%; top: 65%; animation-delay: .7s; }
-.star:nth-child(11) { left: 23%; top: 80%; animation-delay: .4s; }
-.star:nth-child(12) { left: 35%; top: 70%; animation-delay: .9s; }
-.star:nth-child(13) { left: 47%; top: 85%; animation-delay: .3s; }
-.star:nth-child(14) { left: 58%; top: 65%; animation-delay: .8s; }
-.star:nth-child(15) { left: 69%; top: 78%; animation-delay: .5s; }
-.star:nth-child(16) { left: 81%; top: 60%; animation-delay: .2s; }
-.star:nth-child(17) { left: 91%; top: 82%; animation-delay: .7s; }
-
-.star:nth-child(18) { left: 5%;  top: 48%; animation-delay: .5s; }
-.star:nth-child(19) { left: 32%; top: 48%; animation-delay: .8s; }
-.star:nth-child(20) { left: 45%; top: 38%; animation-delay: .4s; }
-.star:nth-child(21) { left: 57%; top: 48%; animation-delay: .9s; }
-.star:nth-child(22) { left: 77%; top: 45%; animation-delay: .6s; }
-
-.star:nth-child(23) { left: 15%; top: 10%; animation-delay: .3s; }
-.star:nth-child(24) { left: 27%; top: 90%; animation-delay: .6s; }
-.star:nth-child(25) { left: 42%; top: 18%; animation-delay: .9s; }
-.star:nth-child(26) { left: 62%; top: 88%; animation-delay: .4s; }
-.star:nth-child(27) { left: 73%; top: 8%;  animation-delay: .7s; }
-.star:nth-child(28) { left: 88%; top: 70%; animation-delay: .5s; }
-
-.star:nth-child(29) { left: 20%; top: 55%; animation-delay: .8s; }
-.star:nth-child(30) { left: 53%; top: 75%; animation-delay: .3s; }
-.star:nth-child(31) { left: 67%; top: 20%; animation-delay: .6s; }
-.star:nth-child(32) { left: 83%; top: 50%; animation-delay: .9s; }
-.star:nth-child(33) { left: 4%;  top: 88%; animation-delay: .4s; }
-.star:nth-child(34) { left: 96%; top: 55%; animation-delay: .7s; }
-.star:nth-child(35) { left: 48%; top: 5%;  animation-delay: .2s; }
-
-
-/* =========================================================
-   TV WRAPPER
-========================================================= */
-
-.tv-wrapper {
+.splash-stage {
   position: relative;
+
+  width: min(1100px, 100vw);
+  height: 600px;
+
+  perspective: 1200px;
+
+  overflow: visible;
+}
+
+
+/* =====================================================
+   TV
+===================================================== */
+
+.intro-tv {
+  position: absolute;
+
+  width: 330px;
+  height: 255px;
+
+  left: 50%;
+  top: 50%;
 
   z-index: 10;
 
-  transform:
-    translateY(-120vh)
-    rotate(-18deg)
-    scale(.65);
-
-  animation:
-    tvEnter 1.8s cubic-bezier(.18,.88,.25,1.2) 1.1s forwards,
-    tvShake .35s ease 3s forwards,
-    tvExit 1s cubic-bezier(.4,0,.2,1) 5s forwards;
-}
-
-
-/* =========================================================
-   TV FLOOR SHADOW / IMPACT GLOW
-========================================================= */
-
-.tv-wrapper::after {
-  content: "";
-
-  position: absolute;
-
-  left: 50%;
-  bottom: -85px;
-
-  width: 340px;
-  height: 70px;
-
-  transform: translateX(-50%);
-
-  background:
-    radial-gradient(
-      ellipse,
-      rgba(229,9,20,.35),
-      rgba(229,9,20,.08) 45%,
-      transparent 72%
-    );
-
-  filter: blur(18px);
-
   opacity: 0;
 
+  transform:
+    translate(-50%, -50%)
+    scale(.55)
+    rotate(-10deg);
+
   animation:
-    impactGlow .8s ease 2.75s forwards,
-    impactFade 1s ease 5s forwards;
+    tvEnter 1.35s cubic-bezier(.16, 1, .3, 1) forwards,
+    tvMoveLeft .8s cubic-bezier(.16, 1, .3, 1) 1.35s forwards;
+
+  will-change: transform, opacity;
 }
 
 
-/* =========================================================
+/* =====================================================
    TV BODY
-========================================================= */
+===================================================== */
 
-.tv {
-  position: relative;
+.tv-body {
+  position: absolute;
 
-  width: 430px;
-  height: 300px;
+  top: 35px;
 
-  padding: 20px;
+  width: 100%;
+  height: 195px;
+
+  padding: 14px;
+
+  box-sizing: border-box;
+
+  display: flex;
+
+  border-radius: 30px;
 
   background:
     linear-gradient(
       145deg,
-      #3b3b3b 0%,
-      #191919 35%,
-      #0d0d0d 70%,
-      #030303 100%
+      #383838 0%,
+      #1a1a1a 38%,
+      #080808 75%,
+      #160304 100%
     );
 
-  border: 5px solid #444;
-
-  border-radius: 38px;
+  border: 3px solid #e50914;
 
   box-shadow:
-    0 35px 80px rgba(0,0,0,.95),
-    0 0 45px rgba(229,9,20,.12),
-    inset 0 0 25px rgba(255,255,255,.08);
-
-  transform-origin: center bottom;
+    0 0 12px rgba(229, 9, 20, .8),
+    0 0 38px rgba(229, 9, 20, .28),
+    0 25px 55px rgba(0, 0, 0, .72),
+    inset 0 0 25px rgba(255,255,255,.04);
 }
 
 
-/* TV top shine */
-
-.tv::before {
-  content: "";
-
-  position: absolute;
-
-  top: 7px;
-  left: 45px;
-  right: 45px;
-
-  height: 3px;
-
-  border-radius: 50%;
-
-  background:
-    linear-gradient(
-      90deg,
-      transparent,
-      rgba(255,255,255,.18),
-      transparent
-    );
-
-  filter: blur(1px);
-}
-
-
-/* TV red reflection */
-
-.tv::after {
-  content: "";
-
-  position: absolute;
-
-  inset: 5px;
-
-  border-radius: 34px;
-
-  pointer-events: none;
-
-  box-shadow:
-    inset 0 0 45px rgba(229,9,20,.08);
-
-  opacity: 0;
-
-  animation: tvRedReflection 1.5s ease 2.8s forwards;
-}
-
-
-/* =========================================================
+/* =====================================================
    TV SCREEN
-========================================================= */
+
+   IMPORTANT:
+   visible overflow allows the brand to visually
+   cross the TV screen boundary.
+===================================================== */
 
 .tv-screen {
   position: relative;
 
-  width: 100%;
-  height: 100%;
+  flex: 1;
 
-  overflow: hidden;
+  height: 160px;
+
+  overflow: visible;
 
   display: flex;
+
   align-items: center;
   justify-content: center;
 
+  border-radius: 22px;
+
   background:
     radial-gradient(
-      circle at center,
-      #202020 0%,
-      #090909 55%,
-      #000 100%
+      circle at 50% 48%,
+      #191919 0%,
+      #080808 55%,
+      #010101 100%
     );
 
-  border: 7px solid #050505;
-
-  border-radius: 25px;
+  border: 5px solid #090909;
 
   box-shadow:
     inset 0 0 35px #000,
-    inset 0 0 80px rgba(0,0,0,.8);
+    inset 0 0 10px rgba(229, 9, 20, .14);
+
+  z-index: 2;
 }
 
 
-/* =========================================================
-   SCREEN SCANLINES
-========================================================= */
-
-.tv-screen::before {
-  content: "";
-
-  position: absolute;
-  inset: 0;
-
-  background:
-    repeating-linear-gradient(
-      to bottom,
-      rgba(255,255,255,.025) 0px,
-      rgba(255,255,255,.025) 1px,
-      transparent 2px,
-      transparent 5px
-    );
-
-  opacity: .5;
-
-  pointer-events: none;
-
-  z-index: 4;
-}
-
-
-/* Screen flicker */
+/* =====================================================
+   SCREEN DARK INNER EDGE
+===================================================== */
 
 .tv-screen::after {
   content: "";
 
   position: absolute;
+
   inset: 0;
 
+  border-radius: 17px;
+
+  pointer-events: none;
+
+  box-shadow:
+    inset 0 0 30px #000;
+
+  z-index: 6;
+}
+
+
+/* =====================================================
+   SCREEN FLICKER
+===================================================== */
+
+.screen-flicker {
+  position: absolute;
+
+  inset: 0;
+
+  z-index: 2;
+
+  border-radius: 17px;
+
   background:
-    radial-gradient(
-      circle,
-      rgba(229,9,20,.12),
-      transparent 65%
+    repeating-linear-gradient(
+      0deg,
+      rgba(255,255,255,.025) 0px,
+      rgba(255,255,255,.025) 1px,
+      transparent 1px,
+      transparent 4px
     );
 
   opacity: 0;
 
   animation:
-    screenFlicker .15s ease 2.75s,
-    screenFlicker .15s ease 3.05s,
-    screenFlicker .15s ease 3.25s;
+    flicker .42s ease 1.25s forwards;
 
   pointer-events: none;
-
-  z-index: 3;
 }
 
 
-/* =========================================================
+@keyframes flicker {
+
+  0% {
+    opacity: 0;
+  }
+
+  12% {
+    opacity: .75;
+  }
+
+  24% {
+    opacity: .12;
+  }
+
+  38% {
+    opacity: .5;
+  }
+
+  52% {
+    opacity: .08;
+  }
+
+  72% {
+    opacity: .25;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+
+/* =====================================================
    SCREEN GLOW
-========================================================= */
+===================================================== */
 
 .screen-glow {
   position: absolute;
 
-  width: 180px;
-  height: 180px;
+  inset: 0;
 
-  border-radius: 50%;
+  border-radius: 17px;
 
   background:
     radial-gradient(
-      circle,
-      #e50914 0%,
-      rgba(229,9,20,.55) 30%,
-      transparent 70%
+      circle at center,
+      rgba(229, 9, 20, .24),
+      transparent 68%
     );
-
-  filter: blur(55px);
 
   opacity: 0;
 
   animation:
-    screenGlow 1.5s ease 2.7s forwards,
-    glowPulse 2s ease-in-out 3.6s infinite;
+    screenGlow .8s ease 1.3s forwards;
+
+  pointer-events: none;
+
+  z-index: 1;
 }
 
 
-/* =========================================================
-   LOGO
-========================================================= */
+@keyframes screenGlow {
 
-.streamflix-logo {
-  position: relative;
+  0% {
+    opacity: 0;
+    transform: scale(.88);
+  }
 
-  z-index: 6;
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
 
-  color: #e50914;
 
-  font-family: Arial, sans-serif;
+/* =====================================================
+   S LOGO INSIDE TV
+===================================================== */
 
-  font-size: 48px;
-  font-weight: 900;
+.s-logo {
+  position: absolute;
 
-  letter-spacing: 3px;
+  left: 50%;
+  top: 50%;
+
+  width: 62px;
+  height: 75px;
+
+  z-index: 5;
 
   opacity: 0;
 
   transform:
-    scale(.3)
-    translateY(25px);
+    translate(-50%, -50%)
+    scale(.4)
+    rotate(-10deg);
 
-  text-shadow:
-    0 0 8px rgba(229,9,20,.6),
-    0 0 20px rgba(229,9,20,.55),
-    0 0 45px rgba(229,9,20,.4);
+  filter:
+    drop-shadow(0 0 8px rgba(229,9,20,.6))
+    drop-shadow(0 0 24px rgba(229,9,20,.28));
 
   animation:
-    logoReveal 1.2s cubic-bezier(.2,.8,.2,1) 2.8s forwards,
-    logoPulse 1.8s ease-in-out 3.8s infinite,
-    logoBlur 1s ease 4.7s forwards;
-}
-
-.streamflix-logo span {
-  color: white;
-
-  text-shadow:
-    0 0 8px rgba(255,255,255,.25);
+    sAssemble .72s cubic-bezier(.16, 1, .3, 1) 1.65s forwards;
 }
 
 
-/* =========================================================
-   TV BOTTOM
-========================================================= */
+/* =====================================================
+   S RIBBONS
+===================================================== */
 
-.tv-bottom {
+.s-ribbon {
   position: absolute;
 
-  bottom: -10px;
+  width: 62px;
+  height: 25px;
 
-  left: 35px;
-  right: 35px;
+  border-radius: 15px;
 
-  height: 12px;
+  background:
+    linear-gradient(
+      135deg,
+      #ff343e 0%,
+      #e50914 35%,
+      #87040b 100%
+    );
 
-  background: #050505;
-
-  border-radius: 50%;
+  box-shadow:
+    inset 0 2px 2px rgba(255,255,255,.16),
+    inset 0 -3px 4px rgba(0,0,0,.25);
 }
 
 
-/* =========================================================
-   TV LEGS
-========================================================= */
+.s-ribbon-top {
+  top: 8px;
+  left: 0;
 
-.tv-leg {
+  transform:
+    rotate(18deg)
+    skewX(-15deg);
+}
+
+
+.s-ribbon-bottom {
+  right: 0;
+  bottom: 8px;
+
+  transform:
+    rotate(18deg)
+    skewX(-15deg);
+}
+
+
+/* =====================================================
+   S CENTER
+===================================================== */
+
+.s-logo::before {
+  content: "";
+
   position: absolute;
 
-  bottom: -38px;
+  width: 40px;
+  height: 25px;
 
-  width: 12px;
-  height: 40px;
+  left: 11px;
+  top: 25px;
+
+  border-radius: 10px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #d80712,
+      #78040a
+    );
+
+  transform:
+    rotate(-35deg)
+    skewX(-12deg);
+
+  z-index: -1;
+}
+
+
+/* =====================================================
+   S LIGHT SWEEP
+===================================================== */
+
+.s-highlight {
+  position: absolute;
+
+  top: -18px;
+  left: -65px;
+
+  width: 24px;
+  height: 115px;
 
   background:
     linear-gradient(
       90deg,
-      #111,
-      #333,
-      #111
+      transparent,
+      rgba(255,255,255,.72),
+      transparent
     );
 
-  border-radius: 0 0 8px 8px;
+  transform: rotate(18deg);
 
-  box-shadow:
-    0 5px 10px rgba(0,0,0,.6);
-}
+  opacity: 0;
 
-.tv-leg.left {
-  left: 70px;
+  animation:
+    sShine .7s ease 2.25s forwards;
 
-  transform: rotate(12deg);
-}
+  pointer-events: none;
 
-.tv-leg.right {
-  right: 70px;
-
-  transform: rotate(-12deg);
+  z-index: 8;
 }
 
 
-/* =========================================================
-   STAR ANIMATIONS
-========================================================= */
-
-@keyframes starAppear {
-  from {
-    opacity: 0;
-    transform: scale(.1);
-    filter: blur(2px);
-  }
-
-  to {
-    opacity: .8;
-    transform: scale(1);
-    filter: blur(0);
-  }
-}
-
-@keyframes starTwinkle {
-  50% {
-    opacity: .2;
-    transform: scale(.7);
-  }
-}
-
-
-/* =========================================================
-   ATMOSPHERE
-========================================================= */
-
-@keyframes atmospherePulse {
-  0%,
-  100% {
-    transform: scale(.9);
-    opacity: .5;
-  }
-
-  50% {
-    transform: scale(1.1);
-    opacity: 1;
-  }
-}
-
-
-/* =========================================================
-   TV ENTRY
-========================================================= */
-
-@keyframes tvEnter {
+@keyframes sShine {
 
   0% {
-    transform:
-      translateY(-120vh)
-      rotate(-18deg)
-      scale(.65);
+    opacity: 0;
+    left: -65px;
   }
 
-  55% {
+  20% {
+    opacity: .75;
+  }
+
+  100% {
+    opacity: 0;
+    left: 105px;
+  }
+}
+
+
+/* =====================================================
+   S ASSEMBLE
+===================================================== */
+
+@keyframes sAssemble {
+
+  0% {
+    opacity: 0;
+
     transform:
-      translateY(50px)
-      rotate(9deg)
-      scale(1.05);
+      translate(-50%, -50%)
+      scale(.4)
+      rotate(-10deg);
+  }
+
+  35% {
+    opacity: 1;
+
+    transform:
+      translate(-50%, -50%)
+      scale(1.08)
+      rotate(2deg);
   }
 
   70% {
     transform:
-      translateY(-24px)
-      rotate(-5deg)
-      scale(.98);
+      translate(-50%, -50%)
+      scale(.97)
+      rotate(-1deg);
   }
 
-  83% {
+  100% {
+    opacity: 1;
+
     transform:
-      translateY(12px)
-      rotate(3deg)
-      scale(1.02);
+      translate(-50%, -50%)
+      scale(1)
+      rotate(0deg);
+  }
+}
+
+
+/* =====================================================
+   EXTERNAL STREAMFLIX
+   TV KE ANDAR SE START HOGA
+   → SCREEN CROSS KAREGA
+   → TV KE RIGHT SIDE MEIN SETTLE HOGA
+===================================================== */
+
+.external-brand {
+  position: absolute;
+
+  /*
+    TV final position:
+    center se approx 215px left.
+
+    Brand TV ke right edge se
+    smoothly emerge karega.
+  */
+
+  left: calc(50% - 35px);
+  top: 50%;
+
+  z-index: 30;
+
+  opacity: 0;
+
+  pointer-events: none;
+
+  transform:
+    translate(-10px, -50%)
+    scale(.82);
+
+  animation:
+    externalBrandReveal
+    1.15s
+    cubic-bezier(.16, 1, .3, 1)
+    2.35s
+    forwards;
+
+  will-change: transform, opacity, filter;
+}
+
+
+/* =====================================================
+   STREAMFLIX TITLE
+===================================================== */
+
+.external-brand-title {
+  display: flex;
+
+  white-space: nowrap;
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  font-size: 46px;
+
+  line-height: 1;
+
+  font-weight: 900;
+
+  letter-spacing: -1.2px;
+
+  color: #fff;
+
+  text-shadow:
+    0 5px 20px rgba(0,0,0,.55),
+    0 0 18px rgba(255,255,255,.04);
+}
+
+
+.external-brand-title strong {
+  color: #e50914;
+
+  text-shadow:
+    0 0 20px rgba(229,9,20,.45);
+}
+
+
+/* =====================================================
+   ENTERTAINMENT COPY
+===================================================== */
+
+.external-brand-lines {
+  margin-top: 14px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 6px;
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  font-size: 11px;
+
+  font-weight: 500;
+
+  letter-spacing: 1.8px;
+
+  color: rgba(255,255,255,.58);
+}
+
+
+.external-brand-lines span {
+  opacity: 0;
+
+  transform:
+    translateY(8px);
+}
+
+
+/* FIRST LINE */
+
+.external-brand-lines span:first-child {
+  animation:
+    entertainmentLine
+    .5s ease
+    2.95s
+    forwards;
+}
+
+
+/* SECOND LINE */
+
+.external-brand-lines span:last-child {
+  animation:
+    entertainmentLine
+    .5s ease
+    3.08s
+    forwards;
+}
+
+
+/* =====================================================
+   BRAND EMERGING ANIMATION
+===================================================== */
+
+@keyframes externalBrandReveal {
+
+  /*
+    Brand starts hidden,
+    visually connected to TV.
+  */
+
+  0% {
+
+    opacity: 0;
+
+    transform:
+      translate(-10px, -50%)
+      scale(.72);
+
+    filter: blur(5px);
   }
 
-  92% {
+
+  /*
+    It becomes visible
+    while coming out.
+  */
+
+  15% {
+
+    opacity: .35;
+
+    filter: blur(3px);
+  }
+
+
+  /*
+    Crosses TV edge.
+  */
+
+  38% {
+
+    opacity: .7;
+
     transform:
-      translateY(-5px)
-      rotate(-1deg)
-      scale(.995);
+      translate(45px, -50%)
+      scale(.88);
+
+    filter: blur(1.5px);
+  }
+
+
+  /*
+    Mostly outside TV.
+  */
+
+  65% {
+
+    opacity: .92;
+
+    transform:
+      translate(125px, -50%)
+      scale(.97);
+
+    filter: blur(.4px);
+  }
+
+
+  /*
+    Final clean position.
+  */
+
+  100% {
+
+    opacity: 1;
+
+    transform:
+      translate(185px, -50%)
+      scale(1);
+
+    filter: blur(0);
+  }
+}
+
+
+/* =====================================================
+   SMALL RED BRAND LINE
+===================================================== */
+
+.external-brand-title::after {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+
+  bottom: -9px;
+
+  width: 0;
+
+  height: 2px;
+
+  background: #e50914;
+
+  box-shadow:
+    0 0 8px rgba(229,9,20,.6);
+
+  animation:
+    brandLine .55s ease 2.95s forwards;
+}
+
+
+@keyframes brandLine {
+
+  from {
+    width: 0;
+  }
+
+  to {
+    width: 100%;
+  }
+}
+
+
+/* =====================================================
+   ENTERTAINMENT LINE FADE
+===================================================== */
+
+@keyframes entertainmentLine {
+
+  0% {
+    opacity: 0;
+
+    transform:
+      translateY(8px);
+  }
+
+  100% {
+    opacity: 1;
+
+    transform:
+      translateY(0);
+  }
+}
+
+
+/* =====================================================
+   SCREEN SHINE
+===================================================== */
+
+.screen-shine {
+  position: absolute;
+
+  inset: -80%;
+
+  z-index: 9;
+
+  background:
+    linear-gradient(
+      115deg,
+      transparent 35%,
+      rgba(255,255,255,.13) 50%,
+      transparent 65%
+    );
+
+  transform:
+    translateX(-120%)
+    rotate(8deg);
+
+  animation:
+    screenShine
+    .95s
+    cubic-bezier(.16, 1, .3, 1)
+    1.55s
+    forwards;
+
+  pointer-events: none;
+}
+
+
+@keyframes screenShine {
+
+  0% {
+    transform:
+      translateX(-120%)
+      rotate(8deg);
   }
 
   100% {
     transform:
-      translateY(0)
-      rotate(0)
+      translateX(120%)
+      rotate(8deg);
+  }
+}
+
+
+/* =====================================================
+   TV CONTROLS
+===================================================== */
+
+.tv-controls {
+  width: 42px;
+
+  margin-left: 10px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 14px;
+}
+
+
+.tv-controls span {
+  width: 19px;
+  height: 19px;
+
+  border-radius: 50%;
+
+  background:
+    linear-gradient(
+      145deg,
+      #444,
+      #090909
+    );
+
+  border: 2px solid #555;
+
+  box-shadow:
+    inset 0 2px 3px rgba(255,255,255,.08),
+    0 2px 5px rgba(0,0,0,.5);
+}
+
+
+/* =====================================================
+   ANTENNAS
+===================================================== */
+
+.antenna {
+  position: absolute;
+
+  top: -30px;
+
+  width: 4px;
+  height: 65px;
+
+  border-radius: 10px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #444,
+      #888,
+      #444
+    );
+
+  transform-origin: bottom center;
+}
+
+
+.antenna-left {
+  left: 148px;
+
+  transform: rotate(-28deg);
+}
+
+
+.antenna-right {
+  left: 171px;
+
+  transform: rotate(28deg);
+}
+
+
+.antenna::after {
+  content: "";
+
+  position: absolute;
+
+  top: -4px;
+  left: -2px;
+
+  width: 8px;
+  height: 8px;
+
+  border-radius: 50%;
+
+  background: #e50914;
+
+  box-shadow:
+    0 0 8px #e50914,
+    0 0 18px rgba(229,9,20,.45);
+}
+
+
+/* =====================================================
+   TV FEET
+===================================================== */
+
+.tv-feet {
+  position: absolute;
+
+  bottom: 0;
+  left: 0;
+
+  width: 100%;
+
+  display: flex;
+
+  justify-content: space-between;
+
+  padding: 0 45px;
+
+  box-sizing: border-box;
+}
+
+
+.tv-feet i {
+  width: 13px;
+  height: 48px;
+
+  border-radius: 4px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #090909,
+      #222,
+      #090909
+    );
+
+  border: 3px solid #3d3d3d;
+
+  transform: rotate(15deg);
+
+  box-shadow:
+    0 5px 10px rgba(0,0,0,.5);
+}
+
+
+/* =====================================================
+   FINAL TAGLINE
+===================================================== */
+
+.intro-tagline {
+  position: absolute;
+
+  left: 50%;
+  bottom: 9%;
+
+  transform:
+    translateX(-50%)
+    translateY(12px);
+
+  opacity: 0;
+
+  white-space: nowrap;
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  font-size: 10px;
+
+  font-weight: 600;
+
+  letter-spacing: 4px;
+
+  color: rgba(255,255,255,.48);
+
+  animation:
+    taglineFade
+    .6s
+    ease
+    3.15s
+    forwards;
+}
+
+
+@keyframes taglineFade {
+
+  from {
+
+    opacity: 0;
+
+    transform:
+      translateX(-50%)
+      translateY(12px);
+  }
+
+  to {
+
+    opacity: 1;
+
+    transform:
+      translateX(-50%)
+      translateY(0);
+  }
+}
+
+
+/* =====================================================
+   TV ENTER
+===================================================== */
+
+@keyframes tvEnter {
+
+  0% {
+
+    opacity: 0;
+
+    transform:
+      translate(-50%, -50%)
+      scale(.55)
+      rotate(-10deg);
+  }
+
+  40% {
+
+    opacity: 1;
+
+    transform:
+      translate(-50%, -50%)
+      scale(1.04)
+      rotate(2deg);
+  }
+
+  70% {
+
+    transform:
+      translate(-50%, -50%)
+      scale(.985)
+      rotate(-1deg);
+  }
+
+  100% {
+
+    opacity: 1;
+
+    transform:
+      translate(-50%, -50%)
+      scale(1)
+      rotate(0deg);
+  }
+}
+
+
+/* =====================================================
+   TV MOVE LEFT
+===================================================== */
+
+@keyframes tvMoveLeft {
+
+  0% {
+
+    transform:
+      translate(-50%, -50%)
+      scale(1);
+  }
+
+  100% {
+
+    transform:
+      translate(calc(-50% - 215px), -50%)
+      scale(.98);
+  }
+}
+
+
+/* =====================================================
+   BACKGROUND LIGHT
+===================================================== */
+
+@keyframes lightAppear {
+
+  from {
+
+    opacity: 0;
+
+    transform:
+      translate(-50%, -50%)
+      scale(.5);
+  }
+
+  to {
+
+    opacity: .15;
+
+    transform:
+      translate(-50%, -50%)
       scale(1);
   }
 }
 
 
-/* =========================================================
-   TV IMPACT SHAKE
-========================================================= */
-
-@keyframes tvShake {
-
-  0% {
-    transform: translateY(0) scale(1);
-  }
-
-  25% {
-    transform: translateY(5px) scale(1.025);
-  }
-
-  50% {
-    transform: translateY(-3px) scale(.99);
-  }
-
-  75% {
-    transform: translateY(2px) scale(1.01);
-  }
-
-  100% {
-    transform: translateY(0) scale(1);
-  }
-}
-
-
-/* =========================================================
-   IMPACT GLOW
-========================================================= */
-
-@keyframes impactGlow {
-  from {
-    opacity: 0;
-    transform: translateX(-50%) scale(.4);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateX(-50%) scale(1);
-  }
-}
-
-@keyframes impactFade {
-  to {
-    opacity: 0;
-    transform: translateX(-50%) scale(1.4);
-  }
-}
-
-
-/* =========================================================
-   SCREEN GLOW
-========================================================= */
-
-@keyframes screenGlow {
-
-  from {
-    opacity: 0;
-    transform: scale(.3);
-  }
-
-  60% {
-    opacity: .55;
-  }
-
-  to {
-    opacity: .38;
-    transform: scale(1.25);
-  }
-}
-
-@keyframes glowPulse {
+@keyframes lightPulse {
 
   0%,
   100% {
-    opacity: .3;
-    transform: scale(1);
+    opacity: .12;
   }
 
   50% {
-    opacity: .55;
-    transform: scale(1.15);
+    opacity: .19;
   }
 }
 
 
-/* =========================================================
-   SCREEN FLICKER
-========================================================= */
+/* =====================================================
+   FINAL EXIT
+===================================================== */
 
-@keyframes screenFlicker {
+@keyframes splashExit {
 
   0% {
-    opacity: 0;
-  }
 
-  50% {
-    opacity: .9;
-  }
-
-  100% {
-    opacity: 0;
-  }
-}
-
-
-/* =========================================================
-   TV RED REFLECTION
-========================================================= */
-
-@keyframes tvRedReflection {
-
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
-}
-
-
-/* =========================================================
-   LOGO REVEAL
-========================================================= */
-
-@keyframes logoReveal {
-
-  0% {
-    opacity: 0;
-
-    transform:
-      scale(.3)
-      translateY(25px);
-
-    filter: blur(12px);
-  }
-
-  55% {
     opacity: 1;
 
     transform:
-      scale(1.1)
-      translateY(0);
-
-    filter: blur(0);
+      scale(1);
   }
 
-  75% {
-    transform:
-      scale(.97)
-      translateY(0);
-  }
+  65% {
 
-  100% {
-    opacity: 1;
+    opacity: .45;
 
     transform:
-      scale(1)
-      translateY(0);
-
-    filter: blur(0);
-  }
-}
-
-
-/* =========================================================
-   LOGO PULSE
-========================================================= */
-
-@keyframes logoPulse {
-
-  0%,
-  100% {
-    text-shadow:
-      0 0 8px rgba(229,9,20,.6),
-      0 0 20px rgba(229,9,20,.5),
-      0 0 45px rgba(229,9,20,.35);
-  }
-
-  50% {
-    text-shadow:
-      0 0 12px rgba(229,9,20,.9),
-      0 0 30px rgba(229,9,20,.7),
-      0 0 65px rgba(229,9,20,.55);
-  }
-}
-
-
-/* =========================================================
-   LOGO EXIT
-========================================================= */
-
-@keyframes logoBlur {
-
-  from {
-    opacity: 1;
-    filter: blur(0);
-    transform: scale(1);
-  }
-
-  to {
-    opacity: 0;
-    filter: blur(18px);
-    transform: scale(1.18);
-  }
-}
-
-
-/* =========================================================
-   TV EXIT
-========================================================= */
-
-@keyframes tvExit {
-
-  0% {
-    opacity: 1;
-    filter: blur(0);
+      scale(1.008);
   }
 
   100% {
+
     opacity: 0;
 
-    transform:
-      scale(1.18)
-      translateY(-25px);
-
-    filter: blur(16px);
-  }
-}
-
-
-/* =========================================================
-   SPLASH EXIT
-========================================================= */
-
-@keyframes splashFadeOut {
-
-  0% {
-    opacity: 1;
-    visibility: visible;
-  }
-
-  75% {
-    opacity: .5;
-  }
-
-  100% {
-    opacity: 0;
     visibility: hidden;
-    pointer-events: none;
+
+    transform:
+      scale(1.018);
   }
 }
 
 
-/* =========================================================
+/* =====================================================
    MOBILE
-========================================================= */
+===================================================== */
 
-@media (max-width: 600px) {
+@media (max-width: 700px) {
 
-  .tv {
-    width: 300px;
-    height: 215px;
-
-    padding: 14px;
-
-    border-radius: 28px;
+  .splash-stage {
+    width: 100%;
+    height: 450px;
   }
+
+
+  .intro-tv {
+    width: 245px;
+    height: 195px;
+  }
+
+
+  .tv-body {
+    top: 27px;
+
+    height: 150px;
+
+    padding: 10px;
+
+    border-radius: 23px;
+  }
+
 
   .tv-screen {
-    border-radius: 19px;
-    border-width: 5px;
+    height: 120px;
+
+    border-radius: 17px;
   }
 
-  .streamflix-logo {
-    font-size: 30px;
+
+  .s-logo {
+    transform:
+      translate(-50%, -50%)
+      scale(.7);
+  }
+
+
+  /* ===============================
+     EXTERNAL BRAND MOBILE
+  =============================== */
+
+  .external-brand {
+    left: calc(50% - 5px);
+  }
+
+
+  .external-brand-title {
+    font-size: 27px;
+  }
+
+
+  .external-brand-lines {
+    font-size: 7px;
+
+    letter-spacing: 1px;
+
+    gap: 5px;
+  }
+
+
+  .tv-controls {
+    width: 30px;
+
+    gap: 9px;
+
+    margin-left: 7px;
+  }
+
+
+  .tv-controls span {
+    width: 14px;
+    height: 14px;
+  }
+
+
+  .antenna {
+    top: -25px;
+
+    height: 50px;
+  }
+
+
+  .antenna-left {
+    left: 108px;
+  }
+
+
+  .antenna-right {
+    left: 126px;
+  }
+
+
+  .intro-tagline {
+    font-size: 7px;
+
     letter-spacing: 2px;
+
+    bottom: 16%;
   }
 
-  .tv-leg {
-    bottom: -32px;
 
-    width: 10px;
-    height: 34px;
-  }
+  .splash-light {
+    width: 350px;
+    height: 200px;
 
-  .tv-leg.left {
-    left: 45px;
-  }
-
-  .tv-leg.right {
-    right: 45px;
-  }
-
-  .tv-wrapper::after {
-    width: 250px;
+    filter: blur(100px);
   }
 }
 
 
-/* =========================================================
-   REDUCED MOTION
-========================================================= */
+/* =====================================================
+   REDUCE MOTION
+===================================================== */
 
 @media (prefers-reduced-motion: reduce) {
 
   .splash-screen,
-  .tv-wrapper,
-  .star,
+  .splash-light,
+  .intro-tv,
+  .screen-flicker,
   .screen-glow,
-  .streamflix-logo,
-  .tv-wrapper::after,
-  .tv::after {
-    animation: none !important;
+  .s-logo,
+  .s-highlight,
+  .external-brand,
+  .external-brand-lines span,
+  .screen-shine,
+  .intro-tagline {
+    animation: none;
+  }
+
+  .splash-screen {
+    opacity: 1;
+  }
+
+  .intro-tv {
+    opacity: 1;
+
+    transform:
+      translate(calc(-50% - 215px), -50%)
+      scale(.98);
+  }
+
+  .s-logo {
+    opacity: 1;
+
+    transform:
+      translate(-50%, -50%)
+      scale(1);
+  }
+
+  .external-brand {
+    opacity: 1;
+
+    transform:
+      translate(185px, -50%)
+      scale(1);
+  }
+
+  .external-brand-lines span,
+  .intro-tagline {
+    opacity: 1;
   }
 }

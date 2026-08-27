@@ -19,12 +19,12 @@ import "./App.css";
 function App() {
   const [search, setSearch] = useState("");
 
-  // Login state
+  const [showSplash, setShowSplash] = useState(true);
+
   const [isLoggedIn, setIsLoggedIn] = useState(
     !!localStorage.getItem("streamflix-token")
   );
 
-  // Load watchlist from localStorage
   const [watchlist, setWatchlist] = useState(() => {
     const savedWatchlist = localStorage.getItem(
       "streamflix-watchlist"
@@ -35,7 +35,6 @@ function App() {
       : [];
   });
 
-  // Save watchlist whenever it changes
   useEffect(() => {
     localStorage.setItem(
       "streamflix-watchlist",
@@ -43,21 +42,16 @@ function App() {
     );
   }, [watchlist]);
 
-  // Add movie to watchlist
   const addToWatchlist = (movie) => {
     const alreadyAdded = watchlist.some(
       (item) => item.title === movie.title
     );
 
     if (!alreadyAdded) {
-      setWatchlist([
-        ...watchlist,
-        movie
-      ]);
+      setWatchlist([...watchlist, movie]);
     }
   };
 
-  // Remove movie from watchlist
   const removeFromWatchlist = (title) => {
     setWatchlist(
       watchlist.filter(
@@ -67,24 +61,27 @@ function App() {
   };
 
   return (
-  <BrowserRouter>
+    <BrowserRouter>
 
-    <SplashScreen />
+      {showSplash && (
+        <SplashScreen
+          onFinish={() => setShowSplash(false)}
+        />
+      )}
 
-    <Nav
-      search={search}
-      setSearch={setSearch}
-      watchlist={watchlist}
-      isLoggedIn={isLoggedIn}
-      setIsLoggedIn={setIsLoggedIn}
-    />
+      <Nav
+        search={search}
+        setSearch={setSearch}
+        watchlist={watchlist}
+        isLoggedIn={isLoggedIn}
+        setIsLoggedIn={setIsLoggedIn}
+      />
+
       <Routes>
 
         <Route
           path="/"
-          element={
-            <Home search={search} />
-          }
+          element={<Home search={search} />}
         />
 
         <Route
@@ -128,9 +125,7 @@ function App() {
           element={
             <Watchlist
               watchlist={watchlist}
-              removeFromWatchlist={
-                removeFromWatchlist
-              }
+              removeFromWatchlist={removeFromWatchlist}
             />
           }
         />
@@ -148,9 +143,7 @@ function App() {
           path="/movie/:title"
           element={
             <MovieDetails
-              addToWatchlist={
-                addToWatchlist
-              }
+              addToWatchlist={addToWatchlist}
             />
           }
         />

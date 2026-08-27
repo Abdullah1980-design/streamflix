@@ -1,45 +1,123 @@
+import React, { useEffect } from "react";
 import "./SplashScreen.css";
 
-function SplashScreen() {
+export default function SplashScreen({ onFinish }) {
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      onFinish?.();
+    }, 4200);
+
+    return () => clearTimeout(timer);
+  }, [onFinish]);
+
   return (
     <div className="splash-screen">
 
-      {/* Cinematic Stars */}
-      <div className="stars">
-        {Array.from({ length: 35 }).map((_, index) => (
-          <span key={index} className="star"></span>
-        ))}
-      </div>
+      {/* Cinematic background light */}
+      <div className="splash-light" />
 
-      {/* TV */}
-      <div className="tv-wrapper">
+      <div className="splash-stage">
 
-        <div className="tv">
+        {/* =================================================
+            TV
+            Center se enter → smoothly left side par settle
+        ================================================= */}
 
-          {/* TV Screen */}
-          <div className="tv-screen">
+        <div className="intro-tv">
 
-            <div className="screen-glow"></div>
+          {/* Antennas */}
+          <div className="antenna antenna-left" />
+          <div className="antenna antenna-right" />
 
-            <div className="streamflix-logo">
-              STREAM<span>FLIX</span>
+          {/* TV BODY */}
+          <div className="tv-body">
+
+            {/* TV SCREEN */}
+            <div className="tv-screen">
+
+              {/* Old TV startup effect */}
+              <div className="screen-flicker" />
+
+              {/* Red cinematic glow */}
+              <div className="screen-glow" />
+
+              {/* =================================================
+                  STREAMFLIX S
+                  Sirf TV ke andar
+              ================================================= */}
+
+              <div className="s-logo">
+
+                <div className="s-ribbon s-ribbon-top" />
+
+                <div className="s-ribbon s-ribbon-bottom" />
+
+                <div className="s-highlight" />
+
+              </div>
+
+              {/* Screen light sweep */}
+              <div className="screen-shine" />
+
+            </div>
+
+            {/* TV controls */}
+            <div className="tv-controls">
+              <span />
+              <span />
             </div>
 
           </div>
 
-          {/* TV Frame */}
-          <div className="tv-bottom"></div>
+          {/* TV feet */}
+          <div className="tv-feet">
+            <i />
+            <i />
+          </div>
 
         </div>
 
-        {/* TV Legs */}
-        <div className="tv-leg left"></div>
-        <div className="tv-leg right"></div>
+
+        {/* =================================================
+            STREAMFLIX
+            TV ke BAHAR right side par
+        ================================================= */}
+
+        <div className="external-brand">
+
+          <div className="external-brand-title">
+
+            <span>STREAM</span>
+            <strong>FLIX</strong>
+
+          </div>
+
+          {/* Entertainment lines */}
+          <div className="external-brand-lines">
+
+            <span>
+              MOVIES • ANIME • SPORTS
+            </span>
+
+            <span>
+              Entertainment made for you
+            </span>
+
+          </div>
+
+        </div>
+
+
+        {/* =================================================
+            FINAL TAGLINE
+        ================================================= */}
+
+        <div className="intro-tagline">
+          YOUR SCREEN. YOUR STORIES.
+        </div>
 
       </div>
 
     </div>
   );
 }
-
-export default SplashScreen;
