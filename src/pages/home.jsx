@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import "./home.css";
 
 const API_URL =
@@ -133,7 +134,7 @@ function cleanUrl(value) {
     return "";
   }
 
-  let url = value.trim();
+  const url = value.trim();
 
   // Normal URL
   if (url.startsWith("http://") || url.startsWith("https://")) {
@@ -141,9 +142,7 @@ function cleanUrl(value) {
   }
 
   // Markdown-style URL
-  const markdownMatch = url.match(
-    /^\[([^\]]+)\]\((https?:\/\/[^)]+)\)$/
-  );
+  const markdownMatch = url.match(/^\[([^\]]+)\]\((https?:\/\/[^)]+)\)$/);
 
   if (markdownMatch) {
     return markdownMatch[2];
@@ -158,6 +157,7 @@ function cleanUrl(value) {
 
 function Home({ search = "" }) {
   const navigate = useNavigate();
+  const { t, i18n } = useTranslation();
 
   /* ===================================================
      STATE
@@ -167,6 +167,20 @@ function Home({ search = "" }) {
   const [heroMovies, setHeroMovies] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [heroIndex, setHeroIndex] = useState(0);
+
+  /* LANGUAGE */
+  const [languageOpen, setLanguageOpen] = useState(false);
+  const [selectedLanguage, setSelectedLanguage] = useState("English");
+
+  /* ===================================================
+     CHANGE LANGUAGE
+  =================================================== */
+
+  const changeLanguage = (language, code) => {
+    setSelectedLanguage(language);
+    setLanguageOpen(false);
+    i18n.changeLanguage(code);
+  };
 
   /* ===================================================
      LOAD TRENDING MOVIES
@@ -190,16 +204,14 @@ function Home({ search = "" }) {
 
           setMovies(latestMovies);
 
-          const heroes = latestMovies
-            .slice(0, 3)
-            .map((movie) => ({
-              ...movie,
-              background:
-                cleanUrl(movie?.background) ||
-                cleanUrl(movie?.backdrop) ||
-                cleanUrl(movie?.backdrop_path) ||
-                cleanUrl(movie?.poster),
-            }));
+          const heroes = latestMovies.slice(0, 3).map((movie) => ({
+            ...movie,
+            background:
+              cleanUrl(movie?.background) ||
+              cleanUrl(movie?.backdrop) ||
+              cleanUrl(movie?.backdrop_path) ||
+              cleanUrl(movie?.poster),
+          }));
 
           setHeroMovies(heroes);
         }
@@ -227,8 +239,7 @@ function Home({ search = "" }) {
      HERO SLIDER
   =================================================== */
 
-  const totalSlides =
-    heroMovies.length || heroSlides.length;
+  const totalSlides = heroMovies.length || heroSlides.length;
 
   useEffect(() => {
     if (totalSlides <= 1) {
@@ -236,9 +247,7 @@ function Home({ search = "" }) {
     }
 
     const timer = setInterval(() => {
-      setHeroIndex(
-        (current) => (current + 1) % totalSlides
-      );
+      setHeroIndex((current) => (current + 1) % totalSlides);
     }, 6000);
 
     return () => {
@@ -250,8 +259,7 @@ function Home({ search = "" }) {
      DISPLAY MOVIES
   =================================================== */
 
-  const displayMovies =
-    movies.length > 0 ? movies : fallbackMovies;
+  const displayMovies = movies.length > 0 ? movies : fallbackMovies;
 
   /* ===================================================
      ACTIVE HERO
@@ -266,55 +274,43 @@ function Home({ search = "" }) {
      SEARCH + CATEGORY FILTER
   =================================================== */
 
-  const searchValue = String(search)
-    .trim()
-    .toLowerCase();
+  const searchValue = String(search).trim().toLowerCase();
 
-  const filteredMovies = displayMovies.filter(
-    (movie) => {
-      const title = String(
-        movie?.title || ""
-      ).toLowerCase();
+  const filteredMovies = displayMovies.filter((movie) => {
+    const title = String(movie?.title || "").toLowerCase();
 
-      /* SEARCH */
-
-      if (!title.includes(searchValue)) {
-        return false;
-      }
-
-      /* ALL */
-
-      if (selectedCategory === "All") {
-        return true;
-      }
-
-      const category = String(
-        movie?.category ||
-          movie?.genre ||
-          movie?.type ||
-          ""
-      ).toLowerCase();
-
-      const selected =
-        selectedCategory.toLowerCase();
-
-      /* MOVIES */
-
-      if (selected === "movies") {
-        return !category.includes("tv");
-      }
-
-      /* TV SHOWS */
-
-      if (selected === "tv shows") {
-        return category.includes("tv");
-      }
-
-      /* OTHER CATEGORIES */
-
-      return category.includes(selected);
+    /* SEARCH */
+    if (!title.includes(searchValue)) {
+      return false;
     }
-  );
+
+    /* ALL */
+    if (selectedCategory === "All") {
+      return true;
+    }
+
+    const category = String(
+      movie?.category ||
+        movie?.genre ||
+        movie?.type ||
+        ""
+    ).toLowerCase();
+
+    const selected = selectedCategory.toLowerCase();
+
+    /* MOVIES */
+    if (selected === "movies") {
+      return !category.includes("tv");
+    }
+
+    /* TV SHOWS */
+    if (selected === "tv shows") {
+      return category.includes("tv");
+    }
+
+    /* OTHER CATEGORIES */
+    return category.includes(selected);
+  });
 
   /* ===================================================
      MOVIE CLICK
@@ -336,11 +332,9 @@ function Home({ search = "" }) {
       return;
     }
 
-    document
-      .querySelector(".trending")
-      ?.scrollIntoView({
-        behavior: "smooth",
-      });
+    document.querySelector(".trending")?.scrollIntoView({
+      behavior: "smooth",
+    });
   }
 
   /* ===================================================
@@ -396,17 +390,17 @@ function Home({ search = "" }) {
             </div>
 
             <h1 className="hero-title">
-              {activeHero?.title ||
-                "THE LAST STAND"}
+              {activeHero?.title || "THE LAST STAND"}
             </h1>
 
             <div className="hero-meta">
+
               <span>
                 {activeHero?.year || "2026"}
               </span>
 
               <span>
-                {activeHero?.rating || "13+"}
+                {activeHero?.rating || "18+"}
               </span>
 
               <span>
@@ -416,14 +410,13 @@ function Home({ search = "" }) {
               </span>
 
               <span>
-                {activeHero?.duration ||
-                  "2h 18m"}
+                {activeHero?.duration || "2h 18m"}
               </span>
+
             </div>
 
             <p className="hero-tagline">
-              Unlimited Movies, Series &
-              Entertainment
+              Unlimited Movies, Series & Entertainment
             </p>
 
             <p className="hero-description">
@@ -439,7 +432,7 @@ function Home({ search = "" }) {
                 onClick={handlePlay}
               >
                 <span>▶</span>
-                Watch Now
+                {t("watchNow", "Watch Now")}
               </button>
 
               <button
@@ -448,15 +441,17 @@ function Home({ search = "" }) {
                 onClick={handleInfo}
               >
                 <span>ⓘ</span>
-                More Info
+                {t("moreInfo", "More Info")}
               </button>
 
             </div>
+
           </div>
 
           {/* HERO DOTS */}
 
           <div className="hero-dots">
+
             {Array.from({
               length: totalSlides,
             }).map((_, index) => (
@@ -464,25 +459,20 @@ function Home({ search = "" }) {
                 type="button"
                 key={index}
                 className={
-                  heroIndex === index
-                    ? "active"
-                    : ""
+                  heroIndex === index ? "active" : ""
                 }
-                onClick={() =>
-                  setHeroIndex(index)
-                }
-                aria-label={`Go to slide ${
-                  index + 1
-                }`}
+                onClick={() => setHeroIndex(index)}
+                aria-label={`Go to slide ${index + 1}`}
               />
             ))}
+
           </div>
 
           {/* HERO SCROLL */}
 
           <div className="hero-scroll">
             <span />
-            SCROLL TO EXPLORE
+            {t("scrollToExplore", "SCROLL TO EXPLORE")}
           </div>
 
         </section>
@@ -496,27 +486,26 @@ function Home({ search = "" }) {
           <div className="section-container">
 
             <div className="section-mini-title">
-              BROWSE
+              {t("browse", "BROWSE")}
             </div>
 
             <div className="category-list">
 
               {categories.map((category) => (
+
                 <button
                   type="button"
                   key={category.name}
                   className={
-                    selectedCategory ===
-                    category.name
+                    selectedCategory === category.name
                       ? "category-card active"
                       : "category-card"
                   }
                   onClick={() =>
-                    setSelectedCategory(
-                      category.name
-                    )
+                    setSelectedCategory(category.name)
                   }
                 >
+
                   <span className="category-icon">
                     {category.icon}
                   </span>
@@ -524,11 +513,15 @@ function Home({ search = "" }) {
                   <span className="category-name">
                     {category.name}
                   </span>
+
                 </button>
+
               ))}
 
             </div>
+
           </div>
+
         </section>
 
         {/* =================================================
@@ -542,23 +535,24 @@ function Home({ search = "" }) {
             <div className="section-header">
 
               <div>
+
                 <div className="discover">
-                  DISCOVER
+                  {t("discover", "DISCOVER")}
                 </div>
 
                 <h2>
-                  Trending <span>Now</span>
+                  {t("trending", "Trending")}{" "}
+                  <span>{t("now", "Now")}</span>
                 </h2>
+
               </div>
 
               <button
                 type="button"
                 className="view-all"
-                onClick={() =>
-                  navigate("/movies")
-                }
+                onClick={() => navigate("/movies")}
               >
-                View All <b>›</b>
+                {t("viewAll", "View All")} <b>›</b>
               </button>
 
             </div>
@@ -569,76 +563,69 @@ function Home({ search = "" }) {
 
               <div className="movie-grid">
 
-                {filteredMovies.map(
-                  (movie, index) => (
+                {filteredMovies.map((movie, index) => (
 
-                    <article
-                      className="movie-card"
-                      key={
-                        movie?._id ||
-                        `${movie?.title}-${index}`
-                      }
-                      onClick={() =>
-                        handleMovieClick(movie)
-                      }
-                    >
+                  <article
+                    className="movie-card"
+                    key={
+                      movie?._id ||
+                      `${movie?.title}-${index}`
+                    }
+                    onClick={() =>
+                      handleMovieClick(movie)
+                    }
+                  >
 
-                      <div className="movie-poster">
+                    <div className="movie-poster">
 
-                        <img
-                          src={cleanUrl(
-                            movie?.poster
-                          )}
-                          alt={
-                            movie?.title ||
-                            "Movie"
-                          }
-                          loading="lazy"
-                          onError={(event) => {
-                            event.currentTarget.style.opacity =
-                              "0";
-                          }}
-                        />
+                      <img
+                        src={cleanUrl(movie?.poster)}
+                        alt={
+                          movie?.title || "Movie"
+                        }
+                        loading="lazy"
+                        onError={(event) => {
+                          event.currentTarget.style.opacity =
+                            "0";
+                        }}
+                      />
 
-                        <div className="poster-gradient" />
+                      <div className="poster-gradient" />
 
-                        <span className="top-ten">
-                          TOP 10
-                        </span>
+                      <span className="top-ten">
+                        TOP 10
+                      </span>
 
-                        <span className="movie-rank">
-                          {String(
-                            index + 1
-                          ).padStart(2, "0")}
-                        </span>
+                      <span className="movie-rank">
+                        {String(index + 1).padStart(
+                          2,
+                          "0"
+                        )}
+                      </span>
 
-                        <button
-                          type="button"
-                          className="poster-play"
-                          onClick={(event) => {
-                            event.stopPropagation();
-                            handleMovieClick(
-                              movie
-                            );
-                          }}
-                          aria-label={`Play ${
-                            movie?.title ||
-                            "movie"
-                          }`}
-                        >
-                          ▶
-                        </button>
+                      <button
+                        type="button"
+                        className="poster-play"
+                        onClick={(event) => {
+                          event.stopPropagation();
+                          handleMovieClick(movie);
+                        }}
+                        aria-label={`Play ${
+                          movie?.title || "movie"
+                        }`}
+                      >
+                        ▶
+                      </button>
 
-                      </div>
+                    </div>
 
-                      <h3>
-                        {movie?.title ||
-                          "Untitled"}
-                      </h3>
+                    <h3>
+                      {movie?.title || "Untitled"}
+                    </h3>
 
-                    </article>
-                  )
-                )}
+                  </article>
+
+                ))}
 
               </div>
 
@@ -653,18 +640,22 @@ function Home({ search = "" }) {
                 </div>
 
                 <h3>
-                  No movies found
+                  {t("noMoviesFound", "No movies found")}
                 </h3>
 
                 <p>
-                  Try searching for another
-                  movie.
+                  {t(
+                    "tryAnotherMovie",
+                    "Try searching for another movie."
+                  )}
                 </p>
 
               </div>
+
             )}
 
           </div>
+
         </section>
 
       </main>
@@ -678,94 +669,228 @@ function Home({ search = "" }) {
         <div className="footer-container">
 
           <p className="footer-question">
-            Ready to watch? Enter your email
-            to create or restart your
-            membership.
+            {t(
+              "footerQuestion",
+              "Ready to watch? Enter your email to create or restart your membership."
+            )}
           </p>
 
           <p className="footer-contact">
-            Questions? Contact StreamFlix
-            Support.
+            {t(
+              "footerContact",
+              "Questions? Contact StreamFlix Support."
+            )}
           </p>
+
+          {/* FOOTER LINKS */}
 
           <div className="footer-links">
 
             <Link to="/faq">
-              FAQ
+              {t("faq", "FAQ")}
             </Link>
 
             <Link to="/help">
-              Help Center
+              {t("helpCenter", "Help Center")}
             </Link>
 
             <Link to="/profile">
-              Account
+              {t("account", "Account")}
             </Link>
 
             <Link to="/media">
-              Media Center
+              {t("mediaCenter", "Media Center")}
             </Link>
 
             <Link to="/careers">
-              Careers
+              {t("careers", "Careers")}
             </Link>
 
             <Link to="/watch">
-              Ways to Watch
+              {t("waysToWatch", "Ways to Watch")}
             </Link>
 
             <Link to="/terms">
-              Terms of Use
+              {t("terms", "Terms of Use")}
             </Link>
 
             <Link to="/privacy">
-              Privacy
+              {t("privacy", "Privacy")}
             </Link>
 
             <Link to="/cookies">
-              Cookie Preferences
+              {t(
+                "cookiePreferences",
+                "Cookie Preferences"
+              )}
             </Link>
 
             <Link to="/contact">
-              Contact Us
+              {t("contactUs", "Contact Us")}
             </Link>
 
             <Link to="/legal">
-              Legal Notices
+              {t("legalNotices", "Legal Notices")}
             </Link>
 
             <Link to="/about">
-              About StreamFlix
+              {t("aboutStreamflix", "About StreamFlix")}
             </Link>
 
           </div>
 
+          {/* =================================================
+              LANGUAGE SELECTOR
+          ================================================= */}
+
           <div className="footer-language">
 
-            <button type="button">
-              🌐 English
+            <button
+              type="button"
+              className="language-button"
+              onClick={() =>
+                setLanguageOpen((prev) => !prev)
+              }
+              aria-expanded={languageOpen}
+              aria-haspopup="listbox"
+            >
+              🌐 {selectedLanguage}
             </button>
 
+            {languageOpen && (
+
+              <div
+                className="language-dropdown"
+                role="listbox"
+              >
+
+                <button
+                  type="button"
+                  onClick={() =>
+                    changeLanguage("English", "en")
+                  }
+                >
+                  🇺🇸 English
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() =>
+                    changeLanguage("اردو", "ur")
+                  }
+                >
+                  🇵🇰 اردو
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() =>
+                    changeLanguage("Español", "es")
+                  }
+                >
+                  🇪🇸 Español
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() =>
+                    changeLanguage("Français", "fr")
+                  }
+                >
+                  🇫🇷 Français
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() =>
+                    changeLanguage("Deutsch", "de")
+                  }
+                >
+                  🇩🇪 Deutsch
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() =>
+                    changeLanguage("العربية", "ar")
+                  }
+                >
+                  🇸🇦 العربية
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() =>
+                    changeLanguage("हिन्दी", "hi")
+                  }
+                >
+                  🇮🇳 हिन्दी
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() =>
+                    changeLanguage("中文", "zh")
+                  }
+                >
+                  🇨🇳 中文
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() =>
+                    changeLanguage("日本語", "ja")
+                  }
+                >
+                  🇯🇵 日本語
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() =>
+                    changeLanguage("한국어", "ko")
+                  }
+                >
+                  🇰🇷 한국어
+                </button>
+
+              </div>
+
+            )}
+
           </div>
+
+          {/* =================================================
+              FOOTER BOTTOM
+          ================================================= */}
 
           <div className="footer-bottom">
 
             <p className="footer-brand">
+
               <span>STREAM</span>
+
               <strong>FLIX</strong>
+
               <small>Pakistan</small>
+
             </p>
 
             <p className="footer-copy">
-              © 2026 StreamFlix. All rights
-              reserved.
+              © 2026 StreamFlix.{" "}
+              {t(
+                "allRightsReserved",
+                "All rights reserved."
+              )}
             </p>
 
           </div>
 
           <p className="footer-security">
-            This page is protected to help
-            keep StreamFlix secure.
+            {t(
+              "securityMessage",
+              "This page is protected to help keep StreamFlix secure."
+            )}
           </p>
 
         </div>

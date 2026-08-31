@@ -1955,3 +1955,203 @@ body {
     font-size: 10px;
   }
 }
+/* =====================================================
+   FOOTER — LANGUAGE SELECTOR
+===================================================== */
+
+.streamflix-footer .footer-language {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  z-index: 50;
+}
+
+.streamflix-footer .language-button {
+  min-width: 125px;
+  height: 40px;
+  padding: 0 14px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+
+  background: rgba(255, 255, 255, 0.04);
+
+  color: #d4d4d8;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease,
+    color 0.25s ease,
+    box-shadow 0.25s ease,
+    transform 0.25s ease;
+}
+
+.streamflix-footer .language-button:hover {
+  background: rgba(237, 11, 22, 0.09);
+  border-color: rgba(237, 11, 22, 0.6);
+  color: #ffffff;
+
+  box-shadow:
+    0 0 18px rgba(237, 11, 22, 0.12);
+
+  transform: translateY(-1px);
+}
+
+
+/* =====================================================
+   LANGUAGE DROPDOWN
+===================================================== */
+
+.streamflix-footer .language-dropdown {
+  position: absolute;
+
+  left: 0;
+  bottom: calc(100% + 9px);
+
+  width: 175px;
+  max-height: 300px;
+
+  padding: 6px;
+
+  overflow-y: auto;
+
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+
+  background: rgba(9, 9, 11, 0.98);
+
+  box-shadow:
+    0 20px 45px rgba(0, 0, 0, 0.65),
+    0 0 25px rgba(237, 11, 22, 0.08);
+
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  z-index: 9999;
+
+  animation: languageDropdownIn 0.18s ease-out;
+}
+
+.streamflix-footer .language-dropdown button {
+  width: 100%;
+  min-height: 38px;
+
+  display: flex;
+  align-items: center;
+
+  padding: 8px 11px;
+
+  border: none;
+  border-radius: 7px;
+
+  background: transparent;
+
+  color: #b4b4bb;
+
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+
+  text-align: left;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    padding-left 0.2s ease;
+}
+
+.streamflix-footer .language-dropdown button:hover {
+  background: rgba(237, 11, 22, 0.1);
+  color: #ffffff;
+  padding-left: 15px;
+}
+
+
+/* =====================================================
+   DROPDOWN SCROLLBAR
+===================================================== */
+
+.streamflix-footer .language-dropdown::-webkit-scrollbar {
+  width: 5px;
+}
+
+.streamflix-footer .language-dropdown::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.streamflix-footer .language-dropdown::-webkit-scrollbar-thumb {
+  background: rgba(237, 11, 22, 0.45);
+  border-radius: 10px;
+}
+
+
+/* =====================================================
+   DROPDOWN ANIMATION
+===================================================== */
+
+@keyframes languageDropdownIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 599px) {
+
+  .streamflix-footer .language-button {
+    min-width: 112px;
+    height: 38px;
+    padding: 0 11px;
+    font-size: 12px;
+  }
+
+  .streamflix-footer .language-dropdown {
+    width: 160px;
+    max-height: 260px;
+  }
+
+  .streamflix-footer .language-dropdown button {
+    min-height: 36px;
+    font-size: 12px;
+  }
+}
+
+
+/* =====================================================
+   VERY SMALL MOBILE
+===================================================== */
+
+@media (max-width: 400px) {
+
+  .streamflix-footer .language-button {
+    min-width: 105px;
+    height: 36px;
+    font-size: 11px;
+  }
+
+  .streamflix-footer .language-dropdown {
+    width: 150px;
+  }
+}
