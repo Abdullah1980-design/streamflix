@@ -1,0 +1,1379 @@
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import "./home.css";
+
+const API_BASE =
+  "https://streamflix-production-30f2.up.railway.app/api/movies";
+
+const TRENDING_API = `${API_BASE}/trending`;
+
+/* =====================================================
+   CATEGORIES
+===================================================== */
+
+const categories = [
+  { name: "All", icon: "⌂" },
+  { name: "Movies", icon: "▶" },
+  { name: "TV Shows", icon: "▣" },
+  { name: "Action", icon: "⚡" },
+  { name: "Drama", icon: "◆" },
+  { name: "Comedy", icon: "☺" },
+  { name: "Horror", icon: "☠" },
+  { name: "Romance", icon: "♡" },
+  { name: "Kids", icon: "★" },
+  { name: "Documentary", icon: "▤" },
+];
+
+/* =====================================================
+   PREMIUM CATEGORY MOVIE ROWS
+===================================================== */
+
+const categoryRows = [
+  {
+    name: "Comedy",
+    icon: "😂",
+    description: "Laugh, relax and enjoy",
+  },
+  {
+    name: "Horror",
+    icon: "👻",
+    description: "Dark stories and nightmares",
+  },
+  {
+    name: "Romance",
+    icon: "❤️",
+    description: "Love stories worth watching",
+  },
+  {
+    name: "Kids",
+    icon: "⭐",
+    description: "Fun for everyone",
+  },
+  {
+    name: "Documentary",
+    icon: "📚",
+    description: "Real stories. Real world.",
+  },
+];
+
+/* =====================================================
+   FALLBACK MOVIES
+===================================================== */
+
+const fallbackMovies = [
+  {
+    title: "Peaky Blinders",
+    category: "Drama",
+    poster:
+      "https://image.tmdb.org/t/p/w500/vUUqzWa2LnHIVqkaKVlVGkVcZIW.jpg",
+  },
+  {
+    title: "Money Heist",
+    category: "Drama",
+    poster:
+      "https://image.tmdb.org/t/p/w500/reEMJA1uzscCbkpeRJeTT2bjqUp.jpg",
+  },
+  {
+    title: "Stranger Things",
+    category: "Horror",
+    poster:
+      "https://image.tmdb.org/t/p/w500/x2LSRK2Cm7MZhjluni1msVJ3wDF.jpg",
+  },
+  {
+    title: "The Witcher",
+    category: "Action",
+    poster:
+      "https://image.tmdb.org/t/p/w500/cZ0d3rtvXPVvuiO3zzYJ6s0b6oO.jpg",
+  },
+  {
+    title: "Lucifer",
+    category: "Drama",
+    poster:
+      "https://image.tmdb.org/t/p/w500/ekZobS8isE6mA53RAiGDG93hBXf.jpg",
+  },
+  {
+    title: "Avengers: Endgame",
+    category: "Action",
+    poster:
+      "https://image.tmdb.org/t/p/w500/or06FN3Dka5tukK1e9sl16pB3iy.jpg",
+  },
+  {
+    title: "The Dark Knight",
+    category: "Action",
+    poster:
+      "https://image.tmdb.org/t/p/w500/qJ2tW6WMUDux911r6m7haRef0WH.jpg",
+  },
+  {
+    title: "Interstellar",
+    category: "Drama",
+    poster:
+      "https://image.tmdb.org/t/p/w500/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg",
+  },
+  {
+    title: "Inception",
+    category: "Action",
+    poster:
+      "https://image.tmdb.org/t/p/w500/oYuLEt3zVCKq57qu2F8dT7NIa6f.jpg",
+  },
+];
+
+/* =====================================================
+   EXTRA MOVIES
+===================================================== */
+
+const extraMovies = [
+  {
+    title: "Spider-Man: No Way Home",
+    category: "Action",
+    poster:
+      "https://image.tmdb.org/t/p/w500/1g0dhYtq4irTY1GPXvft6k4YLjm.jpg",
+  },
+  {
+    title: "Doctor Strange",
+    category: "Action",
+    poster:
+      "https://image.tmdb.org/t/p/w500/uGBVj3bEbCoZbDjjl9wTxcygko1.jpg",
+  },
+  {
+    title: "Black Panther",
+    category: "Action",
+    poster:
+      "https://image.tmdb.org/t/p/w500/uxzzxijgPIY7slzFvMotPv8wjKA.jpg",
+  },
+  {
+    title: "Thor: Ragnarok",
+    category: "Action",
+    poster:
+      "https://image.tmdb.org/t/p/w500/rzRwTcFvttcN1ZpX2xv4j3tSdJu.jpg",
+  },
+  {
+    title: "Guardians of the Galaxy",
+    category: "Action",
+    poster:
+      "https://image.tmdb.org/t/p/w500/r7vmZjiyZw9rpJMQJdXpjgiCOk9.jpg",
+  },
+  {
+    title: "Iron Man",
+    category: "Action",
+    poster:
+      "https://image.tmdb.org/t/p/w500/78lPtwv72eTNqFW9COBYI0dWDJa.jpg",
+  },
+  {
+    title: "Avatar",
+    category: "Action",
+    poster:
+      "https://image.tmdb.org/t/p/w500/kyeqWdyUXW608qlYkRqosgbbJyK.jpg",
+  },
+  {
+    title: "Titanic",
+    category: "Drama",
+    poster:
+      "https://image.tmdb.org/t/p/w500/9xjZS2rlVxm8SFx8kPC3aIGCOYQ.jpg",
+  },
+  {
+    title: "Joker",
+    category: "Drama",
+    poster:
+      "https://image.tmdb.org/t/p/w500/udDclJoHjfjb8Ekgsd4FDteOkCU.jpg",
+  },
+  {
+    title: "Oppenheimer",
+    category: "Drama",
+    poster:
+      "https://image.tmdb.org/t/p/w500/8Gxv8gSFCU0XGDykEGv7zR1n2ua.jpg",
+  },
+];
+
+/* =====================================================
+   ANIME
+===================================================== */
+
+const animeMovies = [
+  {
+    title: "One Piece",
+    category: "Anime",
+    poster:
+      "https://image.tmdb.org/t/p/w500/cMD9Ygz11zjJzAovURpO75Qg7rT.jpg",
+  },
+  {
+    title: "Naruto",
+    category: "Anime",
+    poster:
+      "https://image.tmdb.org/t/p/w500/zAYRe2bJxpWTVrwwmBc00VFk0Kr.jpg",
+  },
+  {
+    title: "Demon Slayer",
+    category: "Anime",
+    poster:
+      "https://image.tmdb.org/t/p/w500/xUfRZu2mi8jH6SzQEJGP6TJ0QyP.jpg",
+  },
+  {
+    title: "Jujutsu Kaisen",
+    category: "Anime",
+    poster:
+      "https://image.tmdb.org/t/p/w500/hFWP5HkbVEe1a6R2p3h6vV3Q7hM.jpg",
+  },
+  {
+    title: "Attack on Titan",
+    category: "Anime",
+    poster:
+      "https://image.tmdb.org/t/p/w500/hTP1DtLGFamjfu8WqjnuQdP1n4i.jpg",
+  },
+  {
+    title: "Dragon Ball Super",
+    category: "Anime",
+    poster:
+      "https://image.tmdb.org/t/p/w500/2ZkiCxez4N7g6F5v9G5h8qQx9wM.jpg",
+  },
+  {
+    title: "My Hero Academia",
+    category: "Anime",
+    poster:
+      "https://image.tmdb.org/t/p/w500/ivOLM47yJt90P8d7DgB0Y7qY8aG.jpg",
+  },
+  {
+    title: "Death Note",
+    category: "Anime",
+    poster:
+      "https://image.tmdb.org/t/p/w500/9D7XJ4W8x7k9G6h5F3r2Q1P0L8M.jpg",
+  },
+];
+
+/* =====================================================
+   SPORTS
+===================================================== */
+
+const sportsMovies = [
+  {
+    title: "The Last Dance",
+    category: "Sports",
+    poster:
+      "https://image.tmdb.org/t/p/w500/2D6N9eJtY8x7v9yKf7q9rGJQmX4.jpg",
+  },
+  {
+    title: "Creed",
+    category: "Sports",
+    poster:
+      "https://image.tmdb.org/t/p/w500/1B7ELzTj2zK2V2V4X2n9r6M8g4P.jpg",
+  },
+  {
+    title: "Rocky",
+    category: "Sports",
+    poster:
+      "https://image.tmdb.org/t/p/w500/uhX8fY3ZQv2rT5k7W8j4P6m9L0N.jpg",
+  },
+  {
+    title: "Ford v Ferrari",
+    category: "Sports",
+    poster:
+      "https://image.tmdb.org/t/p/w500/6ApDtO7xaWAfPqB6hJ8qR1n9V3Z.jpg",
+  },
+  {
+    title: "Moneyball",
+    category: "Sports",
+    poster:
+      "https://image.tmdb.org/t/p/w500/4yIQqD1nM3iK7r9xT2v5W8j0L6P.jpg",
+  },
+  {
+    title: "Rush",
+    category: "Sports",
+    poster:
+      "https://image.tmdb.org/t/p/w500/u6GfW3Q9z8P1r2M5n7V4x0L6K.jpg",
+  },
+];
+
+/* =====================================================
+   TV SHOWS
+===================================================== */
+
+const tvShows = [
+  {
+    title: "Breaking Bad",
+    category: "TV Shows",
+    poster:
+      "https://image.tmdb.org/t/p/w500/ztkUQFLlC0wN6ZQ9pG4wY0K2j7x.jpg",
+  },
+  {
+    title: "Wednesday",
+    category: "TV Shows",
+    poster:
+      "https://image.tmdb.org/t/p/w500/9PFonBhy4cQy7Jz20NpMygczOkv.jpg",
+  },
+  {
+    title: "The Boys",
+    category: "TV Shows",
+    poster:
+      "https://image.tmdb.org/t/p/w500/stTEycfG9928HYGEISBFaG1ngjM.jpg",
+  },
+  {
+    title: "Game of Thrones",
+    category: "TV Shows",
+    poster:
+      "https://image.tmdb.org/t/p/w500/1XS1oqL89opfnbLl8WnZY1O1uJx.jpg",
+  },
+];
+
+/* =====================================================
+   COMEDY
+===================================================== */
+
+const comedyMovies = [
+  {
+    title: "The Hangover",
+    category: "Comedy",
+    poster:
+      "https://image.tmdb.org/t/p/w500/uluhlXubGu1VxU63X9VHCLWDAYP.jpg",
+  },
+  {
+    title: "Free Guy",
+    category: "Comedy",
+    poster:
+      "https://image.tmdb.org/t/p/w500/xmbU4JTUm8rsdtn7Y3Fcm30GpeT.jpg",
+  },
+  {
+    title: "Home Alone",
+    category: "Comedy",
+    poster:
+      "https://image.tmdb.org/t/p/w500/onTSipZ8R3bliBdKfPtsDuHTdlL.jpg",
+  },
+  {
+    title: "Central Intelligence",
+    category: "Comedy",
+    poster:
+      "https://image.tmdb.org/t/p/w500/7IRy0iHdaS0JI19av4e5tTMRNjM.jpg",
+  },
+];
+
+/* =====================================================
+   HORROR
+===================================================== */
+
+const horrorMovies = [
+  {
+    title: "IT",
+    category: "Horror",
+    poster:
+      "https://image.tmdb.org/t/p/w500/9E2y5Q7WlCVNEhP5gI7N6p8c6nL.jpg",
+  },
+  {
+    title: "The Conjuring",
+    category: "Horror",
+    poster:
+      "https://image.tmdb.org/t/p/w500/wVYREutTvI2tmxr6ujrHT704wGF.jpg",
+  },
+  {
+    title: "A Quiet Place",
+    category: "Horror",
+    poster:
+      "https://image.tmdb.org/t/p/w500/nAU74GmpUk7t5iklEp3bufwDq4N.jpg",
+  },
+  {
+    title: "Insidious",
+    category: "Horror",
+    poster:
+      "https://image.tmdb.org/t/p/w500/1egpmVXuXedr3LwB3qgJrW8Z5hJ.jpg",
+  },
+];
+
+/* =====================================================
+   ROMANCE
+===================================================== */
+
+const romanceMovies = [
+  {
+    title: "The Notebook",
+    category: "Romance",
+    poster:
+      "https://image.tmdb.org/t/p/w500/rNzQyW4f8B8cQeg7G6p0c4q7QqR.jpg",
+  },
+  {
+    title: "La La Land",
+    category: "Romance",
+    poster:
+      "https://image.tmdb.org/t/p/w500/uDO8zWDhfWwoFdKS4fzkUJt0Rf0.jpg",
+  },
+  {
+    title: "Me Before You",
+    category: "Romance",
+    poster:
+      "https://image.tmdb.org/t/p/w500/Ia3dzj5LnCj1Z5e2h4wT8G1fP9.jpg",
+  },
+  {
+    title: "Titanic",
+    category: "Romance",
+    poster:
+      "https://image.tmdb.org/t/p/w500/9xjZS2rlVxm8SFx8kPC3aIGCOYQ.jpg",
+  },
+];
+
+/* =====================================================
+   KIDS
+===================================================== */
+
+const kidsMovies = [
+  {
+    title: "Toy Story",
+    category: "Kids",
+    poster:
+      "https://image.tmdb.org/t/p/w500/uXDfjJbdP4ijW5hWSBrPrlKpxab.jpg",
+  },
+  {
+    title: "The Lion King",
+    category: "Kids",
+    poster:
+      "https://image.tmdb.org/t/p/w500/2bXbqYdUdNVa8VIWXVfcljP2ICt.jpg",
+  },
+  {
+    title: "Frozen",
+    category: "Kids",
+    poster:
+      "https://image.tmdb.org/t/p/w500/m4j2JkVqQ2t6jZ5Y8m9J2s6f4Q.jpg",
+  },
+  {
+    title: "Finding Nemo",
+    category: "Kids",
+    poster:
+      "https://image.tmdb.org/t/p/w500/eHuGQ10FUzK1mdOY69wF5pGgEf5.jpg",
+  },
+];
+
+/* =====================================================
+   DOCUMENTARY
+===================================================== */
+
+const documentaryMovies = [
+  {
+    title: "Our Planet",
+    category: "Documentary",
+    poster:
+      "https://image.tmdb.org/t/p/w500/8pf6pK1A5r1Q5c1J5q5r1w4z2m.jpg",
+  },
+  {
+    title: "Free Solo",
+    category: "Documentary",
+    poster:
+      "https://image.tmdb.org/t/p/w500/vpbaStTMt8qqXaEgnOR2EEA4N4z.jpg",
+  },
+  {
+    title: "The Social Dilemma",
+    category: "Documentary",
+    poster:
+      "https://image.tmdb.org/t/p/w500/2P9o2N2eP7N5H5J7L2P9m8R4k6D.jpg",
+  },
+  {
+    title: "David Attenborough: A Life on Our Planet",
+    category: "Documentary",
+    poster:
+      "https://image.tmdb.org/t/p/w500/9R4yR5s1p5G6J7k8L9m0N1O2P3Q.jpg",
+  },
+];
+
+/* =====================================================
+   HERO SLIDES
+===================================================== */
+
+const heroSlides = [
+  {
+    title: "THE LAST STAND",
+    year: "2026",
+    rating: "16+",
+    genre: "Action",
+    duration: "2h 18m",
+    description:
+      "In a world destroyed by chaos, one man stands between hope and extinction.",
+    background:
+      "https://image.tmdb.org/t/p/original/8cdWjvZQUExUUTzyp4t6EDMubfO.jpg",
+  },
+  {
+    title: "AVENGERS: ENDGAME",
+    year: "2019",
+    rating: "13+",
+    genre: "Action",
+    duration: "3h 02m",
+    description:
+      "The Avengers make one final stand to save the universe.",
+    background:
+      "https://image.tmdb.org/t/p/original/7RyHsO4yDXtBv1zUU3mTpHeQ0d5.jpg",
+  },
+  {
+    title: "INTERSTELLAR",
+    year: "2014",
+    rating: "13+",
+    genre: "Drama",
+    duration: "2h 49m",
+    description:
+      "A journey beyond the stars becomes humanity's greatest hope.",
+    background:
+      "https://image.tmdb.org/t/p/original/xJHokMbljvjADYdit5fK5VQsXEG.jpg",
+  },
+];
+
+/* =====================================================
+   URL CLEANER
+===================================================== */
+
+function cleanUrl(value) {
+  if (!value || typeof value !== "string") {
+    return "";
+  }
+
+  let url = value.trim();
+
+  // Handle markdown style:
+  // [https://example.com](https://example.com)
+
+  const markdownMatch = url.match(
+    /^\[([^\]]+)\]\((https?:\/\/[^)]+)\)$/
+  );
+
+  if (markdownMatch) {
+    return markdownMatch[1];
+  }
+
+  // Handle simple [https://example.com]
+  if (url.startsWith("[") && url.endsWith("]")) {
+    url = url.slice(1, -1);
+  }
+
+  return url;
+}
+
+/* =====================================================
+   HOME
+===================================================== */
+
+function Home({ search = "" }) {
+  const navigate = useNavigate();
+
+  const [movies, setMovies] = useState([]);
+  const [heroMovies, setHeroMovies] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [heroIndex, setHeroIndex] = useState(0);
+
+  /* ===================================================
+     LOAD MOVIES
+  =================================================== */
+
+  useEffect(() => {
+    let active = true;
+
+    async function loadMovies() {
+      try {
+        const response = await axios.get(TRENDING_API, {
+          timeout: 8000,
+        });
+
+        if (
+          active &&
+          Array.isArray(response.data) &&
+          response.data.length > 0
+        ) {
+          const latest = response.data;
+
+          setMovies(latest);
+
+          const heroes = latest.slice(0, 3).map((movie) => ({
+            ...movie,
+            background:
+              cleanUrl(movie?.background) ||
+              cleanUrl(movie?.backdrop) ||
+              cleanUrl(movie?.backdrop_path) ||
+              cleanUrl(movie?.poster),
+          }));
+
+          setHeroMovies(heroes);
+        }
+      } catch (error) {
+        console.log(
+          "Trending API unavailable. Using fallback content."
+        );
+      }
+    }
+
+    loadMovies();
+
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  /* ===================================================
+     HERO RESET
+  =================================================== */
+
+  useEffect(() => {
+    setHeroIndex(0);
+  }, [heroMovies.length]);
+
+  /* ===================================================
+     HERO AUTO SLIDER
+  =================================================== */
+
+  const totalSlides =
+    heroMovies.length || heroSlides.length;
+
+  useEffect(() => {
+    if (totalSlides <= 1) {
+      return undefined;
+    }
+
+    const timer = setInterval(() => {
+      setHeroIndex(
+        (current) => (current + 1) % totalSlides
+      );
+    }, 6000);
+
+    return () => clearInterval(timer);
+  }, [totalSlides]);
+
+  /* ===================================================
+     BASE CONTENT
+  =================================================== */
+
+  const displayMovies =
+    movies.length > 0 ? movies : fallbackMovies;
+
+  const allMovies = [
+    ...displayMovies,
+    ...extraMovies,
+  ];
+
+  /* ===================================================
+     ACTIVE HERO
+  =================================================== */
+
+  const activeHero =
+    heroMovies.length > 0
+      ? heroMovies[heroIndex] || heroMovies[0]
+      : heroSlides[heroIndex] || heroSlides[0];
+
+  /* ===================================================
+     SEARCH
+  =================================================== */
+
+  const searchValue = String(search)
+    .trim()
+    .toLowerCase();
+
+  function matchesSearch(movie) {
+    const title = String(
+      movie?.title || ""
+    ).toLowerCase();
+
+    return title.includes(searchValue);
+  }
+
+  /* ===================================================
+     CATEGORY FILTER
+  =================================================== */
+
+  function matchesCategory(movie) {
+    if (selectedCategory === "All") {
+      return true;
+    }
+
+    const category = String(
+      movie?.category ||
+        movie?.genre ||
+        movie?.type ||
+        ""
+    ).toLowerCase();
+
+    const selected =
+      selectedCategory.toLowerCase();
+
+    if (selected === "movies") {
+      return (
+        !category.includes("tv") &&
+        !category.includes("anime") &&
+        !category.includes("sports")
+      );
+    }
+
+    if (selected === "tv shows") {
+      return category.includes("tv");
+    }
+
+    return category.includes(selected);
+  }
+
+  const filteredMovies = allMovies.filter(
+    (movie) =>
+      matchesSearch(movie) &&
+      matchesCategory(movie)
+  );
+
+  /* ===================================================
+     ROW FILTER
+  =================================================== */
+
+  function filterRow(list, category) {
+    return list.filter((movie) => {
+      if (!matchesSearch(movie)) {
+        return false;
+      }
+
+      if (!category) {
+        return true;
+      }
+
+      const movieCategory = String(
+        movie?.category ||
+          movie?.genre ||
+          movie?.type ||
+          ""
+      ).toLowerCase();
+
+      return movieCategory.includes(
+        category.toLowerCase()
+      );
+    });
+  }
+
+  const trendingRow = filteredMovies;
+
+  const popularRow = allMovies.filter(
+    matchesSearch
+  );
+
+  const actionRow = filterRow(
+    allMovies,
+    "Action"
+  );
+
+  const dramaRow = filterRow(
+    allMovies,
+    "Drama"
+  );
+
+  const comedyRow = filterRow(
+    allMovies,
+    "Comedy"
+  );
+
+  const horrorRow = filterRow(
+    allMovies,
+    "Horror"
+  );
+
+  /* ===================================================
+     MOVIE CLICK
+  =================================================== */
+
+  function handleMovieClick(movie) {
+    if (movie?._id) {
+      navigate(`/movie/${movie._id}`);
+    }
+  }
+
+  /* ===================================================
+     HERO BUTTONS
+  =================================================== */
+
+  function handlePlay() {
+    if (activeHero?._id) {
+      navigate(`/movie/${activeHero._id}`);
+      return;
+    }
+
+    document
+      .querySelector(".trending")
+      ?.scrollIntoView({
+        behavior: "smooth",
+      });
+  }
+
+  function handleInfo() {
+    if (activeHero?._id) {
+      navigate(`/movie/${activeHero._id}`);
+    } else {
+      navigate("/movies");
+    }
+  }
+
+  /* ===================================================
+     HORIZONTAL MOVIE ROW
+  =================================================== */
+
+  function MovieRow({
+    title,
+    subtitle,
+    moviesList,
+  }) {
+    if (
+      !moviesList ||
+      moviesList.length === 0
+    ) {
+      return null;
+    }
+
+    return (
+      <section className="content-row">
+        <div className="section-header">
+          <div>
+            {subtitle && (
+              <div className="discover">
+                {subtitle}
+              </div>
+            )}
+
+            <h2>{title}</h2>
+          </div>
+
+          <button
+            type="button"
+            className="view-all"
+            onClick={() => navigate("/movies")}
+          >
+            View All <b>›</b>
+          </button>
+        </div>
+
+        <div className="movie-grid">
+          {moviesList.map((movie, index) => (
+            <article
+              className="movie-card"
+              key={
+                movie?._id ||
+                `${movie?.title}-${index}-${String(
+                  title
+                )}`
+              }
+              onClick={() =>
+                handleMovieClick(movie)
+              }
+            >
+              <div className="movie-poster">
+                <img
+                  src={cleanUrl(movie?.poster)}
+                  alt={
+                    movie?.title || "Movie"
+                  }
+                  loading="lazy"
+                  onError={(event) => {
+                    event.currentTarget.style.opacity =
+                      "0";
+                  }}
+                />
+
+                <div className="poster-gradient" />
+
+                <span className="top-ten">
+                  TOP 10
+                </span>
+
+                <span className="movie-rank">
+                  {String(index + 1).padStart(
+                    2,
+                    "0"
+                  )}
+                </span>
+
+                <button
+                  type="button"
+                  className="poster-play"
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    handleMovieClick(movie);
+                  }}
+                  aria-label={`Play ${
+                    movie?.title || "movie"
+                  }`}
+                >
+                  ▶
+                </button>
+              </div>
+
+              <h3>
+                {movie?.title || "Untitled"}
+              </h3>
+            </article>
+          ))}
+        </div>
+      </section>
+    );
+  }
+
+  /* ===================================================
+     PREMIUM CATEGORY MOVIE ROWS
+  =================================================== */
+
+  function CategoryMovieRows() {
+    return (
+      <section className="category-movie-sections">
+        {categoryRows.map((row) => {
+          const rowMovies = displayMovies.filter(
+            (movie) => {
+              const category = String(
+                movie?.category ||
+                  movie?.genre ||
+                  movie?.type ||
+                  ""
+              ).toLowerCase();
+
+              return category.includes(
+                row.name.toLowerCase()
+              );
+            }
+          );
+
+          if (rowMovies.length === 0) {
+            return null;
+          }
+
+          return (
+            <div
+              className="category-movie-row"
+              key={row.name}
+            >
+              {/* ROW HEADER */}
+
+              <div className="category-row-header">
+                <div className="category-row-title">
+                  <span className="category-row-icon">
+                    {row.icon}
+                  </span>
+
+                  <div>
+                    <div className="category-row-mini">
+                      STREAMFLIX COLLECTION
+                    </div>
+
+                    <h2>{row.name}</h2>
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  className="category-row-view"
+                  onClick={() => {
+                    setSelectedCategory(
+                      row.name
+                    );
+
+                    window.scrollTo({
+                      top: 0,
+                      behavior: "smooth",
+                    });
+                  }}
+                >
+                  View All <span>›</span>
+                </button>
+              </div>
+
+              {/* DESCRIPTION */}
+
+              <p className="category-row-description">
+                {row.description}
+              </p>
+
+              {/* MOVIE ROW */}
+
+              <div className="movie-grid">
+                {rowMovies.map(
+                  (movie, index) => (
+                    <article
+                      className="movie-card"
+                      key={
+                        movie?._id ||
+                        `${row.name}-${movie?.title}-${index}`
+                      }
+                      onClick={() =>
+                        handleMovieClick(movie)
+                      }
+                    >
+                      <div className="movie-poster">
+                        <img
+                          src={cleanUrl(
+                            movie?.poster
+                          )}
+                          alt={
+                            movie?.title ||
+                            "Movie"
+                          }
+                          loading="lazy"
+                          onError={(event) => {
+                            event.currentTarget.style.opacity =
+                              "0";
+                          }}
+                        />
+
+                        <div className="poster-gradient" />
+
+                        <span className="category-badge">
+                          {row.name}
+                        </span>
+
+                        <button
+                          type="button"
+                          className="poster-play"
+                          onClick={(event) => {
+                            event.stopPropagation();
+
+                            handleMovieClick(
+                              movie
+                            );
+                          }}
+                          aria-label={`Play ${
+                            movie?.title ||
+                            "movie"
+                          }`}
+                        >
+                          ▶
+                        </button>
+                      </div>
+
+                      <h3>
+                        {movie?.title ||
+                          "Untitled"}
+                      </h3>
+                    </article>
+                  )
+                )}
+              </div>
+            </div>
+          );
+        })}
+      </section>
+    );
+  }
+
+  /* ===================================================
+     RENDER
+  =================================================== */
+
+  return (
+    <main className="home-page">
+      {/* =================================================
+          HERO
+      ================================================= */}
+
+      <section className="hero">
+        <div
+          className="hero-image"
+          key={cleanUrl(
+            activeHero?.background
+          )}
+          style={{
+            backgroundImage: `url("${cleanUrl(
+              activeHero?.background
+            )}")`,
+          }}
+        />
+
+        <div className="hero-vignette" />
+        <div className="hero-red-glow" />
+
+        <div className="hero-content">
+          <div className="hero-brand">
+            <span>STREAM</span>
+            <strong>FLIX</strong>
+          </div>
+
+          <div className="original-label">
+            <i />
+            A STREAMFLIX ORIGINAL
+          </div>
+
+          <h1 className="hero-title">
+            {activeHero?.title ||
+              "THE LAST STAND"}
+          </h1>
+
+          <div className="hero-meta">
+            <span>
+              {activeHero?.year || "2026"}
+            </span>
+
+            <span>
+              {activeHero?.rating || "13+"}
+            </span>
+
+            <span>
+              {activeHero?.genre ||
+                activeHero?.category ||
+                "Action"}
+            </span>
+
+            <span>
+              {activeHero?.duration ||
+                "2h 18m"}
+            </span>
+          </div>
+
+          <p className="hero-tagline">
+            Unlimited Movies, Series &
+            Entertainment
+          </p>
+
+          <p className="hero-description">
+            {activeHero?.description ||
+              "Discover the latest movies and shows on StreamFlix."}
+          </p>
+
+          <div className="hero-buttons">
+            <button
+              type="button"
+              className="play-button"
+              onClick={handlePlay}
+            >
+              <span>▶</span>
+              Watch Now
+            </button>
+
+            <button
+              type="button"
+              className="info-button"
+              onClick={handleInfo}
+            >
+              <span>ⓘ</span>
+              More Info
+            </button>
+          </div>
+        </div>
+
+        {/* HERO DOTS */}
+
+        <div className="hero-dots">
+          {Array.from({
+            length: totalSlides,
+          }).map((_, index) => (
+            <button
+              type="button"
+              key={index}
+              className={
+                heroIndex === index
+                  ? "active"
+                  : ""
+              }
+              onClick={() =>
+                setHeroIndex(index)
+              }
+              aria-label={`Go to slide ${
+                index + 1
+              }`}
+            />
+          ))}
+        </div>
+
+        <div className="hero-scroll">
+          <span />
+          SCROLL TO EXPLORE
+        </div>
+      </section>
+
+      {/* =================================================
+          CATEGORIES
+      ================================================= */}
+
+      <section className="categories-section">
+        <div className="section-container">
+          <div className="section-mini-title">
+            BROWSE
+          </div>
+
+          <div className="category-list">
+            {categories.map((category) => (
+              <button
+                type="button"
+                key={category.name}
+                className={
+                  selectedCategory ===
+                  category.name
+                    ? "category-card active"
+                    : "category-card"
+                }
+                onClick={() =>
+                  setSelectedCategory(
+                    category.name
+                  )
+                }
+              >
+                <span className="category-icon">
+                  {category.icon}
+                </span>
+
+                <span className="category-name">
+                  {category.name}
+                </span>
+              </button>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* =================================================
+          CONTENT
+      ================================================= */}
+
+      <section className="trending">
+        <div className="section-container">
+          {/* SEARCH / CATEGORY RESULTS */}
+
+          {searchValue ||
+          selectedCategory !== "All" ? (
+            <>
+              <MovieRow
+                title={
+                  selectedCategory === "All"
+                    ? "Search Results"
+                    : selectedCategory
+                }
+                subtitle="DISCOVER"
+                moviesList={filteredMovies}
+              />
+            </>
+          ) : (
+            <>
+              {/* TRENDING */}
+
+              <MovieRow
+                title={
+                  <>
+                    Trending <span>Now</span>
+                  </>
+                }
+                subtitle="DISCOVER"
+                moviesList={trendingRow}
+              />
+
+              {/* POPULAR */}
+
+              <MovieRow
+                title={
+                  <>
+                    Popular <span>Movies</span>
+                  </>
+                }
+                subtitle="STREAMFLIX"
+                moviesList={popularRow}
+              />
+
+              {/* ANIME */}
+
+              <MovieRow
+                title={
+                  <>
+                    Anime <span>World</span>
+                  </>
+                }
+                subtitle="EXPLORE"
+                moviesList={animeMovies}
+              />
+
+              {/* SPORTS */}
+
+              <MovieRow
+                title={
+                  <>
+                    Sports <span>Zone</span>
+                  </>
+                }
+                subtitle="LIVE THE MOMENT"
+                moviesList={sportsMovies}
+              />
+
+              {/* TV SHOWS */}
+
+              <MovieRow
+                title={
+                  <>
+                    TV <span>Shows</span>
+                  </>
+                }
+                subtitle="BINGE WATCH"
+                moviesList={tvShows}
+              />
+
+              {/* ACTION */}
+
+              <MovieRow
+                title={
+                  <>
+                    Action <span>Hits</span>
+                  </>
+                }
+                subtitle="ADRENALINE"
+                moviesList={actionRow}
+              />
+
+              {/* DRAMA */}
+
+              <MovieRow
+                title={
+                  <>
+                    Drama{" "}
+                    <span>Collection</span>
+                  </>
+                }
+                subtitle="EMOTIONS"
+                moviesList={dramaRow}
+              />
+
+              {/* COMEDY */}
+
+              <MovieRow
+                title={
+                  <>
+                    Comedy <span>Zone</span>
+                  </>
+                }
+                subtitle="FUN & ENTERTAINMENT"
+                moviesList={comedyRow}
+              />
+
+              {/* HORROR */}
+
+              <MovieRow
+                title={
+                  
+                    Horror <span>Nights</span>
+                
+                }
+                subtitle="DON'T WATCH ALONE"
+                moviesList={horrorRow}
+             
+
+              {/* PREMIUM CATEGORY ROWS */}
+
+              <CategoryMovieRows />
+            </>
+          )}
+
+          {/* =================================================
+              NO RESULTS
+          ================================================= */}
+
+          {(searchValue ||
+            selectedCategory !== "All") &&
+            filteredMovies.length === 0 && (
+              <div className="no-results">
+                <div className="no-results-icon">
+                  ⌕
+                </div>
+
+                <h3>No movies found</h3>
+
+                <p>
+                  Try searching for another
+                  movie.
+                </p>
+              </div>
+            )}
+
+          {/* =================================================
+              BOTTOM SPACE
+          ================================================= */}
+
+          {!searchValue &&
+            selectedCategory === "All" && (
+              <div className="home-bottom-space" />
+            )}
+        </div>
+      </section>
+    </main>
+  );
+}
+
+export default Home;

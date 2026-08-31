@@ -16,6 +16,7 @@ import NotFound from "./pages/NotFound";
 
 import "./App.css";
 
+
 function App() {
   const [search, setSearch] = useState("");
 

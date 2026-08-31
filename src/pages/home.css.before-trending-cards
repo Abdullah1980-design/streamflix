@@ -1,0 +1,2672 @@
+/* =====================================================
+STREAMFLIX — PREMIUM HOME PAGE
+FULL SCREEN / DARK / RED / CINEMATIC
+HOME MOVIES = HORIZONTAL ROWS ONLY
+===================================================== */
+
+.home-page {
+min-height: 100vh;
+width: 100%;
+background: #050505;
+color: #fff;
+overflow-x: hidden;
+}
+
+/* =====================================================
+HERO
+===================================================== */
+
+.home-page .hero {
+position: relative;
+width: 100%;
+height: 100vh;
+min-height: 680px;
+overflow: hidden;
+background: #000;
+}
+
+.home-page .hero-image {
+position: absolute;
+inset: 0;
+z-index: 0;
+
+width: 100%;
+height: 100%;
+
+background-size: cover;
+background-position: center center;
+background-repeat: no-repeat;
+
+opacity: 0.78;
+
+transform: scale(1.04);
+
+animation: streamflixHeroZoom 10s ease-out both;
+
+transition:
+opacity 0.8s ease,
+background-image 0.8s ease;
+}
+
+.home-page .hero-image::after {
+content: "";
+position: absolute;
+inset: 0;
+
+background:
+linear-gradient(
+90deg,
+rgba(0, 0, 0, 0.99) 0%,
+rgba(0, 0, 0, 0.95) 15%,
+rgba(0, 0, 0, 0.76) 38%,
+rgba(0, 0, 0, 0.28) 70%,
+rgba(0, 0, 0, 0.62) 100%
+),
+linear-gradient(
+0deg,
+#050505 0%,
+rgba(5, 5, 5, 0.9) 8%,
+rgba(0, 0, 0, 0.12) 48%,
+rgba(0, 0, 0, 0.38) 100%
+);
+}
+
+@keyframes streamflixHeroZoom {
+from {
+transform: scale(1.09);
+}
+
+to {
+transform: scale(1.04);
+}
+}
+
+/* =====================================================
+HERO VIGNETTE
+===================================================== */
+
+.home-page .hero::before {
+content: "";
+position: absolute;
+inset: 0;
+z-index: 1;
+
+pointer-events: none;
+
+background:
+radial-gradient(
+ellipse at 72% 48%,
+transparent 10%,
+rgba(0, 0, 0, 0.18) 54%,
+rgba(0, 0, 0, 0.8) 100%
+);
+}
+
+.home-page .hero::after {
+content: "";
+position: absolute;
+left: 0;
+right: 0;
+bottom: 0;
+
+height: 180px;
+
+z-index: 2;
+
+pointer-events: none;
+
+background:
+linear-gradient(
+180deg,
+transparent,
+#050505
+);
+}
+
+/* =====================================================
+HERO CONTENT
+===================================================== */
+
+.home-page .hero-content {
+position: absolute;
+z-index: 5;
+
+left: 7%;
+top: 50%;
+
+width: min(680px, 48vw);
+
+transform: translateY(-50%);
+
+padding-top: 25px;
+
+animation:
+streamflixContentIn
+0.9s
+ease-out
+both;
+}
+
+@keyframes streamflixContentIn {
+from {
+opacity: 0;
+
+transform:
+  translateY(-50%)
+  translateX(-35px);
+
+}
+
+to {
+opacity: 1;
+
+transform:
+  translateY(-50%)
+  translateX(0);
+
+}
+}
+
+/* =====================================================
+STREAMFLIX BRAND
+===================================================== */
+
+.home-page .hero-brand {
+position: relative;
+
+display: inline-flex;
+align-items: baseline;
+
+margin-bottom: 25px;
+
+font-size: clamp(60px, 6.2vw, 96px);
+
+font-weight: 950;
+
+line-height: 0.86;
+
+letter-spacing: -5px;
+
+text-transform: uppercase;
+
+filter: contrast(1.08);
+
+text-shadow:
+0 3px 0 #000,
+0 9px 28px rgba(0, 0, 0, 0.95);
+}
+
+/* =====================================================
+STREAM — WHITE
+===================================================== */
+
+.home-page .hero-brand span {
+position: relative;
+
+color: #fff;
+
+font-weight: 950;
+
+text-shadow:
+0 2px 0 #000,
+0 5px 16px rgba(0, 0, 0, 0.95),
+0 0 25px rgba(255, 255, 255, 0.08);
+}
+
+/* Cinematic shadow under STREAM */
+
+.home-page .hero-brand span::after {
+content: "";
+
+position: absolute;
+
+left: 3px;
+right: 8px;
+bottom: -13px;
+
+height: 9px;
+
+background:
+linear-gradient(
+90deg,
+rgba(255, 255, 255, 0.24),
+rgba(255, 255, 255, 0.07) 45%,
+transparent 100%
+);
+
+filter: blur(6px);
+
+opacity: 0.72;
+
+transform:
+skewX(-18deg)
+scaleY(0.45);
+
+transform-origin: left center;
+
+pointer-events: none;
+}
+
+/* =====================================================
+FLIX — RED
+===================================================== */
+
+.home-page .hero-brand strong {
+color: #ed0b16;
+
+font-weight: 950;
+
+text-shadow:
+0 2px 0 #420000,
+0 5px 18px rgba(0, 0, 0, 0.95),
+0 0 26px rgba(237, 11, 22, 0.3);
+
+filter: contrast(1.15);
+}
+
+/* =====================================================
+ORIGINAL LABEL
+===================================================== */
+
+.home-page .original-label {
+display: flex;
+align-items: center;
+gap: 9px;
+
+margin-bottom: 15px;
+
+color: rgba(255, 255, 255, 0.72);
+
+font-size: 11px;
+font-weight: 800;
+
+letter-spacing: 2.5px;
+}
+
+.home-page .original-label i {
+display: block;
+
+width: 26px;
+height: 2px;
+
+background: #ed0b16;
+
+box-shadow:
+0 0 12px rgba(237, 11, 22, 0.85);
+}
+
+/* =====================================================
+HERO TITLE
+===================================================== */
+
+.home-page .hero-title {
+margin: 0;
+
+max-width: 700px;
+
+color: #fff;
+
+font-size: clamp(48px, 6vw, 88px);
+
+font-weight: 950;
+
+line-height: 0.94;
+
+letter-spacing: -3px;
+
+text-transform: uppercase;
+
+text-shadow:
+0 4px 12px rgba(0, 0, 0, 0.95),
+0 10px 40px rgba(0, 0, 0, 0.85);
+
+animation:
+heroTextChange
+0.7s
+ease
+both;
+}
+
+/* =====================================================
+HERO META
+===================================================== */
+
+.home-page .hero-meta {
+display: flex;
+align-items: center;
+
+margin-top: 24px;
+
+color: rgba(255, 255, 255, 0.86);
+
+font-size: 14px;
+font-weight: 600;
+}
+
+.home-page .hero-meta span {
+display: flex;
+align-items: center;
+}
+
+.home-page .hero-meta span:not(:last-child)::after {
+content: "•";
+
+margin: 0 12px;
+
+color: #ed0b16;
+}
+
+/* =====================================================
+TAGLINE
+===================================================== */
+
+.home-page .hero-tagline {
+margin: 20px 0 8px;
+
+color: #fff;
+
+font-size: 17px;
+font-weight: 700;
+
+letter-spacing: 0.3px;
+
+text-shadow:
+0 3px 12px rgba(0, 0, 0, 0.9);
+
+animation:
+heroTextChange
+0.7s
+0.12s
+ease
+both;
+}
+
+/* =====================================================
+DESCRIPTION
+===================================================== */
+
+.home-page .hero-description {
+max-width: 590px;
+
+margin: 0;
+
+color: rgba(255, 255, 255, 0.72);
+
+font-size: 15px;
+
+line-height: 1.7;
+
+text-shadow:
+0 2px 10px rgba(0, 0, 0, 0.9);
+
+animation:
+heroTextChange
+0.7s
+0.18s
+ease
+both;
+}
+
+/* =====================================================
+HERO BUTTONS
+===================================================== */
+
+.home-page .hero-buttons {
+display: flex;
+align-items: center;
+
+gap: 13px;
+
+margin-top: 28px;
+
+animation:
+heroTextChange
+0.7s
+0.24s
+ease
+both;
+}
+
+.home-page .play-button,
+.home-page .info-button {
+height: 52px;
+
+padding: 0 25px;
+
+border-radius: 8px;
+
+font-family: inherit;
+
+font-size: 14px;
+font-weight: 800;
+
+cursor: pointer;
+
+transition:
+transform 0.25s ease,
+box-shadow 0.25s ease,
+background 0.25s ease,
+border-color 0.25s ease;
+}
+
+.home-page .play-button {
+border: none;
+
+background: #ed0b16;
+
+color: #fff;
+
+box-shadow:
+0 8px 30px rgba(237, 11, 22, 0.28);
+}
+
+.home-page .play-button:hover {
+transform: translateY(-3px);
+
+box-shadow:
+0 12px 40px rgba(237, 11, 22, 0.48);
+}
+
+.home-page .play-button span {
+margin-right: 9px;
+}
+
+.home-page .info-button {
+border:
+1px solid
+rgba(255, 255, 255, 0.25);
+
+background:
+rgba(255, 255, 255, 0.09);
+
+color: #fff;
+
+backdrop-filter: blur(14px);
+}
+
+.home-page .info-button:hover {
+transform: translateY(-3px);
+
+background:
+rgba(255, 255, 255, 0.16);
+
+border-color:
+rgba(255, 255, 255, 0.48);
+}
+
+/* =====================================================
+HERO DOTS
+===================================================== */
+
+.home-page .hero-dots {
+position: absolute;
+
+z-index: 10;
+
+bottom: 42px;
+left: 50%;
+
+transform: translateX(-50%);
+
+display: flex;
+align-items: center;
+
+gap: 9px;
+
+padding: 8px 12px;
+
+border:
+1px solid
+rgba(255, 255, 255, 0.08);
+
+border-radius: 999px;
+
+background:
+rgba(0, 0, 0, 0.38);
+
+backdrop-filter: blur(14px);
+}
+
+.home-page .hero-dots button {
+width: 8px;
+height: 8px;
+
+padding: 0;
+
+border: none;
+
+border-radius: 50%;
+
+background: #686868;
+
+cursor: pointer;
+
+transition:
+width 0.3s ease,
+background 0.3s ease,
+box-shadow 0.3s ease,
+transform 0.3s ease;
+}
+
+.home-page .hero-dots button:hover {
+background: #aaa;
+transform: scale(1.15);
+}
+
+.home-page .hero-dots button.active {
+width: 32px;
+
+border-radius: 999px;
+
+background: #ed0b16;
+
+box-shadow:
+0 0 15px rgba(237, 11, 22, 0.8);
+}
+
+/* =====================================================
+HERO SCROLL
+===================================================== */
+
+.home-page .hero-scroll {
+position: absolute;
+
+z-index: 10;
+
+right: 38px;
+bottom: 42px;
+
+display: flex;
+align-items: center;
+
+gap: 9px;
+
+color: rgba(255, 255, 255, 0.42);
+
+font-size: 9px;
+font-weight: 800;
+
+letter-spacing: 2px;
+}
+
+.home-page .hero-scroll span {
+width: 24px;
+height: 1px;
+
+background:
+rgba(255, 255, 255, 0.35);
+}
+
+/* =====================================================
+CATEGORIES
+===================================================== */
+
+.home-page .categories-section {
+position: relative;
+
+z-index: 20;
+
+padding: 30px 90px 42px;
+
+background:
+linear-gradient(
+180deg,
+#050505 0%,
+#070707 100%
+);
+}
+
+.home-page .section-container {
+width: 100%;
+max-width: 1500px;
+
+margin: 0 auto;
+}
+
+.home-page .section-mini-title {
+margin-bottom: 13px;
+
+color: rgba(255, 255, 255, 0.42);
+
+font-size: 10px;
+font-weight: 800;
+
+letter-spacing: 3px;
+}
+
+/* =====================================================
+CATEGORY ROW
+===================================================== */
+
+.home-page .category-list {
+display: flex;
+
+gap: 14px;
+
+overflow-x: auto;
+
+padding:
+8px 3px 12px;
+
+scrollbar-width: none;
+
+scroll-behavior: smooth;
+}
+
+.home-page .category-list::-webkit-scrollbar {
+display: none;
+}
+
+.home-page .category-card {
+flex:
+0 0 120px;
+
+height: 92px;
+
+display: flex;
+
+flex-direction: column;
+
+align-items: center;
+justify-content: center;
+
+gap: 11px;
+
+border:
+1px solid #202020;
+
+border-radius: 12px;
+
+background:
+linear-gradient(
+145deg,
+#151515,
+#0c0c0c
+);
+
+color: #999;
+
+font-family: inherit;
+
+font-size: 14px;
+
+cursor: pointer;
+
+transition:
+transform 0.25s ease,
+border-color 0.25s ease,
+color 0.25s ease,
+box-shadow 0.25s ease;
+}
+
+.home-page .category-card:hover {
+transform: translateY(-4px);
+
+border-color: #444;
+
+color: #fff;
+
+box-shadow:
+0 10px 28px rgba(0, 0, 0, 0.4);
+}
+
+.home-page .category-card.active {
+border-color: #ed0b16;
+
+color: #fff;
+
+box-shadow:
+0 0 28px rgba(237, 11, 22, 0.1);
+}
+
+.home-page .category-card.active .category-icon {
+color: #ed0b16;
+}
+
+.home-page .category-icon {
+font-size: 21px;
+
+line-height: 1;
+
+color: #888;
+
+transition:
+color 0.25s ease,
+transform 0.25s ease;
+}
+
+.home-page .category-card:hover .category-icon {
+transform: scale(1.08);
+}
+
+.home-page .category-name {
+white-space: nowrap;
+}
+
+/* =====================================================
+TRENDING / MOVIE AREA
+===================================================== */
+
+.home-page .trending {
+position: relative;
+
+padding:
+0 90px 90px;
+
+background:
+linear-gradient(
+180deg,
+#050505 0%,
+#070707 100%
+);
+}
+
+.home-page .trending::before {
+content: "";
+
+position: absolute;
+
+left: 7%;
+top: 0;
+
+width: 430px;
+height: 190px;
+
+background:
+rgba(237, 11, 22, 0.055);
+
+filter: blur(90px);
+
+pointer-events: none;
+}
+
+/* =====================================================
+SECTION HEADER
+===================================================== */
+
+.home-page .section-header {
+position: relative;
+
+z-index: 2;
+
+display: flex;
+
+align-items: flex-end;
+
+justify-content: space-between;
+
+margin-bottom: 28px;
+}
+
+.home-page .section-header::after {
+content: "";
+position: absolute;
+left: 0;
+bottom: -11px;
+width: 54px;
+height: 2px;
+border-radius: 999px;
+background: #ed0b16;
+box-shadow:
+0 0 14px rgba(237, 11, 22, 0.55);
+}
+
+
+.home-page .discover {
+margin-bottom: 8px;
+
+color:
+rgba(255, 255, 255, 0.48);
+
+font-size: 11px;
+
+font-weight: 800;
+
+letter-spacing: 3px;
+
+text-transform: uppercase;
+}
+
+.home-page .section-header h2 {
+margin: 0;
+
+color: #fff;
+
+font-size: 34px;
+
+line-height: 1;
+
+font-weight: 850;
+
+letter-spacing: -1.5px;
+}
+
+.home-page .section-header h2 span {
+color: #ed0b16;
+}
+
+.home-page .view-all {
+display: flex;
+
+align-items: center;
+
+gap: 5px;
+
+padding: 8px 0;
+
+border: none;
+
+background: transparent;
+
+color: #ed0b16;
+
+font-family: inherit;
+
+font-size: 14px;
+
+font-weight: 800;
+
+cursor: pointer;
+
+transition:
+opacity 0.25s ease,
+transform 0.25s ease;
+}
+
+.home-page .view-all:hover {
+opacity: 0.8;
+
+transform: translateX(4px);
+}
+
+.home-page .view-all b {
+font-size: 24px;
+
+line-height: 0;
+}
+
+/* =====================================================
+⭐ IMPORTANT ⭐
+HOME PAGE MOVIE ROW
+ONE LINE — HORIZONTAL ONLY
+===================================================== */
+
+.home-page .movie-grid {
+position: relative;
+z-index: 2;
+
+display: flex;
+
+flex-wrap: nowrap;
+
+align-items: flex-start;
+
+gap: 20px;
+
+width: 100%;
+
+overflow-x: auto;
+overflow-y: hidden;
+
+padding:
+8px 5px 25px;
+
+margin: 0;
+
+scroll-behavior: smooth;
+
+scroll-snap-type: x proximity;
+
+scrollbar-width: none;
+
+-ms-overflow-style: none;
+}
+
+.home-page .movie-grid::-webkit-scrollbar {
+display: none;
+}
+
+/* =====================================================
+MOVIE CARD
+===================================================== */
+
+.home-page .movie-card {
+position: relative;
+
+flex:
+0 0 205px;
+
+width: 205px;
+
+min-width: 205px;
+
+max-width: 205px;
+
+margin: 0;
+
+cursor: pointer;
+
+scroll-snap-align: start;
+
+transition:
+transform 0.3s ease;
+}
+
+.home-page .movie-card {
+position: relative;
+flex:
+0 0 205px;
+width: 205px;
+min-width: 205px;
+max-width: 205px;
+margin: 0;
+cursor: pointer;
+scroll-snap-align: start;
+transition:
+transform 0.35s cubic-bezier(.2,.8,.2,1),
+filter 0.35s ease;
+}
+
+.home-page .movie-card:hover {
+transform: translateY(-6px);
+filter: brightness(1.04);
+}
+
+/* =====================================================
+POSTER
+===================================================== */
+
+.home-page .movie-poster {
+position: relative;
+
+width: 100%;
+
+aspect-ratio: 2 / 3;
+
+overflow: hidden;
+
+border:
+1px solid
+rgba(255, 255, 255, 0.09);
+
+border-radius: 12px;
+
+background: #111;
+
+box-shadow:
+0 12px 32px rgba(0, 0, 0, 0.42);
+
+transition:
+transform 0.35s ease,
+border-color 0.35s ease,
+box-shadow 0.35s ease;
+}
+
+.home-page .movie-card:hover .movie-poster {
+transform:
+translateY(-7px)
+scale(1.025);
+
+border-color:
+rgba(237, 11, 22, 0.75);
+
+box-shadow:
+0 18px 42px rgba(0, 0, 0, 0.72),
+0 0 28px rgba(237, 11, 22, 0.14);
+}
+
+/* =====================================================
+POSTER IMAGE
+===================================================== */
+
+.home-page .movie-poster img {
+width: 100%;
+height: 100%;
+
+display: block;
+
+object-fit: cover;
+
+transition:
+transform 0.55s cubic-bezier(.2,.7,.2,1),
+filter 0.4s ease;
+}
+
+.home-page .movie-card:hover .movie-poster img {
+transform: scale(1.08);
+
+filter:
+brightness(1.08)
+saturate(1.05);
+}
+
+/* =====================================================
+POSTER GRADIENT
+===================================================== */
+
+.home-page .poster-gradient {
+position: absolute;
+
+inset: 0;
+
+pointer-events: none;
+
+background:
+linear-gradient(
+180deg,
+rgba(0, 0, 0, 0.08) 0%,
+transparent 38%,
+rgba(0, 0, 0, 0.84) 100%
+);
+}
+
+/* =====================================================
+TOP 10
+===================================================== */
+
+.home-page .top-ten {
+position: absolute;
+
+top: 10px;
+right: 10px;
+
+padding:
+5px 8px;
+
+border-radius: 5px;
+
+background: #ed0b16;
+
+color: #fff;
+
+font-size: 8px;
+
+font-weight: 900;
+
+letter-spacing: 1px;
+
+box-shadow:
+0 5px 16px rgba(0, 0, 0, 0.55);
+
+z-index: 3;
+}
+
+/* =====================================================
+RANK
+===================================================== */
+
+.home-page .movie-rank {
+position: absolute;
+
+left: 12px;
+bottom: 8px;
+
+color:
+rgba(255, 255, 255, 0.92);
+
+font-size: 30px;
+
+font-weight: 950;
+
+font-style: italic;
+
+line-height: 1;
+
+text-shadow:
+0 3px 12px rgba(0, 0, 0, 0.95);
+
+z-index: 3;
+}
+
+/* =====================================================
+PLAY BUTTON
+===================================================== */
+
+.home-page .poster-play {
+position: absolute;
+
+top: 50%;
+left: 50%;
+
+width: 50px;
+height: 50px;
+
+display: flex;
+
+align-items: center;
+justify-content: center;
+
+border:
+1px solid
+rgba(255, 255, 255, 0.35);
+
+border-radius: 50%;
+
+background:
+rgba(237, 11, 22, 0.94);
+
+color: #fff;
+
+font-size: 16px;
+
+cursor: pointer;
+
+opacity: 0;
+
+transform:
+translate(-50%, -50%)
+scale(0.65);
+
+box-shadow:
+0 8px 28px rgba(0, 0, 0, 0.55);
+
+transition:
+opacity 0.25s ease,
+transform 0.3s cubic-bezier(.2,.8,.2,1),
+box-shadow 0.25s ease;
+
+z-index: 5;
+}
+
+.home-page .movie-card:hover .poster-play {
+opacity: 1;
+
+transform:
+translate(-50%, -50%)
+scale(1);
+}
+
+.home-page .poster-play:hover {
+box-shadow:
+0 0 0 7px rgba(237, 11, 22, 0.12),
+0 10px 30px rgba(0, 0, 0, 0.65);
+
+transform:
+translate(-50%, -50%)
+scale(1.08);
+}
+
+/* =====================================================
+MOVIE TITLE
+===================================================== */
+
+.home-page .movie-card h3 {
+margin:
+13px 3px 0;
+
+color:
+rgba(255, 255, 255, 0.88);
+
+font-size: 15px;
+
+font-weight: 650;
+
+line-height: 1.3;
+
+white-space: nowrap;
+
+overflow: hidden;
+
+text-overflow: ellipsis;
+
+transition:
+color 0.25s ease;
+}
+
+.home-page .movie-card:hover h3 {
+color: #fff;
+}
+
+/* =====================================================
+NO RESULTS
+===================================================== */
+
+.home-page .no-results {
+min-height: 220px;
+
+display: flex;
+
+flex-direction: column;
+
+align-items: center;
+
+justify-content: center;
+
+text-align: center;
+
+color: #777;
+}
+
+.home-page .no-results-icon {
+margin-bottom: 8px;
+
+color: #ed0b16;
+
+font-size: 32px;
+}
+
+.home-page .no-results h3 {
+margin:
+0 0 5px;
+
+color: #fff;
+}
+
+.home-page .no-results p {
+margin: 0;
+}
+
+/* =====================================================
+HERO TEXT ANIMATION
+===================================================== */
+
+@keyframes heroTextChange {
+from {
+opacity: 0;
+
+transform:
+  translateY(18px);
+
+}
+
+to {
+opacity: 1;
+
+transform:
+  translateY(0);
+
+}
+}
+
+/* =====================================================
+TABLET
+===================================================== */
+
+@media (max-width: 1100px) {
+
+.home-page .hero-content {
+left: 6%;
+
+
+width: 58vw;
+
+
+}
+
+.home-page .hero-brand {
+font-size: 68px;
+}
+
+.home-page .hero-title {
+font-size: 64px;
+}
+
+.home-page .categories-section,
+.home-page .trending {
+padding-left: 55px;
+padding-right: 55px;
+}
+
+.home-page .movie-card {
+flex-basis: 185px;
+width: 185px;
+min-width: 185px;
+max-width: 185px;
+}
+
+}
+
+/* =====================================================
+MOBILE TABLET
+===================================================== */
+
+@media (max-width: 800px) {
+
+.home-page .hero {
+min-height: 100vh;
+height: 100vh;
+}
+
+.home-page .hero-image {
+background-position: 60% center;
+}
+
+.home-page .hero-content {
+left: 30px;
+
+
+top: 52%;
+
+width:
+  calc(100% - 60px);
+
+padding-top: 0;
+
+
+}
+
+.home-page .hero-brand {
+font-size: 55px;
+
+
+letter-spacing: -3px;
+
+
+}
+
+.home-page .hero-title {
+font-size: 55px;
+}
+
+.home-page .hero-description {
+max-width: 500px;
+}
+
+.home-page .categories-section,
+.home-page .trending {
+padding-left: 30px;
+padding-right: 30px;
+}
+
+.home-page .movie-grid {
+gap: 16px;
+}
+
+.home-page .movie-card {
+flex-basis: 185px;
+width: 185px;
+min-width: 185px;
+max-width: 185px;
+}
+
+.home-page .hero-scroll {
+display: none;
+}
+
+}
+
+/* =====================================================
+MOBILE
+===================================================== */
+
+@media (max-width: 600px) {
+
+.home-page .hero {
+min-height: 100svh;
+height: 100svh;
+}
+
+.home-page .hero-image {
+background-position: 65% center;
+opacity: 0.58;
+}
+
+.home-page .hero-content {
+left: 22px;
+
+
+width:
+  calc(100% - 44px);
+
+top: 50%;
+
+
+}
+
+.home-page .hero-brand {
+margin-bottom: 18px;
+
+
+font-size: 43px;
+
+letter-spacing: -2.5px;
+
+
+}
+
+.home-page .hero-brand span::after {
+bottom: -9px;
+
+
+height: 7px;
+
+
+}
+
+.home-page .original-label {
+font-size: 9px;
+
+
+letter-spacing: 1.8px;
+
+
+}
+
+.home-page .hero-title {
+font-size: 43px;
+
+
+letter-spacing: -2px;
+
+
+}
+
+.home-page .hero-meta {
+font-size: 12px;
+}
+
+.home-page .hero-meta span:not(:last-child)::after {
+margin:
+0 7px;
+}
+
+.home-page .hero-tagline {
+font-size: 14px;
+}
+
+.home-page .hero-description {
+font-size: 13px;
+
+line-height: 1.55;
+
+
+}
+
+.home-page .hero-buttons {
+margin-top: 22px;
+
+flex-wrap: wrap;
+
+
+}
+
+.home-page .play-button,
+.home-page .info-button {
+height: 47px;
+
+
+padding:
+  0 17px;
+
+font-size: 13px;
+
+
+}
+
+.home-page .hero-dots {
+bottom: 25px;
+}
+
+.home-page .categories-section {
+padding:
+25px 20px 32px;
+}
+
+.home-page .category-card {
+flex-basis: 105px;
+
+
+height: 84px;
+
+
+}
+
+.home-page .trending {
+padding:
+0 20px 65px;
+}
+
+.home-page .section-header {
+margin-bottom: 22px;
+}
+
+.home-page .section-header h2 {
+font-size: 26px;
+}
+
+.home-page .discover {
+font-size: 9px;
+
+
+letter-spacing: 2px;
+
+
+}
+
+.home-page .view-all {
+font-size: 12px;
+}
+
+/* Mobile still stays HORIZONTAL */
+
+.home-page .movie-grid {
+gap: 14px;
+
+
+padding:
+  8px 2px 20px;
+
+
+}
+
+.home-page .movie-card {
+flex:
+0 0 155px;
+
+
+width: 155px;
+
+min-width: 155px;
+
+max-width: 155px;
+
+
+}
+
+.home-page .movie-card h3 {
+font-size: 13px;
+}
+
+.home-page .movie-rank {
+font-size: 25px;
+}
+
+}
+
+/* =====================================================
+REDUCE MOTION
+===================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+.home-page *,
+.home-page *::before,
+.home-page *::after {
+
+
+animation-duration:
+  0.01ms !important;
+
+animation-iteration-count:
+  1 !important;
+
+scroll-behavior:
+  auto !important;
+
+transition-duration:
+  0.01ms !important;
+
+}
+
+}
+
+
+
+/* =====================================================
+   STREAMFLIX — CATEGORY MOVIE COLLECTIONS
+===================================================== */
+
+.category-movie-sections {
+  position: relative;
+
+  padding: 10px 90px 100px;
+
+  background:
+    linear-gradient(
+      180deg,
+      #070707 0%,
+      #050505 100%
+    );
+}
+
+/* =====================================================
+   CATEGORY ROW
+===================================================== */
+
+.category-movie-row {
+  position: relative;
+
+  margin-top: 55px;
+
+  padding-top: 5px;
+}
+
+/* subtle red cinematic glow */
+
+.category-movie-row::before {
+  content: "";
+
+  position: absolute;
+
+  left: -80px;
+  top: -40px;
+
+  width: 320px;
+  height: 150px;
+
+  background:
+    rgba(237, 11, 22, 0.045);
+
+  filter: blur(75px);
+
+  pointer-events: none;
+}
+
+/* =====================================================
+   ROW HEADER
+===================================================== */
+
+.category-row-header {
+  position: relative;
+
+  z-index: 2;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  margin-bottom: 7px;
+}
+
+/* =====================================================
+   TITLE
+===================================================== */
+
+.category-row-title {
+  display: flex;
+
+  align-items: center;
+
+  gap: 14px;
+}
+
+.category-row-icon {
+  width: 46px;
+  height: 46px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.08);
+
+  border-radius: 12px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #181818,
+      #0b0b0b
+    );
+
+  font-size: 21px;
+
+  box-shadow:
+    0 8px 22px rgba(0, 0, 0, 0.35);
+}
+
+/* =====================================================
+   MINI TITLE
+===================================================== */
+
+.category-row-mini {
+  margin-bottom: 5px;
+
+  color:
+    rgba(255, 255, 255, 0.42);
+
+  font-size: 9px;
+
+  font-weight: 800;
+
+  letter-spacing: 2.5px;
+
+  text-transform: uppercase;
+}
+
+/* =====================================================
+   CATEGORY TITLE
+===================================================== */
+
+.category-row-title h2 {
+  margin: 0;
+
+  color: #fff;
+
+  font-size: 30px;
+
+  line-height: 1;
+
+  font-weight: 850;
+
+  letter-spacing: -1px;
+}
+
+/* =====================================================
+   DESCRIPTION
+===================================================== */
+
+.category-row-description {
+  position: relative;
+
+  z-index: 2;
+
+  margin:
+    0 0 20px 60px;
+
+  color:
+    rgba(255, 255, 255, 0.45);
+
+  font-size: 13px;
+
+  line-height: 1.5;
+}
+
+/* =====================================================
+   VIEW ALL
+===================================================== */
+
+.category-row-view {
+  display: flex;
+
+  align-items: center;
+
+  gap: 5px;
+
+  border: none;
+
+  background: transparent;
+
+  color: #ed0b16;
+
+  font-family: inherit;
+
+  font-size: 13px;
+
+  font-weight: 800;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.25s ease,
+    opacity 0.25s ease;
+}
+
+.category-row-view:hover {
+  transform: translateX(5px);
+
+  opacity: 0.8;
+}
+
+.category-row-view span {
+  font-size: 22px;
+
+  line-height: 1;
+}
+
+/* =====================================================
+   CATEGORY MOVIE ROW
+   IMPORTANT: HORIZONTAL ONLY
+===================================================== */
+
+.category-movie-row .movie-grid {
+  position: relative;
+
+  z-index: 2;
+
+  display: flex;
+
+  flex-wrap: nowrap;
+
+  gap: 20px;
+
+  width: 100%;
+
+  overflow-x: auto;
+  overflow-y: hidden;
+
+  padding:
+    8px 5px 24px;
+
+  scrollbar-width: none;
+
+  -ms-overflow-style: none;
+
+  scroll-behavior: smooth;
+
+  scroll-snap-type: x proximity;
+}
+
+.category-movie-row .movie-grid::-webkit-scrollbar {
+  display: none;
+}
+
+/* =====================================================
+   CATEGORY CARD
+===================================================== */
+
+.category-movie-row .movie-card {
+  flex:
+    0 0 205px;
+
+  width: 205px;
+
+  min-width: 205px;
+
+  scroll-snap-align: start;
+}
+
+/* =====================================================
+   CATEGORY BADGE
+===================================================== */
+
+.category-badge {
+  position: absolute;
+
+  left: 10px;
+  top: 10px;
+
+  z-index: 4;
+
+  padding:
+    5px 8px;
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.15);
+
+  border-radius: 5px;
+
+  background:
+    rgba(0, 0, 0, 0.62);
+
+  color: rgba(255, 255, 255, 0.9);
+
+  font-size: 8px;
+
+  font-weight: 900;
+
+  letter-spacing: 0.8px;
+
+  backdrop-filter: blur(10px);
+}
+
+/* =====================================================
+   CATEGORY CARD HOVER
+===================================================== */
+
+.category-movie-row .movie-card:hover {
+  transform: translateY(-3px);
+}
+
+.category-movie-row .movie-card:hover .movie-poster {
+  border-color:
+    rgba(237, 11, 22, 0.75);
+
+  box-shadow:
+    0 18px 42px rgba(0, 0, 0, 0.72),
+    0 0 28px rgba(237, 11, 22, 0.14);
+}
+
+/* =====================================================
+   TABLET
+===================================================== */
+
+@media (max-width: 1100px) {
+
+.home-page .movie-grid {
+scroll-padding-left: 5px;
+scroll-padding-right: 5px;
+overscroll-behavior-x: contain;
+}
+
+/* =====================================================
+   STREAMFLIX — CATEGORY ROW PREMIUM POLISH
+===================================================== */
+
+.category-movie-row .movie-card {
+  position: relative;
+  transform: translateZ(0);
+}
+
+.category-movie-row .movie-poster {
+  isolation: isolate;
+}
+
+.category-movie-row .movie-poster::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255,255,255,0.08),
+      transparent 28%,
+      transparent 70%,
+      rgba(237,11,22,0.08)
+    );
+  transition: opacity 0.35s ease;
+  z-index: 2;
+}
+
+.category-movie-row .movie-card:hover .movie-poster::after {
+  opacity: 1;
+}
+
+.category-movie-row .movie-card h3 {
+  transform: translateY(0);
+  transition:
+    color 0.25s ease,
+    transform 0.25s ease;
+}
+
+.category-movie-row .movie-card:hover h3 {
+  transform: translateY(-1px);
+}
+
+.category-movie-row .movie-grid {
+  scroll-padding-left: 5px;
+  scroll-padding-right: 5px;
+  overscroll-behavior-x: contain;
+}
+
+@media (max-width: 600px) {
+  .category-movie-row .movie-grid {
+    scroll-padding-left: 3px;
+    scroll-padding-right: 3px;
+  }
+}
+
+
+/* =====================================================
+   STREAMFLIX — CATEGORY HEADER FINAL POLISH
+===================================================== */
+
+.category-movie-row {
+  position: relative;
+}
+
+.category-row-header {
+  position: relative;
+  padding-bottom: 4px;
+}
+
+.category-row-title {
+  min-width: 0;
+}
+
+.category-row-title h2 {
+  position: relative;
+}
+
+.category-row-view {
+  flex-shrink: 0;
+  white-space: nowrap;
+  border-radius: 8px;
+  padding: 9px 6px 9px 10px;
+  color: rgba(255, 255, 255, 0.58);
+}
+
+.category-row-view:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.045);
+}
+
+.category-row-description {
+  max-width: 680px;
+}
+
+@media (max-width: 768px) {
+  .category-row-header {
+    gap: 12px;
+  }
+
+  .category-row-view {
+    padding: 7px 3px 7px 7px;
+  }
+
+  .category-row-description {
+    max-width: 90%;
+  }
+}
+
+@media (max-width: 480px) {
+  .category-row-header {
+    gap: 8px;
+  }
+
+  .category-row-view {
+    font-size: 10px;
+  }
+
+  .category-row-description {
+    max-width: 100%;
+  }
+}
+
+
+/* =====================================================
+   STREAMFLIX — CATEGORY ROW CINEMATIC EDGES
+===================================================== */
+
+.category-movie-row {
+  overflow: hidden;
+}
+
+.category-movie-row .movie-grid {
+  position: relative;
+  mask-image:
+    linear-gradient(
+      to right,
+      transparent 0,
+      #000 18px,
+      #000 calc(100% - 18px),
+      transparent 100%
+    );
+  -webkit-mask-image:
+    linear-gradient(
+      to right,
+      transparent 0,
+      #000 18px,
+      #000 calc(100% - 18px),
+      transparent 100%
+    );
+}
+
+@media (max-width: 600px) {
+  .category-movie-row .movie-grid {
+    mask-image:
+      linear-gradient(
+        to right,
+        transparent 0,
+        #000 10px,
+        #000 calc(100% - 10px),
+        transparent 100%
+      );
+    -webkit-mask-image:
+      linear-gradient(
+        to right,
+        transparent 0,
+        #000 10px,
+        #000 calc(100% - 10px),
+        transparent 100%
+      );
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .category-movie-row .movie-grid {
+    scroll-behavior: auto;
+  }
+}
+
+
+/* =====================================================
+   STREAMFLIX — CATEGORY CARD FINAL POLISH
+===================================================== */
+
+.category-movie-row .movie-card {
+  border-radius: 12px;
+}
+
+.category-movie-row .movie-card h3 {
+  position: relative;
+  padding-right: 3px;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.45);
+}
+
+.category-movie-row .movie-poster {
+  transition:
+    transform 0.35s cubic-bezier(.2,.7,.2,1),
+    border-color 0.3s ease,
+    box-shadow 0.35s ease;
+}
+
+.category-movie-row .movie-card:hover .movie-poster {
+  transform: translateY(-5px) scale(1.018);
+}
+
+.category-movie-row .movie-card:hover {
+  transform: translateY(-4px);
+}
+
+.category-movie-row .movie-poster img {
+  will-change: transform;
+}
+
+.category-movie-row .movie-card:hover .movie-poster img {
+  transform: scale(1.07);
+}
+
+.category-movie-row .poster-play {
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
+
+.category-movie-row .category-badge {
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+@media (max-width: 600px) {
+  .category-movie-row .movie-card:hover .movie-poster {
+    transform: translateY(-3px) scale(1.012);
+  }
+}
+
+
+/* =====================================================
+   STREAMFLIX — CATEGORY SECTION CINEMATIC BACKGROUND
+===================================================== */
+
+.category-movie-sections {
+  position: relative;
+  overflow: hidden;
+  background:
+    linear-gradient(
+      180deg,
+      #050505 0%,
+      #070707 42%,
+      #050505 100%
+    );
+}
+
+.category-movie-sections::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 180px;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(237, 11, 22, 0.035),
+      transparent
+    );
+}
+
+.category-movie-row {
+  position: relative;
+  z-index: 1;
+}
+
+.category-movie-row + .category-movie-row {
+  padding-top: 8px;
+}
+
+@media (max-width: 768px) {
+  .category-movie-sections {
+    background:
+      linear-gradient(
+        180deg,
+        #050505 0%,
+        #070707 50%,
+        #050505 100%
+      );
+  }
+
+  .category-movie-row + .category-movie-row {
+    padding-top: 4px;
+  }
+}
+
+
+/* =====================================================
+   STREAMFLIX — CATEGORY ROW SPACING & SEPARATOR
+===================================================== */
+
+.category-movie-row {
+  margin-bottom: 78px;
+}
+
+.category-movie-row:not(:last-child)::after {
+  content: "";
+  display: block;
+  width: min(92%, 1100px);
+  height: 1px;
+  margin: 54px auto 0;
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.07),
+      rgba(237, 11, 22, 0.16),
+      rgba(255, 255, 255, 0.07),
+      transparent
+    );
+  opacity: 0.7;
+}
+
+@media (max-width: 768px) {
+  .category-movie-row {
+    margin-bottom: 55px;
+  }
+
+  .category-movie-row:not(:last-child)::after {
+    width: 88%;
+    margin-top: 38px;
+  }
+}
+
+@media (max-width: 480px) {
+  .category-movie-row {
+    margin-bottom: 48px;
+  }
+
+  .category-movie-row:not(:last-child)::after {
+    width: 82%;
+    margin-top: 30px;
+  }
+}
+
+
+/* =====================================================
+   STREAMFLIX — NAVBAR PREMIUM POLISH
+===================================================== */
+
+.home-page .navbar,
+.home-page header {
+  transition:
+    background 0.3s ease,
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.home-page .navbar {
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  background:
+    linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.82),
+      rgba(0, 0, 0, 0.42)
+    );
+  border-bottom: 1px solid rgba(255, 255, 255, 0.055);
+}
+
+.home-page .navbar a {
+  transition:
+    color 0.25s ease,
+    opacity 0.25s ease;
+}
+
+.home-page .navbar a:hover {
+  color: #fff;
+}
+
+.home-page .navbar button {
+  transition:
+    transform 0.25s ease,
+    opacity 0.25s ease,
+    background 0.25s ease;
+}
+
+.home-page .navbar button:hover {
+  transform: translateY(-1px);
+}
+
+@media (max-width: 768px) {
+  .home-page .navbar {
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+}
+
+
+/* =====================================================
+   STREAMFLIX — NAVBAR MOBILE POLISH
+===================================================== */
+
+@media (max-width: 800px) {
+
+  .home-page .navbar {
+    min-height: 58px;
+  }
+
+  .home-page .navbar a,
+  .home-page .navbar button {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .home-page .navbar a:active,
+  .home-page .navbar button:active {
+    transform: scale(0.97);
+  }
+
+}
+
+@media (max-width: 600px) {
+
+  .home-page .navbar {
+    min-height: 54px;
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+}
+
+@media (max-width: 400px) {
+
+  .home-page .navbar {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+}
+
+
+/* =====================================================
+   STREAMFLIX — HERO CINEMATIC TRANSITION
+===================================================== */
+
+.home-page .hero {
+  position: relative;
+  isolation: isolate;
+}
+
+.home-page .hero::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 180px;
+  pointer-events: none;
+  z-index: 3;
+  background:
+    linear-gradient(
+      to bottom,
+      transparent 0%,
+      rgba(5, 5, 5, 0.35) 38%,
+      rgba(5, 5, 5, 0.78) 72%,
+      #050505 100%
+    );
+}
+
+.home-page .categories-section,
+.home-page .trending,
+.home-page .category-movie-sections {
+  position: relative;
+  z-index: 4;
+}
+
+@media (max-width: 600px) {
+  .home-page .hero::after {
+    height: 140px;
+    background:
+      linear-gradient(
+        to bottom,
+        transparent 0%,
+        rgba(5, 5, 5, 0.42) 40%,
+        rgba(5, 5, 5, 0.82) 75%,
+        #050505 100%
+      );
+  }
+}
+
+
+/* =====================================================
+   STREAMFLIX — HERO CINEMATIC TRANSITION
+===================================================== */
+
+.home-page .hero {
+  position: relative;
+  isolation: isolate;
+}
+
+.home-page .hero::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 180px;
+  pointer-events: none;
+  z-index: 3;
+  background:
+    linear-gradient(
+      to bottom,
+      transparent 0%,
+      rgba(5, 5, 5, 0.35) 38%,
+      rgba(5, 5, 5, 0.78) 72%,
+      #050505 100%
+    );
+}
+
+.home-page .categories-section,
+.home-page .trending,
+.home-page .category-movie-sections {
+  position: relative;
+  z-index: 4;
+}
+
+@media (max-width: 600px) {
+  .home-page .hero::after {
+    height: 140px;
+    background:
+      linear-gradient(
+        to bottom,
+        transparent 0%,
+        rgba(5, 5, 5, 0.42) 40%,
+        rgba(5, 5, 5, 0.82) 75%,
+        #050505 100%
+      );
+  }
+}
+
+
+/* =====================================================
+   STREAMFLIX — HERO CONTROLS POLISH
+===================================================== */
+
+.home-page .hero-buttons {
+  gap: 12px;
+}
+
+.home-page .play-button,
+.home-page .info-button {
+  position: relative;
+  overflow: hidden;
+}
+
+.home-page .play-button::before,
+.home-page .info-button::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      120deg,
+      transparent 20%,
+      rgba(255, 255, 255, 0.08) 50%,
+      transparent 80%
+    );
+  transform: translateX(-110%);
+  transition: transform 0.55s ease;
+}
+
+.home-page .play-button:hover::before,
+.home-page .info-button:hover::before {
+  transform: translateX(110%);
+}
+
+.home-page .hero-dots {
+  position: relative;
+  z-index: 7;
+}
+
+.home-page .hero-dots button {
+  transition:
+    transform 0.25s ease,
+    opacity 0.25s ease,
+    width 0.25s ease;
+}
+
+.home-page .hero-dots button:hover {
+  transform: scale(1.15);
+}
+
+@media (max-width: 600px) {
+  .home-page .hero-buttons {
+    gap: 9px;
+  }
+
+  .home-page .hero-dots button:hover {
+    transform: none;
+  }
+}
+
+
+/* =====================================================
+   STREAMFLIX — CATEGORY CARDS PREMIUM POLISH
+===================================================== */
+
+.home-page .category-card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.075);
+  border-radius: 12px;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.055),
+      rgba(255, 255, 255, 0.018)
+    );
+  box-shadow:
+    0 10px 28px rgba(0, 0, 0, 0.32);
+  transition:
+    transform 0.3s cubic-bezier(.2,.7,.2,1),
+    border-color 0.3s ease,
+    box-shadow 0.3s ease,
+    background 0.3s ease;
+}
+
+.home-page .category-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(237, 11, 22, 0.18),
+      transparent 65%
+    );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.home-page .category-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(237, 11, 22, 0.42);
+  background:
+    linear-gradient(
+      145deg,
+      rgba(237, 11, 22, 0.10),
+      rgba(255, 255, 255, 0.025)
+    );
+  box-shadow:
+    0 16px 36px rgba(0, 0, 0, 0.48),
+    0 0 24px rgba(237, 11, 22, 0.10);
+}
+
+.home-page .category-card:hover::before {
+  opacity: 1;
+}
+
+.home-page .category-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+@media (max-width: 600px) {
+  .home-page .category-card:hover {
+    transform: translateY(-3px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-page .category-card,
+  .home-page .category-card::before {
+    transition: none;
+  }
+}
+
+
+/* =====================================================
+   STREAMFLIX — CATEGORIES / TRENDING TRANSITION
+===================================================== */
+
+.home-page .categories-section {
+  position: relative;
+  isolation: isolate;
+}
+
+.home-page .categories-section::after {
+  content: "";
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  bottom: 0;
+  height: 1px;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(237, 11, 22, 0.18),
+      rgba(255, 255, 255, 0.07),
+      rgba(237, 11, 22, 0.18),
+      transparent
+    );
+}
+
+.home-page .trending {
+  position: relative;
+  padding-top: 12px;
+}
+
+.home-page .trending::before {
+  content: "";
+  position: absolute;
+  top: -80px;
+  left: 15%;
+  width: 70%;
+  height: 150px;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      ellipse,
+      rgba(237, 11, 22, 0.045),
+      transparent 70%
+    );
+  filter: blur(35px);
+}
+
+.home-page .trending > * {
+  position: relative;
+  z-index: 1;
+}
+
+@media (max-width: 600px) {
+  .home-page .categories-section::after {
+    left: 12%;
+    right: 12%;
+  }
+
+  .home-page .trending {
+    padding-top: 8px;
+  }
+}
+
