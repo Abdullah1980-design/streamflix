@@ -12,18 +12,17 @@ const API_URL =
 ===================================================== */
 
 const categories = [
-  { name: "All", icon: "⌂" },
-  { name: "Movies", icon: "▶" },
-  { name: "TV Shows", icon: "▣" },
-  { name: "Action", icon: "⚡" },
-  { name: "Drama", icon: "◆" },
-  { name: "Comedy", icon: "☺" },
-  { name: "Horror", icon: "☠" },
-  { name: "Romance", icon: "♡" },
-  { name: "Kids", icon: "★" },
-  { name: "Documentary", icon: "▤" },
+  { name: "All", key: "all", icon: "⌂" },
+  { name: "Movies", key: "movies", icon: "▶" },
+  { name: "TV Shows", key: "tvShows", icon: "▣" },
+  { name: "Action", key: "action", icon: "⚡" },
+  { name: "Drama", key: "drama", icon: "◆" },
+  { name: "Comedy", key: "comedy", icon: "☺" },
+  { name: "Horror", key: "horror", icon: "☠" },
+  { name: "Romance", key: "romance", icon: "♡" },
+  { name: "Kids", key: "kids", icon: "★" },
+  { name: "Documentary", key: "documentary", icon: "▤" },
 ];
-
 /* =====================================================
    FALLBACK MOVIES
 ===================================================== */
@@ -167,7 +166,6 @@ function Home({ search = "" }) {
   const [heroMovies, setHeroMovies] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [heroIndex, setHeroIndex] = useState(0);
-
   /* LANGUAGE */
   const [languageOpen, setLanguageOpen] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState("English");
@@ -510,9 +508,9 @@ function Home({ search = "" }) {
                     {category.icon}
                   </span>
 
-                  <span className="category-name">
-                    {category.name}
-                  </span>
+                <span className="category-name">
+  {t(category.key, category.name)}
+</span>
 
                 </button>
 
