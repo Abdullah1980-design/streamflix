@@ -18,12 +18,35 @@ const userSchema = new mongoose.Schema(
       required: true,
     },
 
+    // =========================
+    // OTP
+    // =========================
     otpHash: {
       type: String,
       default: null,
     },
 
     otpExpiresAt: {
+      type: Date,
+      default: null,
+    },
+
+    // =========================
+    // SUBSCRIPTION
+    // =========================
+    subscriptionStatus: {
+      type: String,
+      enum: ["inactive", "active"],
+      default: "inactive",
+    },
+
+    subscriptionPlan: {
+      type: String,
+      enum: ["free", "monthly", "yearly"],
+      default: "free",
+    },
+
+    subscriptionExpiresAt: {
       type: Date,
       default: null,
     },
