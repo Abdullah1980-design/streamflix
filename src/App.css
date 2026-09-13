@@ -3073,3 +3073,77 @@ font-size: 35px;
     0 0 0 3px rgba(229, 9, 20, 0.15),
     0 2px 10px rgba(0, 0, 0, 0.5);
 }
+
+
+
+/* =========================================
+   STREAMFLIX LOGIN MEMBERSHIP
+========================================= */
+
+.login-membership {
+  width: 100%;
+  box-sizing: border-box;
+  margin: 18px 0;
+  padding: 14px 16px;
+
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  border: 1px solid rgba(255, 45, 111, 0.45);
+  border-radius: 12px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255, 45, 111, 0.14),
+      rgba(255, 138, 61, 0.08)
+    );
+
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+.login-membership:hover {
+  transform: translateY(-2px);
+
+  border-color: #ff2d6f;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255, 45, 111, 0.25),
+      rgba(255, 138, 61, 0.15)
+    );
+
+  box-shadow:
+    0 8px 25px rgba(255, 45, 111, 0.18);
+}
+
+.login-membership > span:first-child {
+  font-size: 24px;
+}
+
+.login-membership > div {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.login-membership strong {
+  color: #fff;
+  font-size: 15px;
+}
+
+.login-membership small {
+  margin-top: 3px;
+  color: #aaa;
+  font-size: 12px;
+}
+
+.login-membership > span:last-child {
+  color: #ff2d6f;
+  font-size: 20px;
+  font-weight: bold;
+}

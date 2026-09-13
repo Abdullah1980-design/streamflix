@@ -327,7 +327,24 @@ function Login({ setIsLoggedIn }) {
               </button>
             </form>
 
-            {message && (
+{/* =========================
+    MEMBERSHIP
+========================= */}
+<div
+  className="login-membership"
+  onClick={() => navigate("/subscription")}
+>
+  <span>💎</span>
+
+  <div>
+    <strong>Membership Plans</strong>
+    <small>Choose your StreamFlix plan</small>
+  </div>
+
+  <span>→</span>
+</div>
+
+{message && (
               <p className="login-message">
                 {message}
               </p>
