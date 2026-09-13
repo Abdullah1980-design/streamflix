@@ -1,3 +1,4 @@
+
 import "../App.css";
 import { useState } from "react";
 import axios from "axios";
@@ -20,10 +21,11 @@ function Login({ setIsLoggedIn }) {
   const API_URL =
     "https://streamflix-production-30f2.up.railway.app/api/auth";
 
-
+  // =========================
+  // LOGIN / SIGNUP
+  // =========================
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     setMessage("");
 
     // =========================
@@ -45,11 +47,14 @@ function Login({ setIsLoggedIn }) {
           {
             name,
             email,
-            password
+            password,
           }
         );
 
-        console.log("SIGNUP RESPONSE:", res.data);
+        console.log(
+          "SIGNUP RESPONSE:",
+          res.data
+        );
 
         setMessage(
           "Account created successfully! 🎉"
@@ -61,15 +66,16 @@ function Login({ setIsLoggedIn }) {
           setPassword("");
           setMessage("");
         }, 1200);
-
       } catch (err) {
-        console.log("SIGNUP ERROR:", err);
+        console.log(
+          "SIGNUP ERROR:",
+          err
+        );
 
         setMessage(
           err.response?.data?.message ||
-          "Something went wrong."
+            "Something went wrong."
         );
-
       } finally {
         setLoading(false);
       }
@@ -77,12 +83,10 @@ function Login({ setIsLoggedIn }) {
       return;
     }
 
-
     // =========================
     // LOGIN STEP 1
     // EMAIL + PASSWORD
     // =========================
-
     if (!email || !password) {
       setMessage(
         "Please enter email and password."
@@ -97,7 +101,7 @@ function Login({ setIsLoggedIn }) {
         `${API_URL}/login`,
         {
           email,
-          password
+          password,
         }
       );
 
@@ -106,32 +110,30 @@ function Login({ setIsLoggedIn }) {
         res.data
       );
 
-      // OTP sent
+      // OTP sent successfully
       setOtpStep(true);
 
       setMessage(
         `OTP sent to ${email} 📧`
       );
-
     } catch (err) {
-      console.log("LOGIN ERROR:", err);
+      console.log(
+        "LOGIN ERROR:",
+        err
+      );
 
       setMessage(
         err.response?.data?.message ||
-        "Something went wrong."
+          "Something went wrong."
       );
-
     } finally {
       setLoading(false);
     }
   };
 
-
   // =========================
-  // LOGIN STEP 2
   // VERIFY OTP
   // =========================
-
   const handleVerifyOtp = async (e) => {
     e.preventDefault();
 
@@ -151,7 +153,7 @@ function Login({ setIsLoggedIn }) {
         `${API_URL}/verify-otp`,
         {
           email,
-          otp
+          otp,
         }
       );
 
@@ -160,7 +162,9 @@ function Login({ setIsLoggedIn }) {
         res.data
       );
 
-      // Save JWT
+      // =========================
+      // SAVE JWT
+      // =========================
       if (res.data.token) {
         localStorage.setItem(
           "streamflix-token",
@@ -171,13 +175,15 @@ function Login({ setIsLoggedIn }) {
       }
 
       setMessage(
-        "Login successful! ✅"
+        "OTP verified successfully! ✅"
       );
 
+      // =========================
+      // GO TO SUBSCRIPTION
+      // =========================
       setTimeout(() => {
-        navigate("/");
+        navigate("/subscription");
       }, 700);
-
     } catch (err) {
       console.log(
         "OTP VERIFY ERROR:",
@@ -186,14 +192,12 @@ function Login({ setIsLoggedIn }) {
 
       setMessage(
         err.response?.data?.message ||
-        "Invalid OTP."
+          "Invalid OTP."
       );
-
     } finally {
       setLoading(false);
     }
   };
-
 
   return (
     <div className="login-page">
@@ -203,11 +207,11 @@ function Login({ setIsLoggedIn }) {
         {/* =========================
             OTP SCREEN
         ========================= */}
-
         {otpStep ? (
-
           <>
-            <h1>Verify Your Email</h1>
+            <h1>
+              Verify Your Email
+            </h1>
 
             <p>
               We sent a 6-digit OTP to
@@ -215,22 +219,23 @@ function Login({ setIsLoggedIn }) {
               <strong>{email}</strong>
             </p>
 
-            <form onSubmit={handleVerifyOtp}>
-
+            <form
+              onSubmit={handleVerifyOtp}
+            >
               <input
                 type="text"
                 inputMode="numeric"
                 maxLength="6"
                 placeholder="Enter 6-digit OTP"
                 value={otp}
-                onChange={(e) =>
+                onChange={(e) => {
                   setOtp(
                     e.target.value.replace(
                       /\D/g,
                       ""
                     )
-                  )
-                }
+                  );
+                }}
               />
 
               <button
@@ -242,7 +247,6 @@ function Login({ setIsLoggedIn }) {
                   ? "Verifying..."
                   : "Verify OTP"}
               </button>
-
             </form>
 
             {message && (
@@ -254,7 +258,7 @@ function Login({ setIsLoggedIn }) {
             <p
               style={{
                 cursor: "pointer",
-                marginTop: "15px"
+                marginTop: "15px",
               }}
               onClick={() => {
                 setOtpStep(false);
@@ -265,13 +269,10 @@ function Login({ setIsLoggedIn }) {
               ← Back to Login
             </p>
           </>
-
         ) : (
-
           /* =========================
-             LOGIN / SIGNUP SCREEN
+             LOGIN / SIGNUP
           ========================= */
-
           <>
             <h1>
               {isSignup
@@ -281,7 +282,7 @@ function Login({ setIsLoggedIn }) {
 
             <form onSubmit={handleSubmit}>
 
-              {/* Name - Signup only */}
+              {/* NAME */}
               {isSignup && (
                 <input
                   type="text"
@@ -293,7 +294,7 @@ function Login({ setIsLoggedIn }) {
                 />
               )}
 
-              {/* Email */}
+              {/* EMAIL */}
               <input
                 type="email"
                 placeholder="Email"
@@ -303,7 +304,7 @@ function Login({ setIsLoggedIn }) {
                 }
               />
 
-              {/* Password */}
+              {/* PASSWORD */}
               <input
                 type="password"
                 placeholder="Password"
@@ -324,7 +325,6 @@ function Login({ setIsLoggedIn }) {
                   ? "Sign Up"
                   : "Continue"}
               </button>
-
             </form>
 
             {message && (
@@ -334,7 +334,6 @@ function Login({ setIsLoggedIn }) {
             )}
 
             <p>
-
               {isSignup
                 ? "Already have an account?"
                 : "New to Streamflix?"}
@@ -345,24 +344,21 @@ function Login({ setIsLoggedIn }) {
                   setName("");
                   setPassword("");
                   setMessage("");
+                  setOtp("");
                 }}
                 style={{
                   cursor: "pointer",
-                  marginLeft: "5px"
+                  marginLeft: "5px",
                 }}
               >
                 {isSignup
                   ? "Sign in."
                   : "Sign up now."}
               </span>
-
             </p>
-
           </>
         )}
-
       </div>
-
     </div>
   );
 }

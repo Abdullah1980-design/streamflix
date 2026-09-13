@@ -1,6 +1,7 @@
 /* =====================================================
    STREAMFLIX
    PREMIUM REALISTIC CRT TV SPLASH
+   HOME PAGE THEME — PINK + ORANGE + PURPLE
 ===================================================== */
 
 .streamflix-splash {
@@ -17,11 +18,27 @@
 
   background:
     radial-gradient(
-      circle at 50% 45%,
-      #260000 0%,
-      #0b0000 28%,
-      #050505 60%,
-      #000 100%
+      1000px 650px at 8% 0%,
+      rgba(255, 45, 111, 0.18),
+      transparent 62%
+    ),
+    radial-gradient(
+      900px 600px at 92% 5%,
+      rgba(255, 138, 61, 0.13),
+      transparent 62%
+    ),
+    radial-gradient(
+      900px 700px at 50% 55%,
+      rgba(105, 35, 150, 0.16),
+      transparent 70%
+    ),
+    linear-gradient(
+      180deg,
+      #07040b 0%,
+      #0b0612 25%,
+      #100818 55%,
+      #0d0714 78%,
+      #07040b 100%
     );
 
   font-family:
@@ -46,38 +63,67 @@
 }
 
 .glow-one {
-  width: 480px;
-  height: 480px;
+  width: 520px;
+  height: 520px;
+
+  left: 50%;
+  top: 42%;
+
+  transform: translate(-50%, -50%);
 
   background:
-    rgba(255, 0, 0, 0.12);
+    radial-gradient(
+      circle,
+      rgba(255, 45, 111, 0.20) 0%,
+      rgba(255, 138, 61, 0.12) 42%,
+      transparent 72%
+    );
 
   animation:
     backgroundPulse 4s ease-in-out infinite;
 }
 
 .glow-two {
-  width: 280px;
-  height: 280px;
+  width: 320px;
+  height: 320px;
 
-  right: 8%;
-  bottom: 8%;
+  right: 5%;
+  bottom: 6%;
 
   background:
-    rgba(255, 15, 15, 0.08);
+    radial-gradient(
+      circle,
+      rgba(255, 138, 61, 0.13),
+      rgba(255, 45, 111, 0.08) 42%,
+      transparent 72%
+    );
+
+  animation:
+    secondaryGlow 5s ease-in-out infinite alternate;
 }
 
 @keyframes backgroundPulse {
-
   0%,
   100% {
-    transform: scale(0.9);
-    opacity: 0.35;
+    transform: translate(-50%, -50%) scale(0.9);
+    opacity: 0.45;
   }
 
   50% {
-    transform: scale(1.15);
-    opacity: 0.75;
+    transform: translate(-50%, -50%) scale(1.15);
+    opacity: 0.9;
+  }
+}
+
+@keyframes secondaryGlow {
+  from {
+    transform: scale(0.9);
+    opacity: 0.45;
+  }
+
+  to {
+    transform: scale(1.12);
+    opacity: 0.85;
   }
 }
 
@@ -106,7 +152,6 @@
 }
 
 @keyframes tvEnter {
-
   from {
     transform:
       translateX(-120vw)
@@ -226,7 +271,12 @@
   box-shadow:
     inset 0 2px 2px rgba(255,255,255,0.12),
     inset 0 -8px 15px rgba(0,0,0,0.8),
-    0 0 0 2px rgba(255,0,0,0.12),
+
+    /* HOME THEME EDGE GLOW */
+    0 0 0 2px rgba(255,45,111,0.12),
+    0 0 35px rgba(255,45,111,0.08),
+    0 0 60px rgba(255,138,61,0.05),
+
     0 15px 35px rgba(0,0,0,0.9),
     0 35px 80px rgba(0,0,0,0.85);
 }
@@ -292,7 +342,10 @@
     inset 0 0 20px #000,
     inset 0 0 60px rgba(0,0,0,0.95),
     0 0 0 2px #222,
-    0 0 25px rgba(255,0,0,0.18);
+
+    /* PINK + ORANGE CRT GLOW */
+    0 0 25px rgba(255,45,111,0.18),
+    0 0 45px rgba(255,138,61,0.08);
 }
 
 
@@ -314,8 +367,9 @@
       125deg,
       rgba(255,255,255,0.13),
       transparent 20%,
-      transparent 65%,
-      rgba(255,0,0,0.04)
+      transparent 60%,
+      rgba(255,45,111,0.04) 78%,
+      rgba(255,138,61,0.05) 100%
     );
 
   border-radius:
@@ -381,7 +435,6 @@
 }
 
 @keyframes signalGlitch {
-
   0% {
     transform:
       translateX(-5px)
@@ -463,7 +516,6 @@
 }
 
 @keyframes staticMove {
-
   from {
     transform:
       translateX(-12px);
@@ -598,14 +650,36 @@
     text-shadow 0.6s ease;
 }
 
-.logo-s,
-.logo-f {
-  color: #ff1515;
+
+/* =====================================================
+   DEFAULT LOGO COLORS
+===================================================== */
+
+.logo-s {
+  color: #ffffff;
 
   text-shadow:
-    0 0 8px rgba(255,0,0,0.95),
-    0 0 20px rgba(255,0,0,0.7),
-    0 0 40px rgba(255,0,0,0.35);
+    0 0 8px rgba(255,255,255,0.35),
+    0 0 20px rgba(255,255,255,0.12);
+}
+
+.logo-f {
+  background:
+    linear-gradient(
+      90deg,
+      #FF2D6F 0%,
+      #FF8A3D 100%
+    );
+
+  -webkit-background-clip: text;
+  background-clip: text;
+
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+
+  text-shadow:
+    0 0 10px rgba(255,45,111,0.55),
+    0 0 22px rgba(255,138,61,0.35);
 }
 
 
@@ -648,7 +722,10 @@
 ===================================================== */
 
 .tream {
-  color: #fff;
+  color: #ffffff;
+
+  text-shadow:
+    0 0 8px rgba(255,255,255,0.22);
 }
 
 
@@ -657,11 +734,22 @@
 ===================================================== */
 
 .lix {
-  color: #ff1515;
+  background:
+    linear-gradient(
+      90deg,
+      #FF2D6F 0%,
+      #FF8A3D 100%
+    );
+
+  -webkit-background-clip: text;
+  background-clip: text;
+
+  -webkit-text-fill-color: transparent;
+  color: transparent;
 
   text-shadow:
-    0 0 8px rgba(255,0,0,0.8),
-    0 0 18px rgba(255,0,0,0.45);
+    0 0 10px rgba(255,45,111,0.55),
+    0 0 22px rgba(255,138,61,0.35);
 }
 
 
@@ -724,31 +812,50 @@
 }
 
 
-/* STREAM = WHITE */
+/* =====================================================
+   STREAM = WHITE
+===================================================== */
 
 .sf-transform.complete .logo-s,
 .sf-transform.complete .tream {
-  color: #fff;
-}
+  color: #ffffff;
 
-.sf-transform.complete .logo-s {
+  background: none;
+
+  -webkit-background-clip: initial;
+  background-clip: initial;
+
+  -webkit-text-fill-color: #ffffff;
+
   text-shadow:
-    0 0 8px rgba(255,255,255,0.3);
+    0 0 8px rgba(255,255,255,0.3),
+    0 0 18px rgba(255,255,255,0.08);
 }
 
 
-/* FLIX = RED */
+/* =====================================================
+   FLIX = PINK + ORANGE
+===================================================== */
 
 .sf-transform.complete .logo-f,
 .sf-transform.complete .lix {
-  color: #ff1515;
-}
+  background:
+    linear-gradient(
+      90deg,
+      #FF2D6F 0%,
+      #FF8A3D 100%
+    );
 
-.sf-transform.complete .logo-f {
+  -webkit-background-clip: text;
+  background-clip: text;
+
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+
   text-shadow:
-    0 0 8px rgba(255,0,0,0.95),
-    0 0 20px rgba(255,0,0,0.7),
-    0 0 40px rgba(255,0,0,0.35);
+    0 0 10px rgba(255,45,111,0.65),
+    0 0 22px rgba(255,138,61,0.45),
+    0 0 38px rgba(255,45,111,0.18);
 }
 
 
@@ -778,6 +885,9 @@
   transition:
     opacity 0.8s ease,
     transform 0.8s ease;
+
+  text-shadow:
+    0 2px 12px rgba(0,0,0,0.7);
 }
 
 .streamflix-tagline.active {
@@ -864,25 +974,37 @@
 
   border-radius: 50%;
 
-  background: #ff1515;
+  background:
+    linear-gradient(
+      135deg,
+      #FF2D6F,
+      #FF8A3D
+    );
 
   box-shadow:
-    0 0 8px #ff0000,
-    0 0 18px rgba(255,0,0,0.7);
+    0 0 8px rgba(255,45,111,0.9),
+    0 0 18px rgba(255,138,61,0.65);
 
   animation:
     powerPulse 1.5s ease-in-out infinite;
 }
 
 @keyframes powerPulse {
-
   0%,
   100% {
     opacity: 0.55;
+
+    box-shadow:
+      0 0 8px rgba(255,45,111,0.7),
+      0 0 18px rgba(255,138,61,0.45);
   }
 
   50% {
     opacity: 1;
+
+    box-shadow:
+      0 0 10px rgba(255,45,111,1),
+      0 0 24px rgba(255,138,61,0.8);
   }
 }
 
@@ -966,16 +1088,17 @@
 
   border-radius: 50%;
 
-  color: #ff1515;
+  color: #FF2D6F;
 
-  border: 1px solid #ff1515;
+  border:
+    1px solid #FF2D6F;
 
   box-shadow:
-    0 0 8px rgba(255,0,0,0.8);
+    0 0 8px rgba(255,45,111,0.75),
+    0 0 15px rgba(255,138,61,0.25);
 }
 
 @keyframes nextAppear {
-
   from {
     opacity: 0;
 

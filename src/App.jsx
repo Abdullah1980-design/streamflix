@@ -13,6 +13,8 @@ import Login from "./pages/login";
 import Watchlist from "./pages/watchlist";
 import MovieDetails from "./pages/MovieDetails";
 import NotFound from "./pages/NotFound";
+import Subscription from "./pages/Subscription";
+import Payment from "./pages/Payment";
 
 import "./App.css";
 
@@ -139,6 +141,15 @@ function App() {
             />
           }
         />
+        <Route
+  path="/subscription"
+  element={<Subscription />}
+/>
+
+<Route
+  path="/payment"
+  element={<Payment />}
+/>
 
         <Route
           path="/movie/:title"

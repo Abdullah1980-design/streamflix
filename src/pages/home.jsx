@@ -7,894 +7,728 @@ import "./home.css";
 const API_URL =
   "https://streamflix-production-30f2.up.railway.app/api/movies/trending";
 
-/* =====================================================
-   CATEGORIES
-===================================================== */
+/* =========================================================
+   STREAMFLIX — RELIABLE TMDB FALLBACK IMAGES
+   ========================================================= */
 
-const categories = [
-  { name: "All", key: "all", icon: "⌂" },
-  { name: "Movies", key: "movies", icon: "▶" },
-  { name: "TV Shows", key: "tvShows", icon: "▣" },
-  { name: "Action", key: "action", icon: "⚡" },
-  { name: "Drama", key: "drama", icon: "◆" },
-  { name: "Comedy", key: "comedy", icon: "☺" },
-  { name: "Horror", key: "horror", icon: "☠" },
-  { name: "Romance", key: "romance", icon: "♡" },
-  { name: "Kids", key: "kids", icon: "★" },
-  { name: "Documentary", key: "documentary", icon: "▤" },
+const BACKUP_POSTERS = [
+  "https://image.tmdb.org/t/p/w500/9gk7adHYeDvHkCSEqAvQNLV5Uge.jpg",
+  "https://image.tmdb.org/t/p/w500/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg",
+  "https://image.tmdb.org/t/p/w500/RYMX2wcKCBAr24UyPD7xwmjaTn.jpg",
+  "https://image.tmdb.org/t/p/w500/49WJfeN0moxb9IPfGn8AIqMGskD.jpg",
+  "https://image.tmdb.org/t/p/w500/74xTEgt7R36Fpooo50r9T25onhq.jpg",
+  "https://image.tmdb.org/t/p/w500/reEMJA1uzscCbkpeRJeTT2bjqUp.jpg",
 ];
-/* =====================================================
+const BACKUP_HEROES = [
+  "https://image.tmdb.org/t/p/original/9mmv2b7Y0q9g1gK3k5x5Y6J5J4.jpg",
+  "https://image.tmdb.org/t/p/original/8ZTVqvKDQ8emSGUEMjsS4yHAwrp.jpg",
+  "https://image.tmdb.org/t/p/original/5mVzP7Y0M5jV2Q9y8P8P7y4J8H.jpg",
+];
+
+/* =========================================================
    FALLBACK MOVIES
-===================================================== */
+   API FAIL HONE PAR BHI HOME EMPTY NAHI HOGA
+   ========================================================= */
 
-const fallbackMovies = [
+const FALLBACK_MOVIES = [
   {
-    title: "Peaky Blinders",
-    category: "Drama",
-    poster:
-      "https://image.tmdb.org/t/p/w500/vUUqzWa2LnHIVqkaKVlVGkVcZIW.jpg",
-  },
-  {
-    title: "Money Heist",
-    category: "Drama",
-    poster:
-      "https://image.tmdb.org/t/p/w500/reEMJA1uzscCbkpeRJeTT2bjqUp.jpg",
-  },
-  {
-    title: "Stranger Things",
-    category: "Horror",
-    poster:
-      "https://image.tmdb.org/t/p/w500/x2LSRK2Cm7MZhjluni1msVJ3wDF.jpg",
-  },
-  {
-    title: "The Witcher",
-    category: "Action",
-    poster:
-      "https://image.tmdb.org/t/p/w500/cZ0d3rtvXPVvuiO3zzYJ6s0b6oO.jpg",
-  },
-  {
-    title: "Lucifer",
-    category: "Drama",
-    poster:
-      "https://image.tmdb.org/t/p/w500/ekZobS8isE6mA53RAiGDG93hBXf.jpg",
-  },
-  {
-    title: "Avengers: Endgame",
-    category: "Action",
-    poster:
-      "https://image.tmdb.org/t/p/w500/or06FN3Dka5tukK1e9sl16pB3iy.jpg",
-  },
-  {
-    title: "The Dark Knight",
-    category: "Action",
-    poster:
-      "https://image.tmdb.org/t/p/w500/qJ2tW6WMUDux911r6m7haRef0WH.jpg",
-  },
-  {
-    title: "Interstellar",
-    category: "Drama",
-    poster:
-      "https://image.tmdb.org/t/p/w500/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg",
-  },
-  {
+    _id: "fallback-1",
     title: "Inception",
-    category: "Action",
-    poster:
-      "https://image.tmdb.org/t/p/w500/oYuLEt3zVCKq57qu2F8dT7NIa6f.jpg",
-  },
-];
-
-/* =====================================================
-   HERO FALLBACK SLIDES
-===================================================== */
-
-const heroSlides = [
-  {
-    title: "THE LAST STAND",
-    year: "2026",
-    rating: "16+",
+    year: "2010",
+    rating: "PG-13",
     genre: "Action",
-    duration: "2h 18m",
+    duration: "2h 28m",
     description:
-      "In a world destroyed by chaos, one man stands between hope and extinction.",
-    background:
-      "https://image.tmdb.org/t/p/original/8cdWjvZQUExUUTzyp4t6EDMubfO.jpg",
+      "A mind-bending journey through dreams, memories and impossible realities.",
+    poster: BACKUP_POSTERS[0],
+    background: BACKUP_HEROES[0],
+    category: "action",
   },
   {
-    title: "AVENGERS: ENDGAME",
-    year: "2019",
-    rating: "13+",
-    genre: "Action",
-    duration: "3h 02m",
-    description:
-      "The Avengers make one final stand to save the universe.",
-    background:
-      "https://image.tmdb.org/t/p/original/7RyHsO4yDXtBv1zUU3mTpHeQ0d5.jpg",
-  },
-  {
-    title: "INTERSTELLAR",
+    _id: "fallback-2",
+    title: "Interstellar",
     year: "2014",
-    rating: "13+",
+    rating: "PG-13",
     genre: "Drama",
     duration: "2h 49m",
     description:
-      "A journey beyond the stars becomes humanity's greatest hope.",
-    background:
-      "https://image.tmdb.org/t/p/original/xJHokMbljvjADYdit5fK5VQsXEG.jpg",
+      "A team of explorers travels beyond our galaxy in search of a future for humanity.",
+    poster: BACKUP_POSTERS[1],
+    background: BACKUP_HEROES[1],
+    category: "drama",
+  },
+  {
+    _id: "fallback-3",
+    title: "Avengers",
+    year: "2012",
+    rating: "PG-13",
+    genre: "Action",
+    duration: "2h 23m",
+    description:
+      "Earth's greatest heroes unite to protect the world from a powerful enemy.",
+    poster: BACKUP_POSTERS[2],
+    background: BACKUP_HEROES[2],
+    category: "action",
+  },
+  {
+    _id: "fallback-4",
+    title: "Stranger Things",
+    year: "2016",
+    rating: "16+",
+    genre: "TV Shows",
+    duration: "4 Seasons",
+    description:
+      "A group of friends discovers mysterious events surrounding their small town.",
+    poster: BACKUP_POSTERS[3],
+    background: BACKUP_HEROES[0],
+    category: "tv",
+    type: "tv",
+  },
+  {
+    _id: "fallback-5",
+    title: "The Batman",
+    year: "2022",
+    rating: "PG-13",
+    genre: "Action",
+    duration: "2h 56m",
+    description:
+      "Batman investigates a series of crimes that reveal a dark mystery in Gotham.",
+    poster: BACKUP_POSTERS[4],
+    background: BACKUP_HEROES[1],
+    category: "action",
+  },
+  {
+    _id: "fallback-6",
+    title: "The Creator",
+    year: "2023",
+    rating: "PG-13",
+    genre: "Action",
+    duration: "2h 13m",
+    description:
+      "Humanity and artificial intelligence collide in an epic futuristic battle.",
+    poster: BACKUP_POSTERS[5],
+    background: BACKUP_HEROES[2],
+    category: "action",
   },
 ];
 
-/* =====================================================
-   CLEAN URL
-===================================================== */
+/* =========================================================
+   CATEGORIES
+   ========================================================= */
 
-function cleanUrl(value) {
-  if (!value || typeof value !== "string") {
-    return "";
+const categories = [
+  { name: "Home", key: "all", icon: "🏠" },
+  { name: "Movies", key: "movies", icon: "🎬" },
+  { name: "TV Shows", key: "tvShows", icon: "📺" },
+  { name: "Action", key: "action", icon: "⚡" },
+  { name: "Drama", key: "drama", icon: "🎭" },
+  { name: "Comedy", key: "comedy", icon: "😄" },
+  { name: "Horror", key: "horror", icon: "👻" },
+  { name: "Romance", key: "romance", icon: "♡" },
+  { name: "Kids", key: "kids", icon: "👨‍👩‍👧‍👦" },
+  { name: "Documentary", key: "documentary", icon: "📄" },
+];
+
+/* =========================================================
+   IMAGE URL CLEANER
+   Handles:
+   - TMDB paths
+   - http
+   - https
+   - Markdown URLs
+   - empty/null values
+   ========================================================= */
+
+function getValidImageUrl(url, defaultImg, type = "poster") {
+  if (
+    !url ||
+    typeof url !== "string" ||
+    url.trim() === "" ||
+    url === "null" ||
+    url === "undefined"
+  ) {
+    return defaultImg;
   }
 
-  const url = value.trim();
+  let str = url.trim();
 
-  // Normal URL
-  if (url.startsWith("http://") || url.startsWith("https://")) {
-    return url;
-  }
-
-  // Markdown-style URL
-  const markdownMatch = url.match(/^\[([^\]]+)\]\((https?:\/\/[^)]+)\)$/);
+  /* Remove Markdown image/link wrapper */
+  const markdownMatch = str.match(/\]\((https?:\/\/[^)]+)\)/i);
 
   if (markdownMatch) {
-    return markdownMatch[2];
+    str = markdownMatch[1];
   }
 
-  return url;
+  /* Remove quotes */
+  str = str.replace(/^["']|["']$/g, "");
+
+  /* TMDB full URL */
+  if (str.includes("image.tmdb.org")) {
+    return str.replace("http://", "https://");
+  }
+
+  /* TMDB relative path */
+  if (str.startsWith("/")) {
+    const size = type === "backdrop" ? "original" : "w500";
+    return `https://image.tmdb.org/t/p/${size}${str}`;
+  }
+
+  /* HTTP */
+  if (str.startsWith("http://")) {
+    return str.replace("http://", "https://");
+  }
+
+  /* HTTPS */
+  if (str.startsWith("https://")) {
+    return str;
+  }
+
+  return defaultImg;
 }
 
-/* =====================================================
-   HOME
-===================================================== */
+/* =========================================================
+   HOME COMPONENT
+   ========================================================= */
 
 function Home({ search = "" }) {
   const navigate = useNavigate();
-  const { t, i18n } = useTranslation();
+  const { i18n } = useTranslation();
 
-  /* ===================================================
-     STATE
-  =================================================== */
-
-  const [movies, setMovies] = useState([]);
-  const [heroMovies, setHeroMovies] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [movies, setMovies] = useState(FALLBACK_MOVIES);
+  const [heroMovies, setHeroMovies] = useState(FALLBACK_MOVIES.slice(0, 5));
+  const [selectedCategory, setSelectedCategory] = useState("Home");
   const [heroIndex, setHeroIndex] = useState(0);
-  /* LANGUAGE */
-  const [languageOpen, setLanguageOpen] = useState(false);
-  const [selectedLanguage, setSelectedLanguage] = useState("English");
 
-  /* ===================================================
-     CHANGE LANGUAGE
-  =================================================== */
-
-  const changeLanguage = (language, code) => {
-    setSelectedLanguage(language);
-    setLanguageOpen(false);
-    i18n.changeLanguage(code);
-  };
-
-  /* ===================================================
-     LOAD TRENDING MOVIES
-  =================================================== */
+  /* =======================================================
+     LOAD MOVIES FROM API
+     ======================================================= */
 
   useEffect(() => {
-    let active = true;
+    let mounted = true;
 
-    async function loadMovies() {
+    const loadMovies = async () => {
       try {
         const response = await axios.get(API_URL, {
           timeout: 8000,
         });
 
-        if (
-          active &&
-          Array.isArray(response.data) &&
-          response.data.length > 0
-        ) {
-          const latestMovies = response.data.slice(0, 10);
+        if (!mounted) return;
 
-          setMovies(latestMovies);
+        if (Array.isArray(response.data) && response.data.length > 0) {
+          const formatted = response.data.map((item, idx) => {
+            const defaultPoster =
+              BACKUP_POSTERS[idx % BACKUP_POSTERS.length];
 
-          const heroes = latestMovies.slice(0, 3).map((movie) => ({
-            ...movie,
-            background:
-              cleanUrl(movie?.background) ||
-              cleanUrl(movie?.backdrop) ||
-              cleanUrl(movie?.backdrop_path) ||
-              cleanUrl(movie?.poster),
-          }));
+            const defaultBackdrop =
+              BACKUP_HEROES[idx % BACKUP_HEROES.length];
 
-          setHeroMovies(heroes);
+            return {
+              ...item,
+
+              poster: getValidImageUrl(
+                item?.poster ||
+                  item?.poster_path ||
+                  item?.image ||
+                  item?.imageUrl,
+                defaultPoster,
+                "poster"
+              ),
+
+              background: getValidImageUrl(
+                item?.background ||
+                  item?.backdrop ||
+                  item?.backdrop_path ||
+                  item?.backdropUrl,
+                defaultBackdrop,
+                "backdrop"
+              ),
+            };
+          });
+
+          setMovies(formatted);
+          setHeroMovies(formatted.slice(0, 5));
+          setHeroIndex(0);
         }
       } catch (error) {
-        console.log("Trending API unavailable.");
+        console.error(
+          "StreamFlix API Error — showing fallback movies:",
+          error
+        );
+
+        if (mounted) {
+          setMovies(FALLBACK_MOVIES);
+          setHeroMovies(FALLBACK_MOVIES.slice(0, 5));
+        }
       }
-    }
+    };
 
     loadMovies();
 
     return () => {
-      active = false;
+      mounted = false;
     };
   }, []);
 
-  /* ===================================================
-     RESET HERO INDEX
-  =================================================== */
+  /* =======================================================
+     LANGUAGE
+     ======================================================= */
 
-  useEffect(() => {
-    setHeroIndex(0);
-  }, [heroMovies.length]);
+  const changeLanguage = (e) => {
+    const selectedLang = e.target.value;
 
-  /* ===================================================
-     HERO SLIDER
-  =================================================== */
-
-  const totalSlides = heroMovies.length || heroSlides.length;
-
-  useEffect(() => {
-    if (totalSlides <= 1) {
-      return undefined;
+    if (
+      i18n &&
+      typeof i18n.changeLanguage === "function"
+    ) {
+      i18n.changeLanguage(selectedLang);
     }
+  };
 
-    const timer = setInterval(() => {
-      setHeroIndex((current) => (current + 1) % totalSlides);
-    }, 6000);
-
-    return () => {
-      clearInterval(timer);
-    };
-  }, [totalSlides]);
-
-  /* ===================================================
-     DISPLAY MOVIES
-  =================================================== */
-
-  const displayMovies = movies.length > 0 ? movies : fallbackMovies;
-
-  /* ===================================================
-     ACTIVE HERO
-  =================================================== */
-
-  const activeHero =
-    heroMovies.length > 0
-      ? heroMovies[heroIndex] || heroMovies[0]
-      : heroSlides[heroIndex] || heroSlides[0];
-
-  /* ===================================================
-     SEARCH + CATEGORY FILTER
-  =================================================== */
+  /* =======================================================
+     SEARCH
+     ======================================================= */
 
   const searchValue = String(search).trim().toLowerCase();
 
-  const filteredMovies = displayMovies.filter((movie) => {
-    const title = String(movie?.title || "").toLowerCase();
+  /* =======================================================
+     FILTER MOVIES
+     ======================================================= */
 
-    /* SEARCH */
+  const filteredMovies = movies.filter((movie) => {
+    const title = String(
+      movie?.title || movie?.name || ""
+    ).toLowerCase();
+
     if (!title.includes(searchValue)) {
       return false;
     }
 
-    /* ALL */
-    if (selectedCategory === "All") {
+    if (
+      selectedCategory === "Home" ||
+      selectedCategory === "All"
+    ) {
       return true;
     }
 
-    const category = String(
-      movie?.category ||
-        movie?.genre ||
-        movie?.type ||
-        ""
-    ).toLowerCase();
+    const categoryText = [
+      movie?.category,
+      movie?.genre,
+      movie?.type,
+    ]
+      .filter(Boolean)
+      .join(" ")
+      .toLowerCase();
 
-    const selected = selectedCategory.toLowerCase();
-
-    /* MOVIES */
-    if (selected === "movies") {
-      return !category.includes("tv");
+    if (selectedCategory === "Movies") {
+      return !categoryText.includes("tv");
     }
 
-    /* TV SHOWS */
-    if (selected === "tv shows") {
-      return category.includes("tv");
+    if (selectedCategory === "TV Shows") {
+      return (
+        categoryText.includes("tv") ||
+        categoryText.includes("show")
+      );
     }
 
-    /* OTHER CATEGORIES */
-    return category.includes(selected);
+    return categoryText.includes(
+      selectedCategory.toLowerCase()
+    );
   });
 
-  /* ===================================================
-     MOVIE CLICK
-  =================================================== */
+  /* =======================================================
+     ACTIVE HERO
+     ======================================================= */
 
-  function handleMovieClick(movie) {
-    if (movie?._id) {
+  const activeHero =
+    heroMovies[heroIndex] || FALLBACK_MOVIES[0];
+
+  /* =======================================================
+     MOVIE CLICK
+     ======================================================= */
+
+  const handleMovieClick = (movie) => {
+    if (movie?._id && !String(movie._id).startsWith("fallback-")) {
       navigate(`/movie/${movie._id}`);
     }
-  }
+  };
 
-  /* ===================================================
-     HERO WATCH BUTTON
-  =================================================== */
+  /* =======================================================
+     HERO NEXT
+     ======================================================= */
 
-  function handlePlay() {
-    if (activeHero?._id) {
-      navigate(`/movie/${activeHero._id}`);
-      return;
-    }
+  const nextHero = () => {
+    setHeroIndex(
+      (prev) =>
+        (prev + 1) %
+        (heroMovies.length || FALLBACK_MOVIES.length)
+    );
+  };
 
-    document.querySelector(".trending")?.scrollIntoView({
-      behavior: "smooth",
-    });
-  }
+  /* =======================================================
+     HERO PREVIOUS
+     ======================================================= */
 
-  /* ===================================================
-     HERO INFO BUTTON
-  =================================================== */
-
-  function handleInfo() {
-    if (activeHero?._id) {
-      navigate(`/movie/${activeHero._id}`);
-      return;
-    }
-
-    navigate("/movies");
-  }
-
-  /* ===================================================
-     RENDER
-  =================================================== */
+  const previousHero = () => {
+    setHeroIndex(
+      (prev) =>
+        (prev - 1 + heroMovies.length) %
+        (heroMovies.length || FALLBACK_MOVIES.length)
+    );
+  };
 
   return (
-    <>
-      <main className="home-page">
+    <main className="sf-home">
 
-        {/* =================================================
-            HERO
-        ================================================= */}
+      {/* ===================================================
+          CATEGORY BAR
+          =================================================== */}
 
-        <section className="hero">
+      <div className="sf-categories-bar">
+        {categories.map((cat) => (
+          <button
+            key={cat.name}
+            type="button"
+            className={`sf-cat-pill ${
+              selectedCategory === cat.name
+                ? "active"
+                : ""
+            }`}
+            onClick={() =>
+              setSelectedCategory(cat.name)
+            }
+          >
+            <span className="sf-cat-icon">
+              {cat.icon}
+            </span>
 
-          <div
-            className="hero-image"
-            key={cleanUrl(activeHero?.background)}
-            style={{
-              backgroundImage: `url("${cleanUrl(
-                activeHero?.background
-              )}")`,
-            }}
-          />
+            {cat.name}
+          </button>
+        ))}
+      </div>
 
-          <div className="hero-vignette" />
-          <div className="hero-red-glow" />
+      {/* ===================================================
+          HERO
+          =================================================== */}
 
-          <div className="hero-content">
+      <section className="sf-hero">
 
-            <div className="hero-brand">
-              <span>STREAM</span>
-              <strong>FLIX</strong>
-            </div>
+        <div
+          className="sf-hero-bg"
+          style={{
+            backgroundImage: `url("${activeHero?.background}")`,
+          }}
+        />
 
-            <div className="original-label">
-              <i />
-              A STREAMFLIX ORIGINAL
-            </div>
+        <div className="sf-hero-overlay" />
 
-            <h1 className="hero-title">
-              {activeHero?.title || "THE LAST STAND"}
-            </h1>
+        <div className="sf-hero-content">
 
-            <div className="hero-meta">
+          <div className="sf-hero-subtag">
+            A <span>STREAMFLIX</span> ORIGINAL
+          </div>
 
-              <span>
-                {activeHero?.year || "2026"}
-              </span>
+          <h1 className="sf-hero-title">
+            {activeHero?.title ||
+              activeHero?.name ||
+              "STREAMFLIX EXCLUSIVE"}
+          </h1>
 
-              <span>
-                {activeHero?.rating || "18+"}
-              </span>
+          <div className="sf-hero-meta">
 
-              <span>
-                {activeHero?.genre ||
-                  activeHero?.category ||
-                  "Action"}
-              </span>
+            <span className="sf-year">
+              {activeHero?.year || "2026"}
+            </span>
 
-              <span>
-                {activeHero?.duration || "2h 18m"}
-              </span>
+            <span className="sf-badge-age">
+              {activeHero?.rating || "16+"}
+            </span>
 
-            </div>
+            <span className="sf-genre">
+              {activeHero?.genre || "Action"}
+            </span>
 
-            <p className="hero-tagline">
-              Unlimited Movies, Series & Entertainment
-            </p>
+            <span className="sf-dot">
+              •
+            </span>
 
-            <p className="hero-description">
-              {activeHero?.description ||
-                "Discover the latest movies and shows on StreamFlix."}
-            </p>
-
-            <div className="hero-buttons">
-
-              <button
-                type="button"
-                className="play-button"
-                onClick={handlePlay}
-              >
-                <span>▶</span>
-                {t("watchNow", "Watch Now")}
-              </button>
-
-              <button
-                type="button"
-                className="info-button"
-                onClick={handleInfo}
-              >
-                <span>ⓘ</span>
-                {t("moreInfo", "More Info")}
-              </button>
-
-            </div>
+            <span className="sf-duration">
+              {activeHero?.duration || "2h 18m"}
+            </span>
 
           </div>
 
-          {/* HERO DOTS */}
-
-          <div className="hero-dots">
-
-            {Array.from({
-              length: totalSlides,
-            }).map((_, index) => (
-              <button
-                type="button"
-                key={index}
-                className={
-                  heroIndex === index ? "active" : ""
-                }
-                onClick={() => setHeroIndex(index)}
-                aria-label={`Go to slide ${index + 1}`}
-              />
-            ))}
-
-          </div>
-
-          {/* HERO SCROLL */}
-
-          <div className="hero-scroll">
-            <span />
-            {t("scrollToExplore", "SCROLL TO EXPLORE")}
-          </div>
-
-        </section>
-
-        {/* =================================================
-            CATEGORIES
-        ================================================= */}
-
-        <section className="categories-section">
-
-          <div className="section-container">
-
-            <div className="section-mini-title">
-              {t("browse", "BROWSE")}
-            </div>
-
-            <div className="category-list">
-
-              {categories.map((category) => (
-
-                <button
-                  type="button"
-                  key={category.name}
-                  className={
-                    selectedCategory === category.name
-                      ? "category-card active"
-                      : "category-card"
-                  }
-                  onClick={() =>
-                    setSelectedCategory(category.name)
-                  }
-                >
-
-                  <span className="category-icon">
-                    {category.icon}
-                  </span>
-
-                <span className="category-name">
-  {t(category.key, category.name)}
-</span>
-
-                </button>
-
-              ))}
-
-            </div>
-
-          </div>
-
-        </section>
-
-        {/* =================================================
-            TRENDING
-        ================================================= */}
-
-        <section className="trending">
-
-          <div className="section-container">
-
-            <div className="section-header">
-
-              <div>
-
-                <div className="discover">
-                  {t("discover", "DISCOVER")}
-                </div>
-
-                <h2>
-                  {t("trending", "Trending")}{" "}
-                  <span>{t("now", "Now")}</span>
-                </h2>
-
-              </div>
-
-              <button
-                type="button"
-                className="view-all"
-                onClick={() => navigate("/movies")}
-              >
-                {t("viewAll", "View All")} <b>›</b>
-              </button>
-
-            </div>
-
-            {/* MOVIE GRID */}
-
-            {filteredMovies.length > 0 ? (
-
-              <div className="movie-grid">
-
-                {filteredMovies.map((movie, index) => (
-
-                  <article
-                    className="movie-card"
-                    key={
-                      movie?._id ||
-                      `${movie?.title}-${index}`
-                    }
-                    onClick={() =>
-                      handleMovieClick(movie)
-                    }
-                  >
-
-                    <div className="movie-poster">
-
-                      <img
-                        src={cleanUrl(movie?.poster)}
-                        alt={
-                          movie?.title || "Movie"
-                        }
-                        loading="lazy"
-                        onError={(event) => {
-                          event.currentTarget.style.opacity =
-                            "0";
-                        }}
-                      />
-
-                      <div className="poster-gradient" />
-
-                      <span className="top-ten">
-                        TOP 10
-                      </span>
-
-                      <span className="movie-rank">
-                        {String(index + 1).padStart(
-                          2,
-                          "0"
-                        )}
-                      </span>
-
-                      <button
-                        type="button"
-                        className="poster-play"
-                        onClick={(event) => {
-                          event.stopPropagation();
-                          handleMovieClick(movie);
-                        }}
-                        aria-label={`Play ${
-                          movie?.title || "movie"
-                        }`}
-                      >
-                        ▶
-                      </button>
-
-                    </div>
-
-                    <h3>
-                      {movie?.title || "Untitled"}
-                    </h3>
-
-                  </article>
-
-                ))}
-
-              </div>
-
-            ) : (
-
-              /* NO RESULTS */
-
-              <div className="no-results">
-
-                <div className="no-results-icon">
-                  ⌕
-                </div>
-
-                <h3>
-                  {t("noMoviesFound", "No movies found")}
-                </h3>
-
-                <p>
-                  {t(
-                    "tryAnotherMovie",
-                    "Try searching for another movie."
-                  )}
-                </p>
-
-              </div>
-
-            )}
-
-          </div>
-
-        </section>
-
-      </main>
-
-      {/* =================================================
-          STREAMFLIX FOOTER
-      ================================================= */}
-
-      <footer className="streamflix-footer">
-
-        <div className="footer-container">
-
-          <p className="footer-question">
-            {t(
-              "footerQuestion",
-              "Ready to watch? Enter your email to create or restart your membership."
-            )}
+          <p className="sf-hero-desc">
+            {activeHero?.description ||
+              "Watch the latest trending movies and TV shows instantly on StreamFlix."}
           </p>
 
-          <p className="footer-contact">
-            {t(
-              "footerContact",
-              "Questions? Contact StreamFlix Support."
-            )}
-          </p>
-
-          {/* FOOTER LINKS */}
-
-          <div className="footer-links">
-
-            <Link to="/faq">
-              {t("faq", "FAQ")}
-            </Link>
-
-            <Link to="/help">
-              {t("helpCenter", "Help Center")}
-            </Link>
-
-            <Link to="/profile">
-              {t("account", "Account")}
-            </Link>
-
-            <Link to="/media">
-              {t("mediaCenter", "Media Center")}
-            </Link>
-
-            <Link to="/careers">
-              {t("careers", "Careers")}
-            </Link>
-
-            <Link to="/watch">
-              {t("waysToWatch", "Ways to Watch")}
-            </Link>
-
-            <Link to="/terms">
-              {t("terms", "Terms of Use")}
-            </Link>
-
-            <Link to="/privacy">
-              {t("privacy", "Privacy")}
-            </Link>
-
-            <Link to="/cookies">
-              {t(
-                "cookiePreferences",
-                "Cookie Preferences"
-              )}
-            </Link>
-
-            <Link to="/contact">
-              {t("contactUs", "Contact Us")}
-            </Link>
-
-            <Link to="/legal">
-              {t("legalNotices", "Legal Notices")}
-            </Link>
-
-            <Link to="/about">
-              {t("aboutStreamflix", "About StreamFlix")}
-            </Link>
-
-          </div>
-
-          {/* =================================================
-              LANGUAGE SELECTOR
-          ================================================= */}
-
-          <div className="footer-language">
+          <div className="sf-hero-actions">
 
             <button
               type="button"
-              className="language-button"
+              className="sf-btn-play"
               onClick={() =>
-                setLanguageOpen((prev) => !prev)
+                handleMovieClick(activeHero)
               }
-              aria-expanded={languageOpen}
-              aria-haspopup="listbox"
             >
-              🌐 {selectedLanguage}
+              ▶ Watch Now
             </button>
 
-            {languageOpen && (
-
-              <div
-                className="language-dropdown"
-                role="listbox"
-              >
-
-                <button
-                  type="button"
-                  onClick={() =>
-                    changeLanguage("English", "en")
-                  }
-                >
-                  🇺🇸 English
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() =>
-                    changeLanguage("اردو", "ur")
-                  }
-                >
-                  🇵🇰 اردو
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() =>
-                    changeLanguage("Español", "es")
-                  }
-                >
-                  🇪🇸 Español
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() =>
-                    changeLanguage("Français", "fr")
-                  }
-                >
-                  🇫🇷 Français
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() =>
-                    changeLanguage("Deutsch", "de")
-                  }
-                >
-                  🇩🇪 Deutsch
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() =>
-                    changeLanguage("العربية", "ar")
-                  }
-                >
-                  🇸🇦 العربية
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() =>
-                    changeLanguage("हिन्दी", "hi")
-                  }
-                >
-                  🇮🇳 हिन्दी
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() =>
-                    changeLanguage("中文", "zh")
-                  }
-                >
-                  🇨🇳 中文
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() =>
-                    changeLanguage("日本語", "ja")
-                  }
-                >
-                  🇯🇵 日本語
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() =>
-                    changeLanguage("한국어", "ko")
-                  }
-                >
-                  🇰🇷 한국어
-                </button>
-
-              </div>
-
-            )}
+            <button
+              type="button"
+              className="sf-btn-info"
+              onClick={() =>
+                handleMovieClick(activeHero)
+              }
+            >
+              ⓘ More Info
+            </button>
 
           </div>
-
-          {/* =================================================
-              FOOTER BOTTOM
-          ================================================= */}
-
-          <div className="footer-bottom">
-
-            <p className="footer-brand">
-
-              <span>STREAM</span>
-
-              <strong>FLIX</strong>
-
-              <small>Pakistan</small>
-
-            </p>
-
-            <p className="footer-copy">
-              © 2026 StreamFlix.{" "}
-              {t(
-                "allRightsReserved",
-                "All rights reserved."
-              )}
-            </p>
-
-          </div>
-
-          <p className="footer-security">
-            {t(
-              "securityMessage",
-              "This page is protected to help keep StreamFlix secure."
-            )}
-          </p>
 
         </div>
 
+        {/* HERO PREVIOUS */}
+
+        <button
+          type="button"
+          className="sf-hero-nav sf-prev"
+          onClick={previousHero}
+          aria-label="Previous"
+        >
+          ❮
+        </button>
+
+        {/* HERO NEXT */}
+
+        <button
+          type="button"
+          className="sf-hero-nav sf-next"
+          onClick={nextHero}
+          aria-label="Next"
+        >
+          ❯
+        </button>
+
+        {/* HERO DOTS */}
+
+        <div className="sf-hero-dots">
+
+          {heroMovies.map((_, idx) => (
+            <button
+              type="button"
+              key={idx}
+              aria-label={`Hero ${idx + 1}`}
+              className={`sf-dot-item ${
+                heroIndex === idx
+                  ? "active"
+                  : ""
+              }`}
+              onClick={() =>
+                setHeroIndex(idx)
+              }
+            />
+          ))}
+
+        </div>
+
+      </section>
+
+      {/* ===================================================
+          TRENDING NOW
+          =================================================== */}
+
+      <section className="sf-trending-section">
+
+        <div className="sf-trending-header">
+
+          <h2>
+            <span className="sf-bar" />
+            Trending <strong>Now</strong>
+          </h2>
+
+          <button
+            type="button"
+            className="sf-view-all"
+            onClick={() => navigate("/movies")}
+          >
+            View All ❯
+          </button>
+
+        </div>
+
+        <div className="sf-trending-grid">
+
+          {filteredMovies
+            .slice(0, 6)
+            .map((movie, index) => (
+
+              <div
+                className="sf-card"
+                key={movie?._id || index}
+                onClick={() =>
+                  handleMovieClick(movie)
+                }
+              >
+
+                <div className="sf-card-poster">
+
+                  <img
+                    src={
+                      movie?.poster ||
+                      BACKUP_POSTERS[
+                        index %
+                          BACKUP_POSTERS.length
+                      ]
+                    }
+                    alt={
+                      movie?.title ||
+                      movie?.name ||
+                      "StreamFlix Poster"
+                    }
+                    loading="lazy"
+                    onError={(e) => {
+                      e.currentTarget.onerror = null;
+
+                      e.currentTarget.src =
+                        BACKUP_POSTERS[
+                          index %
+                            BACKUP_POSTERS.length
+                        ];
+                    }}
+                  />
+
+                  <span className="sf-top10-tag">
+                    TOP 10
+                  </span>
+
+                  <span className="sf-rank-number">
+                    {String(index + 1).padStart(
+                      2,
+                      "0"
+                    )}
+                  </span>
+
+                </div>
+
+              </div>
+
+            ))}
+
+        </div>
+
+      </section>
+
+      {/* ===================================================
+          FOOTER
+          =================================================== */}
+
+      <footer className="sf-footer-container">
+
+        <p className="sf-footer-contact">
+          Questions?{" "}
+          <Link to="/contact">
+            Contact us.
+          </Link>
+        </p>
+
+        <div className="sf-footer-grid">
+
+          <div className="sf-footer-col">
+            <Link to="/faq">FAQ</Link>
+            <Link to="/investors">
+              Investor Relations
+            </Link>
+            <Link to="/privacy">Privacy</Link>
+            <Link to="/speed-test">
+              Speed Test
+            </Link>
+          </div>
+
+          <div className="sf-footer-col">
+            <Link to="/help">
+              Help Center
+            </Link>
+            <Link to="/jobs">Jobs</Link>
+            <Link to="/cookies">
+              Cookie Preferences
+            </Link>
+            <Link to="/legal">
+              Legal Notices
+            </Link>
+          </div>
+
+          <div className="sf-footer-col">
+            <Link to="/account">
+              Account
+            </Link>
+            <Link to="/watch">
+              Ways to Watch
+            </Link>
+            <Link to="/corporate">
+              Corporate Information
+            </Link>
+            <Link to="/originals">
+              Only on StreamFlix
+            </Link>
+          </div>
+
+          <div className="sf-footer-col">
+            <Link to="/media">
+              Media Center
+            </Link>
+            <Link to="/terms">
+              Terms of Use
+            </Link>
+            <Link to="/contact">
+              Contact Us
+            </Link>
+          </div>
+
+        </div>
+
+        {/* LANGUAGE */}
+
+        <div className="sf-lang-box">
+
+          <span>🌐</span>
+
+          <select
+            onChange={changeLanguage}
+            value={i18n?.language || "en"}
+            className="sf-lang-select"
+          >
+            <option value="en">
+              English
+            </option>
+
+            <option value="ur">
+              اردو
+            </option>
+
+            <option value="es">
+              Español
+            </option>
+
+            <option value="fr">
+              Français
+            </option>
+          </select>
+
+        </div>
+
+        <p className="sf-region">
+          StreamFlix Pakistan
+        </p>
+
+        <p className="sf-recaptcha">
+          This page is protected by Google reCAPTCHA
+          to ensure you're not a bot.
+        </p>
+
       </footer>
-    </>
+
+    </main>
   );
 }
 
