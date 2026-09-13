@@ -8,26 +8,35 @@ const API_URL =
   "https://streamflix-production-30f2.up.railway.app/api/movies/trending";
 
 /* =========================================================
-   STREAMFLIX — RELIABLE TMDB FALLBACK IMAGES
+   STREAMFLIX — RELIABLE FALLBACK IMAGES
    ========================================================= */
 
 const BACKUP_POSTERS = [
-  "https://image.tmdb.org/t/p/w500/9gk7adHYeDvHkCSEqAvQNLV5Uge.jpg",
-  "https://image.tmdb.org/t/p/w500/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg",
-  "https://image.tmdb.org/t/p/w500/RYMX2wcKCBAr24UyPD7xwmjaTn.jpg",
-  "https://image.tmdb.org/t/p/w500/49WJfeN0moxb9IPfGn8AIqMGskD.jpg",
-  "https://image.tmdb.org/t/p/w500/74xTEgt7R36Fpooo50r9T25onhq.jpg",
-  "https://image.tmdb.org/t/p/w500/reEMJA1uzscCbkpeRJeTT2bjqUp.jpg",
+  "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=500&h=750&q=85",
+  "https://images.unsplash.com/photo-1440404653325-ab127d49abc1?auto=format&fit=crop&w=500&h=750&q=85",
+  "https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=500&h=750&q=85",
+  "https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?auto=format&fit=crop&w=500&h=750&q=85",
+  "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=500&h=750&q=85",
+  "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=500&h=750&q=85",
 ];
+
+const SPORTS_POSTERS = [
+  "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&w=500&h=750&q=85",
+  "https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=500&h=750&q=85",
+  "https://images.unsplash.com/photo-1517649763962-0c623066013b?auto=format&fit=crop&w=500&h=750&q=85",
+  "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?auto=format&fit=crop&w=500&h=750&q=85",
+  "https://images.unsplash.com/photo-1504450758481-7338eba7524a?auto=format&fit=crop&w=500&h=750&q=85",
+  "https://images.unsplash.com/photo-1526232761682-d26e03ac148e?auto=format&fit=crop&w=500&h=750&q=85",
+];
+
 const BACKUP_HEROES = [
-  "https://image.tmdb.org/t/p/original/9mmv2b7Y0q9g1gK3k5x5Y6J5J4.jpg",
-  "https://image.tmdb.org/t/p/original/8ZTVqvKDQ8emSGUEMjsS4yHAwrp.jpg",
-  "https://image.tmdb.org/t/p/original/5mVzP7Y0M5jV2Q9y8P8P7y4J8H.jpg",
+  "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=1800&h=900&q=90",
+  "https://images.unsplash.com/photo-1440404653325-ab127d49abc1?auto=format&fit=crop&w=1800&h=900&q=90",
+  "https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=1800&h=900&q=90",
 ];
 
 /* =========================================================
    FALLBACK MOVIES
-   API FAIL HONE PAR BHI HOME EMPTY NAHI HOGA
    ========================================================= */
 
 const FALLBACK_MOVIES = [
@@ -131,12 +140,6 @@ const categories = [
 
 /* =========================================================
    IMAGE URL CLEANER
-   Handles:
-   - TMDB paths
-   - http
-   - https
-   - Markdown URLs
-   - empty/null values
    ========================================================= */
 
 function getValidImageUrl(url, defaultImg, type = "poster") {
@@ -152,19 +155,49 @@ function getValidImageUrl(url, defaultImg, type = "poster") {
 
   let str = url.trim();
 
-  /* Remove Markdown image/link wrapper */
-  const markdownMatch = str.match(/\]\((https?:\/\/[^)]+)\)/i);
+  /* Remove normal Markdown:
+     [text](https://example.com/image.jpg)
+  */
+  const markdownMatch = str.match(
+    /^\[([^\]]+)\]\((https?:\/\/[^)]+)\)$/i
+  );
 
   if (markdownMatch) {
-    str = markdownMatch[1];
+    str = markdownMatch[2].trim();
+  }
+
+  /* Remove Markdown image:
+     ![text](https://example.com/image.jpg)
+  */
+  const imageMarkdownMatch = str.match(
+    /^!\[([^\]]*)\]\((https?:\/\/[^)]+)\)$/i
+  );
+
+  if (imageMarkdownMatch) {
+    str = imageMarkdownMatch[2].trim();
   }
 
   /* Remove quotes */
-  str = str.replace(/^["']|["']$/g, "");
+  str = str.replace(/^["']|["']$/g, "").trim();
+
+  /* IMPORTANT:
+     Railway currently sends placehold.co URLs.
+     Treat them as invalid and use our fallback.
+  */
+  const lower = str.toLowerCase();
+
+  if (
+    lower.includes("placehold.co") ||
+    lower.includes("placeholder.com") ||
+    lower.includes("via.placeholder.com") ||
+    lower.includes("placehold.it")
+  ) {
+    return defaultImg;
+  }
 
   /* TMDB full URL */
   if (str.includes("image.tmdb.org")) {
-    return str.replace("http://", "https://");
+    return str.replace(/^http:\/\//i, "https://");
   }
 
   /* TMDB relative path */
@@ -175,7 +208,7 @@ function getValidImageUrl(url, defaultImg, type = "poster") {
 
   /* HTTP */
   if (str.startsWith("http://")) {
-    return str.replace("http://", "https://");
+    return str.replace(/^http:\/\//i, "https://");
   }
 
   /* HTTPS */
@@ -195,7 +228,9 @@ function Home({ search = "" }) {
   const { i18n } = useTranslation();
 
   const [movies, setMovies] = useState(FALLBACK_MOVIES);
-  const [heroMovies, setHeroMovies] = useState(FALLBACK_MOVIES.slice(0, 5));
+  const [heroMovies, setHeroMovies] = useState(
+    FALLBACK_MOVIES.slice(0, 5)
+  );
   const [selectedCategory, setSelectedCategory] = useState("Home");
   const [heroIndex, setHeroIndex] = useState(0);
 
@@ -214,10 +249,25 @@ function Home({ search = "" }) {
 
         if (!mounted) return;
 
-        if (Array.isArray(response.data) && response.data.length > 0) {
+        if (
+          Array.isArray(response.data) &&
+          response.data.length > 0
+        ) {
           const formatted = response.data.map((item, idx) => {
-            const defaultPoster =
-              BACKUP_POSTERS[idx % BACKUP_POSTERS.length];
+            const categoryText = [
+              item?.category,
+              item?.genre,
+              item?.type,
+            ]
+              .filter(Boolean)
+              .join(" ")
+              .toLowerCase();
+
+            const isSports = categoryText.includes("sport");
+
+            const posterFallback = isSports
+              ? SPORTS_POSTERS[idx % SPORTS_POSTERS.length]
+              : BACKUP_POSTERS[idx % BACKUP_POSTERS.length];
 
             const defaultBackdrop =
               BACKUP_HEROES[idx % BACKUP_HEROES.length];
@@ -230,7 +280,7 @@ function Home({ search = "" }) {
                   item?.poster_path ||
                   item?.image ||
                   item?.imageUrl,
-                defaultPoster,
+                posterFallback,
                 "poster"
               ),
 
@@ -258,6 +308,7 @@ function Home({ search = "" }) {
         if (mounted) {
           setMovies(FALLBACK_MOVIES);
           setHeroMovies(FALLBACK_MOVIES.slice(0, 5));
+          setHeroIndex(0);
         }
       }
     };
@@ -347,7 +398,10 @@ function Home({ search = "" }) {
      ======================================================= */
 
   const handleMovieClick = (movie) => {
-    if (movie?._id && !String(movie._id).startsWith("fallback-")) {
+    if (
+      movie?._id &&
+      !String(movie._id).startsWith("fallback-")
+    ) {
       navigate(`/movie/${movie._id}`);
     }
   };
@@ -369,16 +423,16 @@ function Home({ search = "" }) {
      ======================================================= */
 
   const previousHero = () => {
+    const total =
+      heroMovies.length || FALLBACK_MOVIES.length;
+
     setHeroIndex(
-      (prev) =>
-        (prev - 1 + heroMovies.length) %
-        (heroMovies.length || FALLBACK_MOVIES.length)
+      (prev) => (prev - 1 + total) % total
     );
   };
 
   return (
     <main className="sf-home">
-
       {/* ===================================================
           CATEGORY BAR
           =================================================== */}
@@ -400,7 +454,6 @@ function Home({ search = "" }) {
             <span className="sf-cat-icon">
               {cat.icon}
             </span>
-
             {cat.name}
           </button>
         ))}
@@ -411,7 +464,6 @@ function Home({ search = "" }) {
           =================================================== */}
 
       <section className="sf-hero">
-
         <div
           className="sf-hero-bg"
           style={{
@@ -422,7 +474,6 @@ function Home({ search = "" }) {
         <div className="sf-hero-overlay" />
 
         <div className="sf-hero-content">
-
           <div className="sf-hero-subtag">
             A <span>STREAMFLIX</span> ORIGINAL
           </div>
@@ -434,7 +485,6 @@ function Home({ search = "" }) {
           </h1>
 
           <div className="sf-hero-meta">
-
             <span className="sf-year">
               {activeHero?.year || "2026"}
             </span>
@@ -447,14 +497,11 @@ function Home({ search = "" }) {
               {activeHero?.genre || "Action"}
             </span>
 
-            <span className="sf-dot">
-              •
-            </span>
+            <span className="sf-dot">•</span>
 
             <span className="sf-duration">
               {activeHero?.duration || "2h 18m"}
             </span>
-
           </div>
 
           <p className="sf-hero-desc">
@@ -463,7 +510,6 @@ function Home({ search = "" }) {
           </p>
 
           <div className="sf-hero-actions">
-
             <button
               type="button"
               className="sf-btn-play"
@@ -483,13 +529,10 @@ function Home({ search = "" }) {
             >
               ⓘ More Info
             </button>
-
           </div>
-
         </div>
 
         {/* HERO PREVIOUS */}
-
         <button
           type="button"
           className="sf-hero-nav sf-prev"
@@ -500,7 +543,6 @@ function Home({ search = "" }) {
         </button>
 
         {/* HERO NEXT */}
-
         <button
           type="button"
           className="sf-hero-nav sf-next"
@@ -511,27 +553,21 @@ function Home({ search = "" }) {
         </button>
 
         {/* HERO DOTS */}
-
         <div className="sf-hero-dots">
-
           {heroMovies.map((_, idx) => (
             <button
               type="button"
               key={idx}
               aria-label={`Hero ${idx + 1}`}
               className={`sf-dot-item ${
-                heroIndex === idx
-                  ? "active"
-                  : ""
+                heroIndex === idx ? "active" : ""
               }`}
               onClick={() =>
                 setHeroIndex(idx)
               }
             />
           ))}
-
         </div>
-
       </section>
 
       {/* ===================================================
@@ -539,9 +575,7 @@ function Home({ search = "" }) {
           =================================================== */}
 
       <section className="sf-trending-section">
-
         <div className="sf-trending-header">
-
           <h2>
             <span className="sf-bar" />
             Trending <strong>Now</strong>
@@ -554,69 +588,73 @@ function Home({ search = "" }) {
           >
             View All ❯
           </button>
-
         </div>
 
         <div className="sf-trending-grid">
-
           {filteredMovies
             .slice(0, 6)
-            .map((movie, index) => (
+            .map((movie, index) => {
+              const categoryText = [
+                movie?.category,
+                movie?.genre,
+                movie?.type,
+              ]
+                .filter(Boolean)
+                .join(" ")
+                .toLowerCase();
 
-              <div
-                className="sf-card"
-                key={movie?._id || index}
-                onClick={() =>
-                  handleMovieClick(movie)
-                }
-              >
+              const isSports =
+                categoryText.includes("sport");
 
-                <div className="sf-card-poster">
+              const cardFallback = isSports
+                ? SPORTS_POSTERS[
+                    index % SPORTS_POSTERS.length
+                  ]
+                : BACKUP_POSTERS[
+                    index % BACKUP_POSTERS.length
+                  ];
 
-                  <img
-                    src={
-                      movie?.poster ||
-                      BACKUP_POSTERS[
-                        index %
-                          BACKUP_POSTERS.length
-                      ]
-                    }
-                    alt={
-                      movie?.title ||
-                      movie?.name ||
-                      "StreamFlix Poster"
-                    }
-                    loading="lazy"
-                    onError={(e) => {
-                      e.currentTarget.onerror = null;
+              return (
+                <div
+                  className="sf-card"
+                  key={movie?._id || index}
+                  onClick={() =>
+                    handleMovieClick(movie)
+                  }
+                >
+                  <div className="sf-card-poster">
+                    <img
+                      src={
+                        movie?.poster || cardFallback
+                      }
+                      alt={
+                        movie?.title ||
+                        movie?.name ||
+                        "StreamFlix Poster"
+                      }
+                      loading="lazy"
+                      onError={(e) => {
+                        e.currentTarget.onerror = null;
+                        e.currentTarget.src =
+                          cardFallback;
+                      }}
+                    />
 
-                      e.currentTarget.src =
-                        BACKUP_POSTERS[
-                          index %
-                            BACKUP_POSTERS.length
-                        ];
-                    }}
-                  />
+                    <span className="sf-top10-tag">
+                      TOP 10
+                    </span>
 
-                  <span className="sf-top10-tag">
-                    TOP 10
-                  </span>
-
-                  <span className="sf-rank-number">
-                    {String(index + 1).padStart(
-                      2,
-                      "0"
-                    )}
-                  </span>
-
+                    <span className="sf-rank-number">
+                      {String(index + 1).padStart(
+                        2,
+                        "0"
+                      )}
+                    </span>
+                  </div>
                 </div>
-
-              </div>
-
-            ))}
-
+              );
+            })}
         </div>
-
       </section>
 
       {/* ===================================================
@@ -624,7 +662,6 @@ function Home({ search = "" }) {
           =================================================== */}
 
       <footer className="sf-footer-container">
-
         <p className="sf-footer-contact">
           Questions?{" "}
           <Link to="/contact">
@@ -633,7 +670,6 @@ function Home({ search = "" }) {
         </p>
 
         <div className="sf-footer-grid">
-
           <div className="sf-footer-col">
             <Link to="/faq">FAQ</Link>
             <Link to="/investors">
@@ -684,13 +720,10 @@ function Home({ search = "" }) {
               Contact Us
             </Link>
           </div>
-
         </div>
 
         {/* LANGUAGE */}
-
         <div className="sf-lang-box">
-
           <span>🌐</span>
 
           <select
@@ -698,23 +731,11 @@ function Home({ search = "" }) {
             value={i18n?.language || "en"}
             className="sf-lang-select"
           >
-            <option value="en">
-              English
-            </option>
-
-            <option value="ur">
-              اردو
-            </option>
-
-            <option value="es">
-              Español
-            </option>
-
-            <option value="fr">
-              Français
-            </option>
+            <option value="en">English</option>
+            <option value="ur">اردو</option>
+            <option value="es">Español</option>
+            <option value="fr">Français</option>
           </select>
-
         </div>
 
         <p className="sf-region">
@@ -725,9 +746,7 @@ function Home({ search = "" }) {
           This page is protected by Google reCAPTCHA
           to ensure you're not a bot.
         </p>
-
       </footer>
-
     </main>
   );
 }

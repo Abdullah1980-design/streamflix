@@ -1,84 +1,142 @@
-
 import { Link } from "react-router-dom";
 
-function cleanUrl(url) {
-  if (!url) return "";
+const DEFAULT_POSTER =
+  "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=500&h=750&q=85";
 
-  let value = String(url).trim();
+const SPORTS_POSTER =
+  "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&w=500&h=750&q=85";
 
-  // Handle Markdown format:
-  // [text](https://example.com/image.jpg)
+function cleanUrl(url, fallback = DEFAULT_POSTER) {
+  if (
+    !url ||
+    typeof url !== "string" ||
+    url.trim() === "" ||
+    url === "null" ||
+    url === "undefined"
+  ) {
+    return fallback;
+  }
+
+  let value = url.trim();
+
+  /* Markdown:
+     [Poster](https://example.com/image.jpg)
+  */
   const markdownMatch = value.match(
-    /^\[([^\]]+)\]\((https?:\/\/[^)]+)\)$/
+    /^\[([^\]]+)\]\((https?:\/\/[^)]+)\)$/i
   );
 
   if (markdownMatch) {
     value = markdownMatch[2].trim();
   }
 
-  // Handle [URL] format
-  if (value.startsWith("[") && value.endsWith("]")) {
-    value = value.slice(1, -1).trim();
+  /* Markdown image:
+     ![Poster](https://example.com/image.jpg)
+  */
+  const imageMarkdownMatch = value.match(
+    /^!\[([^\]]*)\]\((https?:\/\/[^)]+)\)$/i
+  );
+
+  if (imageMarkdownMatch) {
+    value = imageMarkdownMatch[2].trim();
   }
 
-  // Handle relative TMDB poster path
-  // Example: /abc123.jpg
+  /* Remove quotes */
+  value = value.replace(/^["']|["']$/g, "").trim();
+
+  /* Railway placeholder detection */
+  const lowerValue = value.toLowerCase();
+
+  if (
+    lowerValue.includes("placehold.co") ||
+    lowerValue.includes("placeholder.com") ||
+    lowerValue.includes("via.placeholder.com") ||
+    lowerValue.includes("placehold.it")
+  ) {
+    return fallback;
+  }
+
+  /* TMDB relative poster */
   if (value.startsWith("/")) {
     return `https://image.tmdb.org/t/p/w500${value}`;
   }
 
-  return value;
+  /* HTTP -> HTTPS */
+  if (value.startsWith("http://")) {
+    return value.replace(/^http:\/\//i, "https://");
+  }
+
+  /* Valid HTTPS */
+  if (value.startsWith("https://")) {
+    return value;
+  }
+
+  return fallback;
 }
 
 function MovieCard({ movie }) {
-  const posterUrl = cleanUrl(movie?.poster);
+  const categoryText = [
+    movie?.category,
+    movie?.genre,
+    movie?.type,
+  ]
+    .filter(Boolean)
+    .join(" ")
+    .toLowerCase();
+
+  const isSports = categoryText.includes("sport");
+
+  const fallbackPoster = isSports
+    ? SPORTS_POSTER
+    : DEFAULT_POSTER;
+
+  const posterUrl = cleanUrl(
+    movie?.poster,
+    fallbackPoster
+  );
+
+  const movieTitle =
+    movie?.title ||
+    movie?.name ||
+    "Untitled";
 
   return (
     <Link
-      to={`/movie/${encodeURIComponent(movie?.title || "")}`}
+      to={`/movie/${encodeURIComponent(
+        movie?._id || movieTitle
+      )}`}
       className="movie-card"
     >
       <div className="movie-poster">
-        {posterUrl ? (
-          <img
-            src={posterUrl}
-            alt={movie?.title || "Movie"}
-            className="movie-poster-image"
-            loading="lazy"
-            onError={(e) => {
-              console.error("Poster failed:", posterUrl);
-
-              e.currentTarget.style.display = "none";
-
-              const fallback = e.currentTarget.parentElement.querySelector(
-                ".poster-fallback"
-              );
-
-              if (fallback) {
-                fallback.style.display = "flex";
-              }
-            }}
-          />
-        ) : null}
+        <img
+          src={posterUrl}
+          alt={movieTitle}
+          className="movie-poster-image"
+          loading="lazy"
+          onError={(e) => {
+            e.currentTarget.onerror = null;
+            e.currentTarget.src = fallbackPoster;
+          }}
+        />
 
         <div
           className="poster-fallback"
-          style={{ display: posterUrl ? "none" : "flex" }}
+          style={{ display: "none" }}
         >
           No Poster
         </div>
       </div>
 
       <div className="movie-info">
-        <h3>{movie?.title || "Untitled"}</h3>
+        <h3>{movieTitle}</h3>
 
-        {movie?.rating !== undefined && (
-          <p>⭐ {movie.rating}</p>
-        )}
+        {movie?.rating !== undefined &&
+          movie?.rating !== null && (
+            <p>⭐ {movie.rating}</p>
+          )}
       </div>
     </Link>
   );
 }
 
 export default MovieCard;
-
