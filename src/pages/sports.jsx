@@ -1,36 +1,34 @@
+
 import "../App.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import MovieCard from "../components/MovieCard";
 
-function Sports({ addToWatchlist }) {
+const API_URL =
+  "https://streamflix-production-30f2.up.railway.app/api/movies/category/Sports";
+
+function Sports() {
   const [sports, setSports] = useState([]);
-  const [category, setCategory] = useState("All");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios
-      .get("https://streamflix-production-30f2.up.railway.app/api/movies/category/Sports")
-      .then((res) => {
-        console.log("SPORTS API RESPONSE:", res.data);
-        setSports(res.data);
-      })
-      .catch((err) => {
-        console.log("SPORTS API ERROR:", err);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, []);
+    const fetchSports = async () => {
+      try {
+        const res = await axios.get(API_URL);
 
-  const filteredSports =
-    category === "All"
-      ? sports
-      : sports.filter(
-          (sport) =>
-            sport.category?.toLowerCase() ===
-            category.toLowerCase()
-        );
+        console.log("SPORTS API RESPONSE:", res.data);
+
+        setSports(Array.isArray(res.data) ? res.data : []);
+      } catch (error) {
+        console.log("SPORTS API ERROR:", error);
+        setSports([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchSports();
+  }, []);
 
   if (loading) {
     return (
@@ -44,41 +42,27 @@ function Sports({ addToWatchlist }) {
 
   return (
     <div className="page">
-
       <h1 className="page-title">
         ⚽ Sports Live
       </h1>
 
-      <div className="sports-filters">
-
-        <button
-          onClick={() => setCategory("All")}
-          className={category === "All" ? "active" : ""}
-        >
-          All ({sports.length})
-        </button>
-
-      </div>
-
-      {filteredSports.length === 0 ? (
+      {sports.length === 0 ? (
         <p className="empty-list">
           No sports found.
         </p>
       ) : (
         <div className="movie-grid">
-
-          {filteredSports.map((sport) => (
+          {sports.map((sport) => (
             <MovieCard
-              key={sport._id}
+              key={sport._id || sport.id}
               movie={sport}
             />
           ))}
-
         </div>
       )}
-
     </div>
   );
 }
 
 export default Sports;
+

@@ -1,27 +1,23 @@
+
 import { Link } from "react-router-dom";
 
 const DEFAULT_POSTER =
   "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=500&h=750&q=85";
 
+const ANIME_POSTER =
+  "https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=500&h=750&q=85";
+
 const SPORTS_POSTER =
   "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&w=500&h=750&q=85";
 
 function cleanUrl(url, fallback = DEFAULT_POSTER) {
-  if (
-    !url ||
-    typeof url !== "string" ||
-    url.trim() === "" ||
-    url === "null" ||
-    url === "undefined"
-  ) {
+  if (!url || typeof url !== "string") {
     return fallback;
   }
 
   let value = url.trim();
 
-  /* Markdown:
-     [Poster](https://example.com/image.jpg)
-  */
+  // [Poster](https://...)
   const markdownMatch = value.match(
     /^\[([^\]]+)\]\((https?:\/\/[^)]+)\)$/i
   );
@@ -30,9 +26,7 @@ function cleanUrl(url, fallback = DEFAULT_POSTER) {
     value = markdownMatch[2].trim();
   }
 
-  /* Markdown image:
-     ![Poster](https://example.com/image.jpg)
-  */
+  // ![Poster](https://...)
   const imageMarkdownMatch = value.match(
     /^!\[([^\]]*)\]\((https?:\/\/[^)]+)\)$/i
   );
@@ -41,32 +35,29 @@ function cleanUrl(url, fallback = DEFAULT_POSTER) {
     value = imageMarkdownMatch[2].trim();
   }
 
-  /* Remove quotes */
   value = value.replace(/^["']|["']$/g, "").trim();
+  value = value.replace(/\\&/g, "&");
+  value = value.replace(/\\\//g, "/");
 
-  /* Railway placeholder detection */
-  const lowerValue = value.toLowerCase();
+  const lower = value.toLowerCase();
 
   if (
-    lowerValue.includes("placehold.co") ||
-    lowerValue.includes("placeholder.com") ||
-    lowerValue.includes("via.placeholder.com") ||
-    lowerValue.includes("placehold.it")
+    lower.includes("placehold.co") ||
+    lower.includes("placeholder.com") ||
+    lower.includes("via.placeholder.com") ||
+    lower.includes("placehold.it")
   ) {
     return fallback;
   }
 
-  /* TMDB relative poster */
   if (value.startsWith("/")) {
     return `https://image.tmdb.org/t/p/w500${value}`;
   }
 
-  /* HTTP -> HTTPS */
   if (value.startsWith("http://")) {
     return value.replace(/^http:\/\//i, "https://");
   }
 
-  /* Valid HTTPS */
   if (value.startsWith("https://")) {
     return value;
   }
@@ -84,11 +75,24 @@ function MovieCard({ movie }) {
     .join(" ")
     .toLowerCase();
 
-  const isSports = categoryText.includes("sport");
+  const isSports =
+    categoryText.includes("sport") ||
+    categoryText.includes("football") ||
+    categoryText.includes("cricket") ||
+    categoryText.includes("basketball") ||
+    categoryText.includes("tennis");
 
-  const fallbackPoster = isSports
-    ? SPORTS_POSTER
-    : DEFAULT_POSTER;
+  const isAnime =
+    categoryText.includes("anime") ||
+    categoryText.includes("animation");
+
+  let fallbackPoster = DEFAULT_POSTER;
+
+  if (isSports) {
+    fallbackPoster = SPORTS_POSTER;
+  } else if (isAnime) {
+    fallbackPoster = ANIME_POSTER;
+  }
 
   const posterUrl = cleanUrl(
     movie?.poster,
@@ -100,11 +104,11 @@ function MovieCard({ movie }) {
     movie?.name ||
     "Untitled";
 
+  const movieId = movie?._id || movie?.id;
+
   return (
     <Link
-      to={`/movie/${encodeURIComponent(
-        movie?._id || movieTitle
-      )}`}
+      to={`/movie/${encodeURIComponent(movieId || movieTitle)}`}
       className="movie-card"
     >
       <div className="movie-poster">
@@ -113,18 +117,11 @@ function MovieCard({ movie }) {
           alt={movieTitle}
           className="movie-poster-image"
           loading="lazy"
-          onError={(e) => {
-            e.currentTarget.onerror = null;
-            e.currentTarget.src = fallbackPoster;
+          onError={(event) => {
+            event.currentTarget.onerror = null;
+            event.currentTarget.src = fallbackPoster;
           }}
         />
-
-        <div
-          className="poster-fallback"
-          style={{ display: "none" }}
-        >
-          No Poster
-        </div>
       </div>
 
       <div className="movie-info">
@@ -140,3 +137,4 @@ function MovieCard({ movie }) {
 }
 
 export default MovieCard;
+
